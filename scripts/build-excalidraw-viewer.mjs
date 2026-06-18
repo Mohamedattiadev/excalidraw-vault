@@ -152,6 +152,62 @@ async function readBasepath() {
 const SITE_BASEPATH = await readBasepath();
 console.log(`site basepath: ${SITE_BASEPATH || '(none)'}`);
 
+// ===== Custom 404 page (overrides Quartz's bland default) =====
+const CUSTOM_404 = `<!doctype html><html lang="en"><head>
+<meta charset="utf-8" />
+<title>404 — drawing wandered off · MY STUDYING EXCALI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="${SITE_BASEPATH}/static/icon.png" />
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100vh; font-family: "Assistant", "Segoe UI", system-ui, -apple-system, sans-serif; }
+body { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#faf8ff 0%, #ede4ff 100%); color: #2a1f47; }
+@media (prefers-color-scheme: dark) { body { background: linear-gradient(135deg,#1a1625 0%, #2a1f47 100%); color: #ece6f8; } }
+.card { width: min(560px, 92vw); padding: 36px 32px; border-radius: 16px;
+  background: rgba(255,255,255,0.7); border: 1px solid rgba(123,92,214,0.18);
+  box-shadow: 0 12px 48px rgba(40,25,70,0.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  text-align: center; }
+@media (prefers-color-scheme: dark) { .card { background: rgba(35,35,41,0.7); border-color: rgba(167,139,250,0.22); } }
+.huge { font-size: 96px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; margin: 0; background: linear-gradient(135deg,#7b5cd6,#a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub  { font-size: 18px; font-weight: 600; margin: 12px 0 6px; color: #5e3fbd; }
+@media (prefers-color-scheme: dark) { .sub { color: #c4b5fd; } }
+.body { font-size: 14px; opacity: 0.85; margin: 8px 0 22px; line-height: 1.55; }
+.btn  { display: inline-block; padding: 10px 18px; border-radius: 10px;
+  background: #7b5cd6; color: #ffffff !important; text-decoration: none; font-weight: 600;
+  transition: background 120ms ease, transform 120ms ease; }
+.btn:hover { background: #5e3fbd; transform: translateY(-1px); }
+.links { margin-top: 18px; font-size: 12px; opacity: 0.7; }
+.links a { color: #7b5cd6; text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+.scrib { width: 64px; height: 64px; margin: 0 auto 8px; opacity: 0.85; }
+</style></head><body>
+<main class="card">
+  <svg class="scrib" viewBox="0 0 64 64" fill="none" stroke="#7b5cd6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 48 Q16 20 32 32 T56 16" />
+    <circle cx="56" cy="16" r="3" fill="#7b5cd6" />
+  </svg>
+  <p class="huge">404</p>
+  <p class="sub">that drawing wandered off the canvas</p>
+  <p class="body">The page you tried to open doesn't exist (anymore). Maybe it was renamed in the canonical vault, or the URL was mistyped.</p>
+  <a class="btn" href="${SITE_BASEPATH || '/'}">← Back to home</a>
+  <div class="links">
+    <a href="https://github.com/Mohamedattiadev/my-study-summaries" target="_blank" rel="noopener">canonical vault</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/Mohamedattiadev/excalidraw-vault" target="_blank" rel="noopener">site repo</a>
+  </div>
+</main></body></html>`;
+async function write404() {
+  try {
+    await fs.writeFile(path.resolve('public/404.html'), CUSTOM_404);
+    console.log('wrote custom public/404.html');
+  } catch (err) { console.warn('404 write failed', err.message); }
+}
+// run at end of script, after Quartz's emission
+process.on('beforeExit', () => { write404().catch(() => {}); });
+write404();
+
 // Build a static collapsible tree (no JS needed — uses <details>) from the scene list.
 // Replaces Quartz's broken explorer inside .excalidraw-sidebar.
 // Auto-detect subject folders: any top-level dir whose name starts with a numeric prefix.
@@ -905,27 +961,36 @@ async function mount() {
 
   let saveTimer = null;
   let lastVersion = -1;
+  let pendingElements = null, pendingFiles = null;
+  function doSave() {
+    if (!pendingElements) return;
+    try {
+      const payloadObj = { elements: pendingElements, files: filterUserFiles(pendingFiles, scene.files) };
+      let payload = JSON.stringify(payloadObj);
+      if (payload.length > 4_500_000) {
+        // Drop user files to fit. Elements alone almost always fit.
+        payload = JSON.stringify({ elements: pendingElements, files: {} });
+      }
+      if (payload.length > 4_500_000) return;
+      localStorage.setItem(LOCAL_KEY, payload);
+    } catch (e) {
+      if (!(e && e.name === 'QuotaExceededError')) console.warn('localStorage save failed', e);
+    }
+  }
   const onChange = (elements, _appState, files) => {
     let v = 0;
     for (const e of elements) v = (v + (e.version || 0) + (e.versionNonce || 0)) | 0;
     if (v === lastVersion) return;
     lastVersion = v;
+    pendingElements = elements; pendingFiles = files;
     if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      const work = () => {
-        try {
-          const payload = JSON.stringify({ elements, files: filterUserFiles(files, scene.files) });
-          // Skip silently if payload is huge (typical localStorage cap ≈ 5MB; reserve headroom).
-          if (payload.length > 4_500_000) return;
-          localStorage.setItem(LOCAL_KEY, payload);
-        } catch (e) {
-          if (!(e && e.name === 'QuotaExceededError')) console.warn('localStorage save failed', e);
-        }
-      };
-      if (window.requestIdleCallback) requestIdleCallback(work, { timeout: 2000 });
-      else work();
-    }, 1000);
+    // Short debounce (was 1000ms — caused edits to disappear on quick reload).
+    saveTimer = setTimeout(doSave, 300);
   };
+  // Flush on leave/refresh so an unsaved edit isn't lost.
+  window.addEventListener('beforeunload', doSave);
+  window.addEventListener('pagehide', doSave);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') doSave(); });
   function filterUserFiles(files, origFiles) {
     if (!files) return {};
     const out = {};

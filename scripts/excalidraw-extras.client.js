@@ -156,18 +156,17 @@
     }
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
-    // Cap export memory: bitmap is w*h*4 bytes. 6000×6000 = 144MB — safe.
-    // Browser crashes (Aw Snap code 9 / OOM) on larger.
-    const MAX_DIM = 6000;
-    const MAX_PIXELS = 36_000_000; // ~144MB raw bitmap
-    let scale = 2;
+    // Memory cap (bitmap = w*h*4 bytes). 8000×8000 = 256MB safe on most browsers.
+    const MAX_DIM = 8000;
+    const MAX_PIXELS = 64_000_000;
+    let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
     }
     if (naturalW * naturalH * scale * scale > MAX_PIXELS) {
       scale = Math.sqrt(MAX_PIXELS / (naturalW * naturalH));
     }
-    scale = Math.max(0.5, Math.min(2, scale));
+    scale = Math.max(1, Math.min(3, scale));
     let canvas;
     try {
       canvas = await exportToCanvas({
@@ -189,7 +188,7 @@
         if (u && u.length > 100) return { url: u, fmt: "PNG" };
       } catch (e) { console.warn("PNG dataURL failed", e); }
       try {
-        const u = c.toDataURL("image/jpeg", 0.92);
+        const u = c.toDataURL("image/jpeg", 0.97);
         if (u && u.length > 100) return { url: u, fmt: "JPEG" };
       } catch (e) { console.warn("JPEG dataURL failed", e); }
       // Promise-wrap toBlob (sometimes works when toDataURL throws on tainted)
