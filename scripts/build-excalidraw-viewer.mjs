@@ -707,12 +707,57 @@ function getTheme() {
   return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+// ---------- IndexedDB snapshot cache (per-user, browser-local) ----------
+const SNAP_DB = 'exc-snapshots';
+const SNAP_STORE = 'snaps';
+function snapOpen() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(SNAP_DB, 1);
+    r.onupgradeneeded = () => r.result.createObjectStore(SNAP_STORE);
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+async function snapGet(slug) {
+  try {
+    const db = await snapOpen();
+    return await new Promise((res, rej) => {
+      const tx = db.transaction(SNAP_STORE, 'readonly');
+      const req = tx.objectStore(SNAP_STORE).get(slug);
+      req.onsuccess = () => res(req.result || null);
+      req.onerror = () => rej(req.error);
+    });
+  } catch { return null; }
+}
+async function snapPut(slug, dataUrl) {
+  try {
+    const db = await snapOpen();
+    await new Promise((res, rej) => {
+      const tx = db.transaction(SNAP_STORE, 'readwrite');
+      tx.objectStore(SNAP_STORE).put({ dataUrl, ts: Date.now() }, slug);
+      tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+    });
+  } catch {}
+}
+
 async function mount() {
   const el = document.getElementById(${JSON.stringify(rootId)});
   if (!el) return;
   const pctEl = el.querySelector('.exc-loading-pct');
   const labelEl = el.querySelector('.exc-loading-label');
   let displayedPct = 0;
+
+  // Try painting cached snapshot instantly behind the spinner (zero-network feel on revisit).
+  snapGet(SCENE_SLUG).then((snap) => {
+    if (!snap || !snap.dataUrl) return;
+    if (el.querySelector('.exc-snap-preview')) return;
+    const img = document.createElement('img');
+    img.className = 'exc-snap-preview';
+    img.src = snap.dataUrl;
+    img.alt = '';
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;z-index:5;pointer-events:none;transition:opacity 280ms ease;';
+    el.appendChild(img);
+  });
   try {
     if (labelEl) labelEl.textContent = 'Loading Excalidraw bundle…';
     if (pctEl) pctEl.textContent = '2%';
@@ -895,6 +940,29 @@ async function mount() {
     try { el.classList.add('exc-ready'); } catch {}
     setProgress(100, 'Ready');
     setTimeout(hideOverlay, 180);
+    // Fade out the cached snapshot once live canvas is up
+    const snapImg = el.querySelector('.exc-snap-preview');
+    if (snapImg) {
+      snapImg.style.opacity = '0';
+      setTimeout(() => snapImg.remove(), 320);
+    }
+    // Capture a fresh snapshot for next visit (after a short idle so paint finishes)
+    setTimeout(() => {
+      try {
+        const c = el.querySelector('.excalidraw__canvas.interactive') || el.querySelector('.excalidraw__canvas');
+        if (!c) return;
+        // Downscale snapshot to ~1200px max to keep IndexedDB usage modest
+        const max = 1200;
+        const scale = Math.min(1, max / Math.max(c.width, c.height));
+        const off = document.createElement('canvas');
+        off.width = Math.max(1, Math.floor(c.width * scale));
+        off.height = Math.max(1, Math.floor(c.height * scale));
+        const ctx = off.getContext('2d');
+        ctx.drawImage(c, 0, 0, off.width, off.height);
+        const url = off.toDataURL('image/webp', 0.75) || off.toDataURL('image/jpeg', 0.85);
+        if (url && url.length > 100) snapPut(SCENE_SLUG, url);
+      } catch (e) { /* taint or oom — skip silently */ }
+    }, 1200);
   };
   const canvasReady = () => el.querySelector('.excalidraw__canvas.interactive');
   const waitForCanvas = (deadline) => {

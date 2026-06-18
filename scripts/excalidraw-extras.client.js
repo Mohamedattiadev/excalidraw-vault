@@ -101,12 +101,18 @@
     }
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
-    const MAX_DIM = 13800;
-    let scale = 3;
+    // Cap export memory: bitmap is w*h*4 bytes. 6000×6000 = 144MB — safe.
+    // Browser crashes (Aw Snap code 9 / OOM) on larger.
+    const MAX_DIM = 6000;
+    const MAX_PIXELS = 36_000_000; // ~144MB raw bitmap
+    let scale = 2;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
     }
-    scale = Math.max(1, Math.min(3, scale));
+    if (naturalW * naturalH * scale * scale > MAX_PIXELS) {
+      scale = Math.sqrt(MAX_PIXELS / (naturalW * naturalH));
+    }
+    scale = Math.max(0.5, Math.min(2, scale));
     let canvas;
     try {
       canvas = await exportToCanvas({
