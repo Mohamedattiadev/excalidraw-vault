@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { glob } from 'glob';
 import { load } from 'cheerio';
 import { parseExcalidraw } from '../.quartz/plugins/obsidian-plugin-excalidraw/dist/index.js';
@@ -109,17 +110,31 @@ console.log(`scanning ${mdFiles.length} excalidraw md`);
 
 const sceneIndex = {};
 
-for (const mdPath of mdFiles) {
+async function processScene(mdPath) {
   const rel = path.relative(CONTENT, mdPath);
   const content = await fs.readFile(mdPath, 'utf8');
+  const slug = rel.replace(/\.excalidraw\.md$/, '').replace(/\.md$/, '').replace(/ /g, '-').replace(/[\/\\]/g, '__').toLowerCase();
+  const jsonPath = path.join(SCENES_DIR, `${slug}.json`);
+  const hashPath = `${jsonPath}.hash`;
+  const mdHash = crypto.createHash('sha1').update(content).digest('hex');
+
+  // Cache hit: identical md content → reuse cached scene JSON + referenced files.
+  try {
+    const prev = await fs.readFile(hashPath, 'utf8');
+    if (prev.trim() === mdHash) {
+      await fs.access(jsonPath);
+      sceneIndex[rel.replace(/\.md$/, '').toLowerCase()] = slug;
+      console.log(`cache hit: ${rel}`);
+      return;
+    }
+  } catch {}
+
   const data = parseExcalidraw(content, mdPath);
   if (!data) {
     console.log(`skip parse: ${rel}`);
-    continue;
+    return;
   }
   await resolveEmbedded(data, imgIndex);
-  const slug = rel.replace(/\.excalidraw\.md$/, '').replace(/\.md$/, '').replace(/ /g, '-').replace(/[\/\\]/g, '__').toLowerCase();
-  const jsonPath = path.join(SCENES_DIR, `${slug}.json`);
   const scene = {
     type: 'excalidraw',
     version: data.version || 2,
@@ -129,9 +144,15 @@ for (const mdPath of mdFiles) {
     files: data.files || {},
   };
   await fs.writeFile(jsonPath, JSON.stringify(scene));
+  await fs.writeFile(hashPath, mdHash);
   sceneIndex[rel.replace(/\.md$/, '').toLowerCase()] = slug;
   const fileCount = Object.keys(scene.files).length;
   console.log(`scene: ${rel} -> ${slug}.json (${scene.elements.length} els, ${fileCount} files)`);
+}
+
+const SCENE_CONCURRENCY = 4;
+for (let i = 0; i < mdFiles.length; i += SCENE_CONCURRENCY) {
+  await Promise.all(mdFiles.slice(i, i + SCENE_CONCURRENCY).map(processScene));
 }
 
 await fs.writeFile(path.join(SCENES_DIR, 'index.json'), JSON.stringify(sceneIndex, null, 2));

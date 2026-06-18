@@ -59,6 +59,17 @@ jobs:
       - name: Build self-hosted Excalidraw bundle
         run: node scripts/build-vendor.mjs
 
+      - name: Restore scene extractor cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/_scenes
+            public/_files
+          key: scenes-v1-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-${{ hashFiles('content/**/*.md') }}
+          restore-keys: |
+            scenes-v1-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-
+            scenes-v1-
+
       - name: Scene extractor + sidebar tree injection
         run: node scripts/build-excalidraw-viewer.mjs
 
