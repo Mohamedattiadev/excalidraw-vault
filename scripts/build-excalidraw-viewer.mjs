@@ -663,32 +663,31 @@ html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255
 const VENDOR_BUNDLE = ${JSON.stringify(vendorBase + '/excalidraw.bundle.js')};
 let React, createRoot, Excalidraw;
 async function loadDeps() {
-  // 1) Local self-hosted bundle (fastest, most reliable, SW-cacheable)
-  // 2) esm.sh CDN fallback
-  // 3) skypack CDN fallback
-  const tries = [
-    async () => {
-      const m = await import(VENDOR_BUNDLE);
-      return { React: m.React, createRoot: m.createRoot, Excalidraw: m.Excalidraw, exportToCanvas: m.exportToCanvas };
-    },
-    async () => {
-      const r = await import('https://esm.sh/react@18.2.0');
-      const rd = await import('https://esm.sh/react-dom@18.2.0/client');
-      const e = await import('https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps');
-      return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
-    },
-    async () => {
-      const r = await import('https://cdn.skypack.dev/react@18.2.0');
-      const rd = await import('https://cdn.skypack.dev/react-dom@18.2.0/client');
-      const e = await import('https://cdn.skypack.dev/@excalidraw/excalidraw@0.18.0');
-      return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
-    },
-  ];
-  let lastErr;
-  for (const t of tries) {
-    try { return await t(); } catch (err) { lastErr = err; console.warn('bundle source failed, trying next', err); }
+  // Race local + esm.sh in parallel; whichever resolves first wins.
+  // Fall back to skypack sequentially if both fail.
+  const local = (async () => {
+    const m = await import(VENDOR_BUNDLE);
+    return { React: m.React, createRoot: m.createRoot, Excalidraw: m.Excalidraw, exportToCanvas: m.exportToCanvas };
+  })();
+  const esmsh = (async () => {
+    const r = await import('https://esm.sh/react@18.2.0');
+    const rd = await import('https://esm.sh/react-dom@18.2.0/client');
+    const e = await import('https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps');
+    return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
+  })();
+  const skypack = async () => {
+    const r = await import('https://cdn.skypack.dev/react@18.2.0');
+    const rd = await import('https://cdn.skypack.dev/react-dom@18.2.0/client');
+    const e = await import('https://cdn.skypack.dev/@excalidraw/excalidraw@0.18.0');
+    return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
+  };
+  // Race the two parallel sources; first success wins.
+  const winners = [local.catch((e) => { console.warn('local bundle fail', e); throw e; }),
+                   esmsh.catch((e) => { console.warn('esm.sh bundle fail', e); throw e; })];
+  try { return await Promise.any(winners); } catch (aggregate) {
+    console.warn('both parallel sources failed; trying skypack', aggregate);
+    return await skypack();
   }
-  throw lastErr;
 }
 
 const SCENE_SLUG = ${JSON.stringify(slug)};
@@ -715,9 +714,11 @@ async function mount() {
   const labelEl = el.querySelector('.exc-loading-label');
   let displayedPct = 0;
   try {
-    if (labelEl) labelEl.textContent = 'Loading Excalidraw…';
+    if (labelEl) labelEl.textContent = 'Loading Excalidraw bundle…';
+    if (pctEl) pctEl.textContent = '2%';
     const deps = await loadDeps();
     React = deps.React; createRoot = deps.createRoot; Excalidraw = deps.Excalidraw;
+    if (pctEl) pctEl.textContent = '5%';
     // Expose for PDF-export reuse so we don't re-fetch the bundle.
     try { window.__excVendor = deps; } catch {}
   } catch (err) {
