@@ -401,7 +401,12 @@ for (const file of htmlFiles) {
 
   const rootId = `exc-root-${Math.random().toString(36).slice(2, 9)}`;
   container.empty();
-  container.append(`<div id="${rootId}" class="exc-viewer-root" style="width:100%;height:100%;"></div>`);
+  container.append(`<div id="${rootId}" class="exc-viewer-root" style="width:100%;height:100%;">
+    <div class="exc-loading-overlay" aria-label="Loading drawing…">
+      <div class="exc-spinner"></div>
+      <div class="exc-loading-label">Loading drawing…</div>
+    </div>
+  </div>`);
 
   // Replace Quartz's broken explorer in sidebar with our static <details>-tree.
   const sidebar = $('.excalidraw-sidebar').first();
@@ -432,6 +437,28 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root { width: 100% !important; height: 100% !important; display: block; }
 .exc-viewer-root .excalidraw, .exc-viewer-root .excalidraw .excalidraw-wrapper { height: 100% !important; width: 100% !important; }
 .excalidraw__canvas { display: block; }
+/* Loading overlay — covers viewer until canvas paints + images decoded */
+.exc-loading-overlay {
+  position: absolute; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(124,92,214,0.06));
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  font-family: "Assistant", system-ui, sans-serif; color: #5e3fbd;
+  transition: opacity 240ms ease;
+}
+html[saved-theme="dark"] .exc-loading-overlay { background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(50,30,80,0.55)); color: #c4b5fd; }
+.exc-loading-overlay.exc-hide { opacity: 0; pointer-events: none; }
+.exc-spinner {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 4px solid rgba(167,139,250,0.18);
+  border-top-color: #7b5cd6;
+  animation: exc-spin 0.85s linear infinite;
+}
+html[saved-theme="dark"] .exc-spinner { border-color: rgba(167,139,250,0.22); border-top-color: #a78bfa; }
+.exc-loading-label { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; opacity: 0.85; }
+@keyframes exc-spin { to { transform: rotate(360deg); } }
+.exc-viewer-root { position: relative; }
+
 /* Kill ALL web-embed UI inside canvas — iframe, container, link popup. YouTube/Notion etc set
    X-Frame-Options=sameorigin so embeds render as a "refused to connect" stub. We suppress all of it. */
 .exc-viewer-root iframe,
@@ -702,6 +729,20 @@ async function mount() {
   mounted = true;
   // Reveal iframes after Excalidraw canvas paints; small delay covers scrollToContent + first render.
   setTimeout(() => { try { el.classList.add('exc-ready'); } catch {} }, 250);
+  // Hide loading overlay once first canvas paint + scroll-to-content settle.
+  const hideOverlay = () => {
+    const ov = el.querySelector('.exc-loading-overlay');
+    if (!ov) return;
+    ov.classList.add('exc-hide');
+    setTimeout(() => ov.remove(), 320);
+  };
+  // Wait long enough for Excalidraw to decode + paint images (heavy scenes ~30s).
+  // Hide on requestIdleCallback (browser quiet) OR 3s hard cap, whichever comes first.
+  let overlayHidden = false;
+  const tryHide = () => { if (overlayHidden) return; overlayHidden = true; hideOverlay(); };
+  if (window.requestIdleCallback) requestIdleCallback(tryHide, { timeout: 3000 });
+  else setTimeout(tryHide, 1500);
+  setTimeout(tryHide, 3000);
 
   const observer = new MutationObserver(() => {
     const t = getTheme();
