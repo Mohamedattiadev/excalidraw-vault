@@ -1,7 +1,22 @@
 ---
-title: OS
+title: Operating Systems
 ---
 
-# OS
+# Operating Systems
 
-Drawings & notes in this folder.
+OS internals notes — heavy focus on xv6 (the MIT teaching kernel).
+
+## Topics
+
+- **xv6 workflow** — boot, kernel entry, user/kernel transition
+- **Processes** — fork/exec, PCB, context switching
+- **Scheduling** — round-robin, priority, MLFQ
+- **Memory management** — paging, virtual memory, page tables
+- **Synchronization** — locks, semaphores, condition variables
+- **File systems** — inodes, directory structure, journaling
+- **System calls** — trap handling, syscall interface
+
+## Drawings
+
+- [[000- xv6- workflow|xv6 Workflow]]
+- [[4- OS|OS (main canvas)]]
