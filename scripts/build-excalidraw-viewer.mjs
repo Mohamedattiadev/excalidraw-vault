@@ -326,22 +326,22 @@ html[saved-theme="dark"] .excalidraw-sidebar .exc-static-tree details > summary:
   opacity: 0.7;
 }
 .excalidraw-sidebar .exc-static-tree .exc-tree-file a:hover {
-  background: var(--button-hover-bg, rgba(25,113,194,0.10));
-  color: var(--color-primary, #1971c2);
+  background: rgba(123,92,214,0.10);
+  color: #7b5cd6;
 }
 .excalidraw-sidebar .exc-static-tree .exc-tree-file a.active {
-  background: var(--color-primary-light, #d3e4fd);
-  color: var(--color-primary-darker, #0d62ad);
+  background: #ede4ff;
+  color: #5e3fbd;
   font-weight: 600;
 }
 html[saved-theme="dark"] .excalidraw-sidebar .exc-static-tree .exc-tree-file a { color: #d4d4d8; }
 html[saved-theme="dark"] .excalidraw-sidebar .exc-static-tree .exc-tree-file a:hover {
-  background: rgba(116,192,252,0.12);
-  color: #74c0fc;
+  background: rgba(167,139,250,0.14);
+  color: #a78bfa;
 }
 html[saved-theme="dark"] .excalidraw-sidebar .exc-static-tree .exc-tree-file a.active {
-  background: rgba(116,192,252,0.22);
-  color: #a5d8ff;
+  background: rgba(167,139,250,0.22);
+  color: #c4b5fd;
 }
 .excalidraw-sidebar .exc-static-tree::-webkit-scrollbar { width: 6px; }
 .excalidraw-sidebar .exc-static-tree::-webkit-scrollbar-thumb {
@@ -736,6 +736,7 @@ async function loadDeps() {
 }
 
 const SCENE_SLUG = ${JSON.stringify(slug)};
+try { window.__excSlug = SCENE_SLUG; } catch {}
 
 function getBasepath() {
   const bp = document.body?.dataset?.basepath ?? '';

@@ -22,8 +22,12 @@
   document.addEventListener("click",       handleSidebarToggle, true);
 
   function currentSlug() {
-    const m = location.pathname.match(/\/([^\/]+)\.excalidraw\/?$/);
-    return m ? m[1] : '';
+    // Mount script exposes the canonical build-time slug (e.g. "01-algorithms__algorithms").
+    if (window.__excSlug) return window.__excSlug;
+    // Fallback: derive from URL path (same transform as build script).
+    const m = location.pathname.match(/\/([^\/]+\/[^\/]+)\.excalidraw\/?$/) || location.pathname.match(/\/([^\/]+)\.excalidraw\/?$/);
+    if (!m) return '';
+    return m[1].replace(/\//g, '__').toLowerCase();
   }
 
   // Top-right PDF export + reset buttons (mirrors the left sidebar toggle visually).

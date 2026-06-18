@@ -24,10 +24,19 @@ Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from
 
 ## How it works
 
-- Drawings are stored as `.excalidraw.md` files
-- Build pipeline mounts each as a **native Excalidraw canvas** (interactive, editable)
-- Edits save to your `localStorage` per drawing (canonical source stays clean)
-- Sidebar tree on canvas pages is static + native — no JS race conditions
+- Drawings are native **interactive Excalidraw canvases** — pan, zoom, draw, edit
+- Your edits save **per-canvas to your browser only** (`localStorage`). The vault source stays clean and shared
+- **Snapshot cache** (IndexedDB) — second visit to any canvas paints instantly while live canvas mounts behind it
+- **PDF export** button (top-right) — high-quality export of the current canvas including your edits
+- **Reset** button — wipe your local edits on a single canvas and restore the original
+- **Service Worker** caches assets — repeat visits are near-instant, works offline
+
+## Tips
+
+- Click the **hamburger** (top-left) on any canvas page to jump between drawings
+- Theme toggle, zoom-to-box, and minimap live in the top toolbar
+- Footer-left has Excalidraw's native zoom + undo controls
+- Mobile: sidebar slides in as a panel
 
 Source vault and structure: **https://github.com/Mohamedattiadev/my-study-summaries**
 
