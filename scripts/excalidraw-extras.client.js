@@ -3,17 +3,73 @@
   if (window.__excExtrasLoaded) return;
   window.__excExtrasLoaded = true;
 
-  // Sidebar toggle — capture-phase + pointerdown so Excalidraw's React event layer can't swallow it.
+  // Sidebar toggle — multi-event capture so Excalidraw's React event layer can't swallow.
+  let lastToggleAt = 0;
   function handleSidebarToggle(e) {
     const btn = e.target && e.target.closest && e.target.closest(".excalidraw-sidebar-toggle");
     if (!btn) return;
-    e.stopPropagation();
-    e.stopImmediatePropagation();
+    // dedupe same gesture across pointerdown/click/touchstart
+    const now = performance.now();
+    if (now - lastToggleAt < 120) { e.stopPropagation(); e.stopImmediatePropagation(); return; }
+    lastToggleAt = now;
+    e.stopPropagation(); e.stopImmediatePropagation(); e.preventDefault();
     const page = btn.closest(".page[data-frame='excalidraw']") || document.querySelector(".page[data-frame='excalidraw']");
     if (page) page.classList.toggle("excalidraw-sidebar-open");
   }
   document.addEventListener("pointerdown", handleSidebarToggle, true);
-  document.addEventListener("click", handleSidebarToggle, true);
+  document.addEventListener("touchstart",  handleSidebarToggle, { capture: true, passive: false });
+  document.addEventListener("mousedown",   handleSidebarToggle, true);
+  document.addEventListener("click",       handleSidebarToggle, true);
+
+  // Top-right PDF export button (mirrors the left sidebar toggle visually).
+  function ensurePdfButton() {
+    const page = document.querySelector(".page[data-frame='excalidraw']");
+    if (!page) return;
+    if (page.querySelector(".exc-pdf-export")) return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "exc-pdf-export";
+    btn.setAttribute("aria-label", "Export drawing as high-quality PDF");
+    btn.title = "Export as PDF";
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h2a2 2 0 0 1 0 4H9v-4z"/><path d="M14 13h1.5a1.5 1.5 0 0 1 0 3H14v-3z"/></svg>';
+    page.appendChild(btn);
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.classList.add("exc-pdf-loading");
+      try { await exportCanvasAsPdf(); }
+      catch (err) { console.error("pdf export failed", err); alert("PDF export failed: " + (err?.message || err)); }
+      finally { btn.disabled = false; btn.classList.remove("exc-pdf-loading"); }
+    });
+  }
+  const pdfMO = new MutationObserver(ensurePdfButton);
+  pdfMO.observe(document.body, { childList: true, subtree: true });
+  ensurePdfButton();
+
+  async function exportCanvasAsPdf() {
+    const api = getApi();
+    if (!api) throw new Error("Excalidraw API not ready");
+    // Dynamically load exportToBlob + jsPDF from CDN
+    const [{ exportToBlob, exportToCanvas }, { jsPDF }] = await Promise.all([
+      import("https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps"),
+      import("https://esm.sh/jspdf@2.5.1"),
+    ]);
+    const elements = api.getSceneElements();
+    const appState = api.getAppState();
+    const files = api.getFiles();
+    if (!elements || !elements.length) throw new Error("Nothing to export");
+    // Render at 3x scale for high quality
+    const canvas = await exportToCanvas({
+      elements, appState: { ...appState, exportBackground: true, exportWithDarkMode: false },
+      files, getDimensions: (w, h) => ({ width: w * 3, height: h * 3, scale: 3 }),
+    });
+    const dataUrl = canvas.toDataURL("image/png");
+    const orientation = canvas.width > canvas.height ? "l" : "p";
+    const pdf = new jsPDF({ orientation, unit: "px", format: [canvas.width, canvas.height], compress: true });
+    pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+    const slug = (location.pathname.split("/").filter(Boolean).pop() || "drawing").replace(/\.excalidraw$/, "");
+    pdf.save(`${slug}.pdf`);
+  }
 
   // Defensive: also bind directly when button appears (covers obscure cases where capture-phase doesn't fire).
   const bindToggle = (btn) => {

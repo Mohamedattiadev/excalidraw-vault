@@ -359,6 +359,33 @@ await fs.mkdir(path.dirname(EXTRAS_DST), { recursive: true });
 try { await fs.copyFile(EXTRAS_SRC, EXTRAS_DST); console.log('copied extras -> public/static/exc-extras.js'); }
 catch (err) { console.warn('extras copy failed', err.message); }
 
+// === Inject author block into every page's left sidebar (above search) ===
+const AUTHOR_BLOCK_HTML = `
+<div class="exc-author-block">
+  <div class="exc-author-name">Mohamed Attia</div>
+  <div class="exc-author-sub">CS undergrad · visual study notes</div>
+  <div class="exc-author-links">
+    <a href="https://github.com/Mohamedattiadev" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.66.5 12c0 5.07 3.29 9.37 7.86 10.89.58.11.79-.25.79-.55 0-.27-.01-.99-.02-1.94-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18.91-.26 1.89-.39 2.87-.39.97 0 1.96.13 2.87.39 2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.8 1.17 1.82 1.17 3.07 0 4.4-2.69 5.36-5.25 5.65.41.36.78 1.07.78 2.15 0 1.56-.01 2.81-.01 3.19 0 .3.2.67.79.55C20.21 21.37 23.5 17.07 23.5 12 23.5 5.66 18.35.5 12 .5z"/></svg>
+      Mohamedattiadev
+    </a>
+  </div>
+</div>`;
+
+const allHtml = await glob(`${PUBLIC}/**/*.html`);
+console.log(`injecting author block into ${allHtml.length} html pages`);
+for (const fp of allHtml) {
+  try {
+    const html = await fs.readFile(fp, 'utf8');
+    if (html.includes('exc-author-block')) continue;
+    const $$ = load(html, { xmlMode: false });
+    const pt = $$('.page-title').first();
+    if (!pt.length) continue;
+    pt.after(AUTHOR_BLOCK_HTML);
+    await fs.writeFile(fp, $$.html());
+  } catch {}
+}
+
 // Quartz now emits these as plain .html (no .excalidraw.html suffix). Glob all .html and filter by marker string.
 const htmlCandidates = await glob(`${PUBLIC}/**/*.html`);
 const htmlFiles = [];
@@ -440,6 +467,20 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root .excalidraw-wrapper { will-change: transform; contain: layout paint; }
 .excalidraw__canvas { display: block; image-rendering: auto; }
 .excalidraw__canvas.interactive { will-change: transform; }
+/* PDF export button — mirrors sidebar toggle on right edge */
+.page[data-frame="excalidraw"] .exc-pdf-export {
+  position: absolute; top: 12px; right: 12px; z-index: 9999;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--island-bg-color, #ffffff); color: var(--text-primary-color, #2a1f47);
+  border: 1px solid rgba(123,92,214,0.18);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background 100ms ease;
+}
+html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-pdf-export { background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.22); }
+.page[data-frame="excalidraw"] .exc-pdf-export:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
+.page[data-frame="excalidraw"] .exc-pdf-export.exc-pdf-loading svg { animation: exc-spin 0.85s linear infinite; }
+.page[data-frame="excalidraw"] .exc-pdf-export[disabled] { opacity: 0.55; cursor: progress; }
+
 /* Loading overlay — covers viewer until canvas paints + images decoded */
 .exc-loading-overlay {
   position: absolute; inset: 0; z-index: 1000;

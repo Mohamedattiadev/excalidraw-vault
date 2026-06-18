@@ -129,6 +129,47 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
 }
 .page-title a:hover { color: var(--exc-primary-fg) !important; text-decoration: none; }
 
+/* Author block injected below page-title, above search */
+.exc-author-block {
+  margin: 8px 0 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(123,92,214,0.04));
+  border: 1px solid var(--exc-border);
+  font-family: "Assistant", system-ui, sans-serif;
+}
+.exc-author-block .exc-author-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--exc-primary-fg);
+  line-height: 1.2;
+}
+.exc-author-block .exc-author-sub {
+  font-size: 11px;
+  color: var(--exc-text-muted);
+  margin-top: 2px;
+}
+.exc-author-block .exc-author-links {
+  margin-top: 6px;
+}
+.exc-author-block .exc-author-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--exc-primary);
+  text-decoration: none;
+  padding: 3px 6px;
+  border-radius: 5px;
+  transition: background 80ms ease;
+}
+.exc-author-block .exc-author-links a:hover {
+  background: var(--exc-hover);
+  color: var(--exc-primary-fg);
+  text-decoration: none;
+}
+
 /* "Index" header inside left sidebar (above Explorer) */
 .left .exc-sidebar-index {
   display: block;
