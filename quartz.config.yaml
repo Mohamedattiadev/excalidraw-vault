@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: example.github.io
+  baseUrl: mohamedattiadev.github.io/excalidraw-vault
   ignorePatterns:
     - private
     - templates
