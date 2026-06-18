@@ -136,6 +136,22 @@ for (const mdPath of mdFiles) {
 
 await fs.writeFile(path.join(SCENES_DIR, 'index.json'), JSON.stringify(sceneIndex, null, 2));
 
+// Derive site basepath from quartz.config.yaml baseUrl (e.g. user.github.io/repo → /repo).
+async function readBasepath() {
+  try {
+    const yaml = await fs.readFile(path.resolve('quartz.config.yaml'), 'utf8');
+    const m = yaml.match(/^\s*baseUrl:\s*(\S+)/m);
+    if (!m) return '';
+    const u = m[1].replace(/^https?:\/\//, '');
+    const slashIdx = u.indexOf('/');
+    if (slashIdx === -1) return '';
+    const bp = u.slice(slashIdx).replace(/\/$/, '');
+    return bp.startsWith('/') ? bp : '/' + bp;
+  } catch { return ''; }
+}
+const SITE_BASEPATH = await readBasepath();
+console.log(`site basepath: ${SITE_BASEPATH || '(none)'}`);
+
 // Build a static collapsible tree (no JS needed — uses <details>) from the scene list.
 // Replaces Quartz's broken explorer inside .excalidraw-sidebar.
 const ALLOWED_TOP_LEVEL = new Set([
@@ -151,7 +167,7 @@ const treeEntries = mdFiles
     const noExt = rel.replace(/\.excalidraw\.md$/, '').replace(/\.md$/, '');
     const segments = noExt.split('/');
     const fileLabel = segments.pop().replace(/\.excalidraw$/, '');
-    const urlPath = '/' + noExt.toLowerCase().split('/').map((s) => s.replace(/ /g, '-')).join('/') + '.excalidraw';
+    const urlPath = SITE_BASEPATH + '/' + noExt.toLowerCase().split('/').map((s) => s.replace(/ /g, '-')).join('/') + '.excalidraw';
     return { segments, label: fileLabel, url: urlPath };
   })
   .filter(Boolean);
