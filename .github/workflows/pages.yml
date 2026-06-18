@@ -59,6 +59,9 @@ jobs:
       - name: Scene extractor + sidebar tree injection
         run: node scripts/build-excalidraw-viewer.mjs
 
+      - name: Optimize images (webp + downscale)
+        run: node scripts/optimize-images.mjs
+
       - name: Set base URL for project Pages
         run: |
           # Project pages serve at /<repo>/ — patch <base> + asset paths if needed.
