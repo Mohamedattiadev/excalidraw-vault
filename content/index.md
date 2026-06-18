@@ -42,3 +42,7 @@ Built by **Mohamed Attia** — CS undergrad, sharing his study notes openly.
 - Pipeline source: [excalidraw-vault](https://github.com/Mohamedattiadev/excalidraw-vault)
 
 Free to read, fork, and learn from. Not a textbook — a living visual revision deck.
+
+<p align="center">
+  <img src="https://hits.sh/mohamedattiadev.github.io/excalidraw-vault.svg?style=for-the-badge&label=visitors&color=7b5cd6&labelColor=2a1f47" alt="visitors" />
+</p>

@@ -432,6 +432,7 @@ for (const file of htmlFiles) {
   container.append(`<div id="${rootId}" class="exc-viewer-root" style="width:100%;height:100%;">
     <div class="exc-loading-overlay" aria-label="Loading drawing…">
       <div class="exc-spinner"></div>
+      <div class="exc-loading-pct">0%</div>
       <div class="exc-loading-label">Loading drawing…</div>
     </div>
   </div>`);
@@ -505,7 +506,8 @@ html[saved-theme="dark"] .exc-loading-overlay { background: #1f1830; color: #c4b
   animation: exc-spin 0.85s linear infinite;
 }
 html[saved-theme="dark"] .exc-spinner { border-color: rgba(167,139,250,0.22); border-top-color: #a78bfa; }
-.exc-loading-label { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; opacity: 0.85; }
+.exc-loading-label { font-size: 13px; font-weight: 500; letter-spacing: 0.02em; opacity: 0.75; }
+.exc-loading-pct { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
 @keyframes exc-spin { to { transform: rotate(360deg); } }
 .exc-viewer-root { position: relative; }
 
@@ -585,8 +587,8 @@ html[saved-theme="dark"] .layer-ui__wrapper__footer-left .undo-redo-buttons {
 html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(116,192,252,0.18) !important; color: #74c0fc !important; }
 /* minimap floating panel bottom-right */
 .excali-minimap {
-  position: absolute !important; bottom: 16px !important; right: 16px !important; z-index: 100 !important;
-  width: 220px; display: none; flex-direction: column;
+  position: absolute !important; bottom: 14px !important; right: 14px !important; z-index: 100 !important;
+  width: 170px; display: none; flex-direction: column;
   background: var(--island-bg-color,#ffffff); border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
   box-shadow: 0 4px 16px rgba(0,0,0,0.12); overflow: hidden; pointer-events: auto !important;
   font-family: var(--ui-font, system-ui, sans-serif); font-size: 12px; user-select: none;
@@ -609,7 +611,7 @@ html[saved-theme="dark"] .excali-minimap .mm-header { border-color: rgba(255,255
 html[saved-theme="dark"] .excali-minimap .mm-btn { color: #e3e3e8; }
 html[saved-theme="dark"] .excali-minimap .mm-btn:hover { background: rgba(255,255,255,0.08); }
 .excali-minimap .mm-canvas-wrap { padding: 6px; }
-.excali-minimap canvas { display: block; width: 200px; height: 140px; cursor: crosshair; border-radius: 4px; background: var(--default-bg-color,#fafafa); }
+.excali-minimap canvas { display: block; width: 150px; height: 100px; cursor: crosshair; border-radius: 4px; background: var(--default-bg-color,#fafafa); }
 html[saved-theme="dark"] .excali-minimap canvas { background: #1b1b1f; }
 .excali-minimap .mm-footer {
   display: flex; justify-content: space-between; padding: 4px 8px;
@@ -646,6 +648,23 @@ function getTheme() {
 async function mount() {
   const el = document.getElementById(${JSON.stringify(rootId)});
   if (!el) return;
+  const pctEl = el.querySelector('.exc-loading-pct');
+  const labelEl = el.querySelector('.exc-loading-label');
+  let displayedPct = 0;
+  function setProgress(target, label) {
+    if (label && labelEl) labelEl.textContent = label;
+    // smooth-step the displayed value towards target
+    const step = () => {
+      if (!pctEl) return;
+      if (displayedPct >= target) return;
+      displayedPct = Math.min(target, displayedPct + Math.max(1, Math.floor((target - displayedPct) / 4)));
+      pctEl.textContent = displayedPct + '%';
+      if (displayedPct < target) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  setProgress(8, 'Fetching scene…');
+
   const sceneUrl = getBasepath() + '/_scenes/' + SCENE_SLUG + '.json';
   let scene;
   try {
@@ -654,9 +673,10 @@ async function mount() {
     scene = await res.json();
   } catch (err) {
     console.error('excalidraw scene load failed', sceneUrl, err);
-    el.textContent = 'Failed to load drawing';
+    if (labelEl) labelEl.textContent = 'Failed to load drawing — refresh to retry';
     return;
   }
+  setProgress(18, 'Decoding images…');
 
   const bp = getBasepath();
   // Inline images into scene.files before mount (Excalidraw needs dataURL in initialFiles to render).
@@ -667,6 +687,8 @@ async function mount() {
     );
     const CONCURRENCY = 12;
     let cursor = 0;
+    let done = 0;
+    const total = entries.length || 1;
     await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
       while (cursor < entries.length) {
         const idx = cursor++;
@@ -681,9 +703,13 @@ async function mount() {
         } catch (err) {
           console.warn('image load failed', url, err);
         }
+        done++;
+        // 18% → 88% during image loads
+        setProgress(18 + Math.floor((done / total) * 70));
       }
     }));
   }
+  setProgress(92, 'Mounting canvas…');
   function loadDeferredImages() { /* no-op (kept for compat) */ }
 
   const LOCAL_KEY = 'exc-scene:' + SCENE_SLUG;
@@ -791,7 +817,8 @@ async function mount() {
     if (overlayHidden) return;
     overlayHidden = true;
     try { el.classList.add('exc-ready'); } catch {}
-    hideOverlay();
+    setProgress(100, 'Ready');
+    setTimeout(hideOverlay, 180);
   };
   const canvasReady = () => el.querySelector('.excalidraw__canvas.interactive');
   const waitForCanvas = (deadline) => {

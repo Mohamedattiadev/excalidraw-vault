@@ -61,10 +61,14 @@
   async function exportCanvasAsPdf() {
     const api = getApi();
     if (!api) throw new Error("Excalidraw API not ready");
-    const [{ exportToCanvas }, { jsPDF }] = await Promise.all([
+    const [excalMod, jspdfMod] = await Promise.all([
       import("https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps"),
       import("https://esm.sh/jspdf@2.5.1"),
     ]);
+    const exportToCanvas = excalMod.exportToCanvas;
+    const jsPDF = jspdfMod.jsPDF || jspdfMod.default || jspdfMod.default?.jsPDF;
+    if (!jsPDF) throw new Error("jsPDF could not be loaded");
+    if (!exportToCanvas) throw new Error("exportToCanvas not exported");
     const elements = api.getSceneElements();
     const appState = api.getAppState();
     const files = api.getFiles();
@@ -215,7 +219,7 @@
           <span class="mm-btn mm-close" title="Hide">✕</span>
         </span>
       </div>
-      <div class="mm-canvas-wrap"><canvas width="200" height="140"></canvas></div>
+      <div class="mm-canvas-wrap"><canvas width="150" height="100"></canvas></div>
       <div class="mm-footer">
         <span class="mm-count">0 elements</span>
         <span class="mm-zoom">100%</span>
@@ -269,7 +273,7 @@
   function _doDrawMinimap() {
     if (!state.mmOn || !state.mmCanvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const W = 200, H = 140;
+    const W = 150, H = 100;
     const mm = state.mmCanvas, ctx = state.mmCtx;
     if (mm.width !== W * dpr) { mm.width = W * dpr; mm.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     ctx.clearRect(0, 0, W, H);
