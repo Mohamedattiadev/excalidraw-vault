@@ -211,9 +211,11 @@ write404();
 // Build a static collapsible tree (no JS needed — uses <details>) from the scene list.
 // Replaces Quartz's broken explorer inside .excalidraw-sidebar.
 // Auto-detect subject folders: any top-level dir whose name starts with a numeric prefix.
+// Asset / template folders look the same but must be excluded.
 const SUBJECT_DIR_RE = /^\d{1,2}[-._ ]/;
+const NON_SUBJECT_NAMES = new Set(['90-Assets', '99-Assets', '999-Templates']);
 const subjectDirs = (await fs.readdir(CONTENT, { withFileTypes: true }))
-  .filter((e) => e.isDirectory() && SUBJECT_DIR_RE.test(e.name))
+  .filter((e) => e.isDirectory() && SUBJECT_DIR_RE.test(e.name) && !NON_SUBJECT_NAMES.has(e.name))
   .map((e) => e.name);
 const ALLOWED_TOP_LEVEL = new Set(subjectDirs);
 // Pretty-print labels: drop leading "NN", "NN-", "NN.", "NN -" prefixes and
