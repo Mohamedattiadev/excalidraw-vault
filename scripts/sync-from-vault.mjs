@@ -50,18 +50,47 @@ async function ensureVault() {
   }
 }
 
-async function copyTree(srcRoot, dstRoot) {
+// Files we never overwrite — we author rich subject index.md files; vault's are placeholders.
+const PROTECTED_RE = /(^|\/)(index\.md|README\.md)$/i;
+
+async function copyTree(srcRoot, dstRoot, relPath = '') {
   const ents = await fs.readdir(srcRoot, { withFileTypes: true });
   await fs.mkdir(dstRoot, { recursive: true });
   for (const e of ents) {
     const src = path.join(srcRoot, e.name);
     const dst = path.join(dstRoot, e.name);
+    const rel = relPath ? `${relPath}/${e.name}` : e.name;
     if (e.isDirectory()) {
       // Skip vault internals
       if (['_cache', '_system', 'Collab', '.obsidian', '.trash', '9999 - Excalidraw', '999-Templates', 'English revision (prep. exam)'].includes(e.name)) continue;
-      await copyTree(src, dst);
+      await copyTree(src, dst, rel);
     } else if (e.isFile()) {
+      if (PROTECTED_RE.test(rel) && existsSync(dst)) {
+        // Don't clobber our authored index.md / README.md
+        continue;
+      }
       await fs.copyFile(src, dst);
+    }
+  }
+}
+
+// Delete files in content/ that no longer exist in the vault (handles deletes + renames upstream).
+async function prune(srcRoot, dstRoot, relPath = '') {
+  const dstEnts = await fs.readdir(dstRoot, { withFileTypes: true });
+  for (const e of dstEnts) {
+    const dst = path.join(dstRoot, e.name);
+    const src = path.join(srcRoot, e.name);
+    const rel = relPath ? `${relPath}/${e.name}` : e.name;
+    if (e.isDirectory()) {
+      // Skip top-level dirs not present in vault (e.g. 00-Index removed, that's fine)
+      if (existsSync(src)) await prune(src, dst, rel);
+    } else if (e.isFile()) {
+      if (PROTECTED_RE.test(rel)) continue;             // never delete our authored index.md
+      if (rel.endsWith('.excalidraw.md')) continue;     // renamed files — we know about them via RENAME_MAP, skip prune
+      if (!existsSync(src)) {
+        await fs.rm(dst);
+        console.log(`[sync] pruned stale ${rel}`);
+      }
     }
   }
 }
@@ -115,6 +144,10 @@ console.log(`[sync] copying tree → ${CONTENT}`);
 await copyTree(VAULT_DIR, CONTENT);
 await applyRenames();
 await pruneNoise();
+if (argv.includes('--prune')) {
+  console.log('[sync] pruning files removed upstream (stale assets etc)…');
+  await prune(VAULT_DIR, CONTENT);
+}
 console.log('[sync] done.');
 
 if (doCommit) {
