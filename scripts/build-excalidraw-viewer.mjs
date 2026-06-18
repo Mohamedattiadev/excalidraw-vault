@@ -504,9 +504,10 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root .excalidraw-wrapper { will-change: transform; contain: layout paint; }
 .excalidraw__canvas { display: block; image-rendering: auto; }
 .excalidraw__canvas.interactive { will-change: transform; }
-/* PDF export button — mirrors sidebar toggle on right edge. Hidden until canvas paints. */
-.page[data-frame="excalidraw"] .exc-pdf-export {
-  position: absolute; top: 12px; right: 12px; z-index: 9999;
+/* PDF export + Reset buttons — top-right edge. Hidden until canvas paints. */
+.page[data-frame="excalidraw"] .exc-pdf-export,
+.page[data-frame="excalidraw"] .exc-reset-btn {
+  position: absolute; z-index: 9999;
   opacity: 0; pointer-events: none;
   transition: opacity 200ms ease;
   width: 32px; height: 32px; border-radius: 8px;
@@ -515,14 +516,58 @@ html, body { height: 100%; margin: 0; }
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background 100ms ease;
 }
+.page[data-frame="excalidraw"] .exc-pdf-export { top: 12px; right: 12px; }
+.page[data-frame="excalidraw"] .exc-reset-btn  { top: 12px; right: 54px; }
 .exc-viewer-root.exc-ready ~ .exc-pdf-export,
-.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-pdf-export {
+.exc-viewer-root.exc-ready ~ .exc-reset-btn,
+.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-pdf-export,
+.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-reset-btn {
   opacity: 1; pointer-events: auto;
 }
-html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-pdf-export { background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.22); }
-.page[data-frame="excalidraw"] .exc-pdf-export:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
+html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-pdf-export,
+html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-reset-btn {
+  background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.22);
+}
+.page[data-frame="excalidraw"] .exc-pdf-export:hover,
+.page[data-frame="excalidraw"] .exc-reset-btn:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
 .page[data-frame="excalidraw"] .exc-pdf-export.exc-pdf-loading svg { animation: exc-spin 0.85s linear infinite; }
 .page[data-frame="excalidraw"] .exc-pdf-export[disabled] { opacity: 0.55; cursor: progress; }
+
+/* Reset confirmation modal — Excalidraw-styled */
+.exc-reset-modal {
+  position: fixed; inset: 0; z-index: 20000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(40, 25, 70, 0.45);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  animation: exc-fade 160ms ease;
+  font-family: "Assistant", system-ui, sans-serif;
+}
+@keyframes exc-fade { from { opacity: 0; } to { opacity: 1; } }
+.exc-reset-card {
+  width: min(420px, 92vw);
+  background: var(--island-bg-color, #ffffff);
+  color: var(--text-primary-color, #2a1f47);
+  border-radius: 12px;
+  border: 1px solid rgba(123,92,214,0.2);
+  box-shadow: 0 10px 40px rgba(40,25,70,0.25);
+  padding: 20px 22px 16px;
+}
+html[saved-theme="dark"] .exc-reset-card { background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.28); }
+.exc-reset-title { font-size: 17px; font-weight: 700; color: #7b5cd6; margin-bottom: 8px; }
+html[saved-theme="dark"] .exc-reset-title { color: #a78bfa; }
+.exc-reset-body { font-size: 13px; line-height: 1.5; opacity: 0.88; }
+.exc-reset-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+.exc-reset-actions button {
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  border: 1px solid rgba(123,92,214,0.22); transition: background 100ms ease;
+}
+.exc-reset-actions .exc-reset-no { background: transparent; color: inherit; }
+.exc-reset-actions .exc-reset-no:hover { background: rgba(123,92,214,0.08); }
+.exc-reset-actions .exc-reset-yes { background: #7b5cd6; color: #ffffff; border-color: #7b5cd6; }
+.exc-reset-actions .exc-reset-yes:hover { background: #5e3fbd; border-color: #5e3fbd; }
+html[saved-theme="dark"] .exc-reset-actions .exc-reset-yes { background: #a78bfa; border-color: #a78bfa; color: #1a1625; }
+html[saved-theme="dark"] .exc-reset-actions .exc-reset-yes:hover { background: #c4b5fd; border-color: #c4b5fd; }
 
 /* Loading overlay — covers viewer until canvas paints + images decoded.
    z-index above PDF button (9999) so nothing leaks through. Background opaque to hide YT link bar. */

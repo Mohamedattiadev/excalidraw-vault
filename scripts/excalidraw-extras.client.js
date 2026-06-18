@@ -21,30 +21,81 @@
   document.addEventListener("mousedown",   handleSidebarToggle, true);
   document.addEventListener("click",       handleSidebarToggle, true);
 
-  // Top-right PDF export button (mirrors the left sidebar toggle visually).
-  function ensurePdfButton() {
+  function currentSlug() {
+    const m = location.pathname.match(/\/([^\/]+)\.excalidraw\/?$/);
+    return m ? m[1] : '';
+  }
+
+  // Top-right PDF export + reset buttons (mirrors the left sidebar toggle visually).
+  function ensureTopButtons() {
     const page = document.querySelector(".page[data-frame='excalidraw']");
     if (!page) return;
-    if (page.querySelector(".exc-pdf-export")) return;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "exc-pdf-export";
-    btn.setAttribute("aria-label", "Export drawing as high-quality PDF");
-    btn.title = "Export as PDF";
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h2a2 2 0 0 1 0 4H9v-4z"/><path d="M14 13h1.5a1.5 1.5 0 0 1 0 3H14v-3z"/></svg>';
-    page.appendChild(btn);
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      btn.disabled = true;
-      btn.classList.add("exc-pdf-loading");
-      try { await exportCanvasAsPdf(); }
-      catch (err) { console.error("pdf export failed", err); alert("PDF export failed: " + (err?.message || err)); }
-      finally { btn.disabled = false; btn.classList.remove("exc-pdf-loading"); }
+    if (!page.querySelector(".exc-pdf-export")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "exc-pdf-export";
+      btn.setAttribute("aria-label", "Export drawing as high-quality PDF");
+      btn.title = "Export as PDF";
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h2a2 2 0 0 1 0 4H9v-4z"/><path d="M14 13h1.5a1.5 1.5 0 0 1 0 3H14v-3z"/></svg>';
+      page.appendChild(btn);
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.classList.add("exc-pdf-loading");
+        try { await exportCanvasAsPdf(); }
+        catch (err) { console.error("pdf export failed", err); alert("PDF export failed: " + (err?.message || err)); }
+        finally { btn.disabled = false; btn.classList.remove("exc-pdf-loading"); }
+      });
+    }
+    if (!page.querySelector(".exc-reset-btn")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "exc-reset-btn";
+      btn.setAttribute("aria-label", "Reset drawing to original (drops your local edits for this canvas)");
+      btn.title = "Reset to original";
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
+      page.appendChild(btn);
+      btn.addEventListener("click", (e) => { e.preventDefault(); openResetModal(); });
+    }
+  }
+  function openResetModal() {
+    if (document.querySelector(".exc-reset-modal")) return;
+    const overlay = document.createElement("div");
+    overlay.className = "exc-reset-modal";
+    overlay.innerHTML = '<div class="exc-reset-card">'
+      + '<div class="exc-reset-title">Reset this drawing?</div>'
+      + '<div class="exc-reset-body">All edits you made on <b>this canvas only</b> (your local browser changes — shapes added, text, deletes, anything) will be discarded. The original drawing from the vault will be restored. Other canvases are not affected.</div>'
+      + '<div class="exc-reset-actions"><button type="button" class="exc-reset-no">No, keep my edits</button><button type="button" class="exc-reset-yes">Yes, reset</button></div>'
+      + '</div>';
+    document.body.appendChild(overlay);
+    const close = () => overlay.remove();
+    overlay.querySelector(".exc-reset-no").addEventListener("click", close);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+    overlay.querySelector(".exc-reset-yes").addEventListener("click", async () => {
+      const slug = currentSlug();
+      try { if (slug) localStorage.removeItem("exc-scene:" + slug); } catch {}
+      // Also drop the cached snapshot for this slug so a fresh one is captured next render.
+      try {
+        const req = indexedDB.open("exc-snapshots", 1);
+        req.onsuccess = () => {
+          const db = req.result;
+          try {
+            const tx = db.transaction("snaps", "readwrite");
+            tx.objectStore("snaps").delete(slug);
+            tx.oncomplete = () => location.reload();
+            tx.onerror = () => location.reload();
+          } catch { location.reload(); }
+        };
+        req.onerror = () => location.reload();
+      } catch { location.reload(); }
+    });
+    document.addEventListener("keydown", function escClose(ev) {
+      if (ev.key === "Escape") { close(); document.removeEventListener("keydown", escClose); }
     });
   }
-  const pdfMO = new MutationObserver(ensurePdfButton);
+  const pdfMO = new MutationObserver(ensureTopButtons);
   pdfMO.observe(document.body, { childList: true, subtree: true });
-  ensurePdfButton();
+  ensureTopButtons();
 
   async function preloadImages(files) {
     await Promise.all(Object.values(files || {}).map((f) => {
