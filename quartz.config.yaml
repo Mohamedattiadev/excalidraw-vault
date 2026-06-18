@@ -30,25 +30,25 @@ configuration:
       code: IBM Plex Mono
     colors:
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#e5e5e5"
-        gray: "#b8b8b8"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#faf8ff"
+        lightgray: "#e8e3f0"
+        gray: "#a89cc0"
+        darkgray: "#4a3d6b"
+        dark: "#2a1f47"
+        secondary: "#7b5cd6"
+        tertiary: "#a78bfa"
+        highlight: rgba(167, 139, 250, 0.18)
+        textHighlight: "#c4b5fd66"
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#646464"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#1a1625"
+        lightgray: "#2e2740"
+        gray: "#5d4f7a"
+        darkgray: "#c4b8e0"
+        dark: "#ece6f8"
+        secondary: "#a78bfa"
+        tertiary: "#c4b5fd"
+        highlight: rgba(167, 139, 250, 0.18)
+        textHighlight: "#a78bfa55"
 plugins:
   - source: github:quartz-community/created-modified-date
     enabled: true
@@ -77,11 +77,8 @@ plugins:
     enabled: true
     order: 40
   - source: github:quartz-community/table-of-contents
-    enabled: true
+    enabled: false
     order: 50
-    layout:
-      position: right
-      priority: 30
   - source: github:quartz-community/crawl-links
     enabled: true
     options:
@@ -132,10 +129,7 @@ plugins:
       position: left
       priority: 50
   - source: github:quartz-community/graph
-    enabled: true
-    layout:
-      position: right
-      priority: 10
+    enabled: false
   - source: github:quartz-community/search
     enabled: true
     layout:
@@ -145,10 +139,7 @@ plugins:
       groupOptions:
         grow: true
   - source: github:quartz-community/backlinks
-    enabled: true
-    layout:
-      position: right
-      priority: 50
+    enabled: false
   - source: github:quartz-community/article-title
     enabled: true
     layout:

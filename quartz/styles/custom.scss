@@ -1,28 +1,61 @@
 @use "./variables.scss" as *;
 
-/* ===== Native Excalidraw-flavored Explorer (homepage + non-excalidraw pages) ===== */
+/* ===== Obsidian + Excalidraw purple theme ===== */
 
 :root {
   --exc-island-bg: #ffffff;
-  --exc-text: #1b1b1f;
-  --exc-text-muted: #6b6b75;
-  --exc-border: rgba(0, 0, 0, 0.08);
-  --exc-hover: rgba(0, 0, 0, 0.06);
-  --exc-primary: #1971c2;
-  --exc-primary-bg: #d3e4fd;
-  --exc-primary-fg: #0d62ad;
+  --exc-text: #2a1f47;
+  --exc-text-muted: #6b5a8a;
+  --exc-border: rgba(123, 92, 214, 0.14);
+  --exc-hover: rgba(123, 92, 214, 0.08);
+  --exc-primary: #7b5cd6;
+  --exc-primary-bg: #ede4ff;
+  --exc-primary-fg: #5e3fbd;
 }
 
 :root[saved-theme="dark"] {
-  --exc-island-bg: #232329;
-  --exc-text: #e3e3e8;
-  --exc-text-muted: #888893;
-  --exc-border: rgba(255, 255, 255, 0.08);
-  --exc-hover: rgba(255, 255, 255, 0.06);
-  --exc-primary: #74c0fc;
-  --exc-primary-bg: rgba(116, 192, 252, 0.22);
-  --exc-primary-fg: #a5d8ff;
+  --exc-island-bg: #1f1830;
+  --exc-text: #ece6f8;
+  --exc-text-muted: #9b8cbf;
+  --exc-border: rgba(167, 139, 250, 0.16);
+  --exc-hover: rgba(167, 139, 250, 0.10);
+  --exc-primary: #a78bfa;
+  --exc-primary-bg: rgba(167, 139, 250, 0.22);
+  --exc-primary-fg: #c4b5fd;
 }
+
+/* Headings + links in purple to match Obsidian/Excalidraw vibe */
+h1, h2, h3, h4, h5, h6,
+.page-title a,
+.breadcrumb-element a {
+  color: var(--exc-text);
+}
+h1 { color: var(--exc-primary); }
+h2, h3 { color: var(--exc-primary-fg); }
+:root[saved-theme="dark"] h2,
+:root[saved-theme="dark"] h3 { color: var(--exc-primary); }
+
+a, a:visited {
+  color: var(--exc-primary);
+  text-decoration: none;
+}
+a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
+
+/* Folder page: don't make the H1 (folder title) feel clickable */
+.popover-hint > article h1 {
+  pointer-events: none;
+  cursor: default;
+}
+.popover-hint > article h1 a {
+  pointer-events: none;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Hide "N items under this folder" listing on folder pages — index.md content speaks for itself */
+.page-listing { display: none !important; }
+
+/* ===== Native-Excalidraw-flavored Explorer (homepage + non-excalidraw pages) ===== */
 
 .explorer {
   font-family: "Assistant", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -38,9 +71,7 @@
 }
 
 .explorer .explorer-ul,
-.explorer ul.overflow {
-  font-size: 13px;
-}
+.explorer ul.overflow { font-size: 13px; }
 
 .explorer .folder-container .folder-button,
 .explorer .folder-container .folder-title,
@@ -51,10 +82,7 @@
   letter-spacing: 0.005em;
 }
 
-.explorer .folder-icon {
-  color: var(--exc-text-muted);
-  opacity: 0.65;
-}
+.explorer .folder-icon { color: var(--exc-text-muted); opacity: 0.65; }
 
 .explorer .folder-container:hover,
 .explorer .folder-button:hover {
@@ -79,10 +107,7 @@
   transition: background 80ms ease, color 80ms ease;
 }
 
-.explorer li a:hover {
-  background: var(--exc-hover);
-  color: var(--exc-primary);
-}
+.explorer li a:hover { background: var(--exc-hover); color: var(--exc-primary); }
 
 .explorer li a.active,
 .explorer li a.is-active {
@@ -97,8 +122,10 @@
   border-radius: 3px;
 }
 
-/* Sidebar title (homepage left rail) */
 .page-title a {
   font-family: "Assistant", system-ui, sans-serif;
   color: var(--exc-text);
 }
+
+/* Hide right-rail completely (graph, ToC, backlinks already disabled in config) */
+.right.sidebar, .sidebar.right { display: none !important; }
