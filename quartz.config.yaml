@@ -12,14 +12,15 @@ configuration:
     - private
     - templates
     - .obsidian
-    - 9999 - Excalidraw/Scripts
-    - 9999 - Excalidraw/Templates
+    - 9999 - Excalidraw
     - 999-Templates
+    - 90-Assets
     - _system
     - _cache
     - Collab
     - collab-sessions.json
     - _livesync-status.md
+    - "*.goodnotes"
   theme:
     fontOrigin: googleFonts
     cdnCaching: true

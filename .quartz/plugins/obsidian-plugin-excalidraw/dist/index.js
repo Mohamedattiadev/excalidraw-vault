@@ -4826,7 +4826,19 @@ var ExcalidrawPage = (opts) => ({
           }
         }
       }
-      const baseName = filePath.replace(/\.excalidraw\.md$/, "").replace(/\.excalidraw$/, "").replace(/\.md$/, "").split("/").pop() ?? "Excalidraw Drawing";
+      const rawBase = filePath.replace(/\.excalidraw\.md$/, "").replace(/\.excalidraw$/, "").replace(/\.md$/, "").split("/").pop() ?? "Excalidraw Drawing";
+      const baseName = (function prettify(s){
+        let r = s
+          .replace(/^\s*\d+(\.\d+)?\s*[-._)]?\s*/, "")
+          .replace(/\(\s*\d+[^)]*\)/g, "")
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .replace(/[-_]+/g, " ")
+          .replace(/\.+$/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        if (!r) r = s;
+        return r.split(" ").map((w) => /^[A-Z]{2,}$/.test(w) ? w : (w[0] ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w)).join(" ");
+      })(rawBase);
       const slug2 = slugifyFilePath(filePath);
       virtualPages.push({
         slug: slug2,
