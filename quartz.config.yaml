@@ -125,6 +125,7 @@ plugins:
   - source: github:quartz-community/explorer
     enabled: true
     options:
+      title: Index
       folderClickBehavior: collapse
       folderDefaultState: collapsed
     layout:

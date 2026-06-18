@@ -576,23 +576,42 @@ async function mount() {
   }
 
   const bp = getBasepath();
+  // Defer image loading — mount canvas immediately, stream files in via addFiles().
+  const deferredFiles = [];
   if (scene.files) {
-    // Use blob: URLs not base64 dataURLs — skips MB-scale base64 string conversion per image.
     const entries = Object.entries(scene.files);
-    await Promise.all(entries.map(async ([id, f]) => {
-      if (!f || typeof f.dataURL !== 'string') return;
-      if (f.dataURL.startsWith('data:') || f.dataURL.startsWith('blob:')) return;
-      const url = f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('http ' + res.status);
-        const blob = await res.blob();
-        f.dataURL = URL.createObjectURL(blob);
-        if (!f.mimeType) f.mimeType = blob.type;
-      } catch (err) {
-        console.warn('image load failed', id, url, err);
+    for (const [id, f] of entries) {
+      if (!f || typeof f.dataURL !== 'string') continue;
+      if (f.dataURL.startsWith('data:') || f.dataURL.startsWith('blob:')) continue;
+      deferredFiles.push({ id, file: f, url: f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL });
+      // strip dataURL so Excalidraw doesn't try to render it pre-fetch
+      f.dataURL = '';
+    }
+  }
+  async function loadDeferredImages(api) {
+    if (!deferredFiles.length || !api) return;
+    const CONCURRENCY = 6;
+    let cursor = 0;
+    const worker = async () => {
+      while (cursor < deferredFiles.length) {
+        const idx = cursor++;
+        const { id, file, url } = deferredFiles[idx];
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('http ' + res.status);
+          const blob = await res.blob();
+          const dataURL = URL.createObjectURL(blob);
+          file.dataURL = dataURL;
+          if (!file.mimeType) file.mimeType = blob.type;
+          if (api.addFiles) {
+            api.addFiles([{ id, dataURL, mimeType: file.mimeType, created: Date.now(), lastRetrieved: Date.now() }]);
+          }
+        } catch (err) {
+          console.warn('image load failed', id, url, err);
+        }
       }
-    }));
+    };
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
   }
 
   const LOCAL_KEY = 'exc-scene:' + SCENE_SLUG;
@@ -616,6 +635,9 @@ async function mount() {
           if (els && els.length) api.scrollToContent(els, { fitToContent: true, animate: false });
         } catch (e) { console.warn('scrollToContent failed', e); }
       }, 50);
+      // Stream deferred images after first paint so LCP isn't blocked on N image fetches.
+      requestIdleCallback ? requestIdleCallback(() => loadDeferredImages(api), { timeout: 1500 })
+                          : setTimeout(() => loadDeferredImages(api), 50);
     }
   };
 

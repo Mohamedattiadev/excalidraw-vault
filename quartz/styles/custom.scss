@@ -122,10 +122,26 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
   border-radius: 3px;
 }
 
-.page-title a {
+.page-title, .page-title a, .page-title a:visited {
   font-family: "Assistant", system-ui, sans-serif;
-  color: var(--exc-text);
+  color: var(--exc-primary) !important;
+  font-weight: 700;
 }
+.page-title a:hover { color: var(--exc-primary-fg) !important; text-decoration: none; }
+
+/* "Index" header inside left sidebar (above Explorer) */
+.left .exc-sidebar-index {
+  display: block;
+  margin: 4px 0 8px;
+  padding: 6px 0;
+  font-family: "Assistant", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--exc-primary);
+  border-bottom: 1px solid var(--exc-border);
+  text-decoration: none !important;
+}
+.left .exc-sidebar-index:hover { color: var(--exc-primary-fg); }
 
 /* Hide right-rail completely (graph, ToC, backlinks already disabled in config) */
 .right.sidebar, .sidebar.right { display: none !important; }
