@@ -46,11 +46,22 @@
   pdfMO.observe(document.body, { childList: true, subtree: true });
   ensurePdfButton();
 
+  async function preloadImages(files) {
+    await Promise.all(Object.values(files || {}).map((f) => {
+      if (!f || typeof f.dataURL !== "string" || !f.dataURL) return null;
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => resolve(); // tolerate broken images
+        img.src = f.dataURL;
+      });
+    }));
+  }
+
   async function exportCanvasAsPdf() {
     const api = getApi();
     if (!api) throw new Error("Excalidraw API not ready");
-    // Dynamically load exportToBlob + jsPDF from CDN
-    const [{ exportToBlob, exportToCanvas }, { jsPDF }] = await Promise.all([
+    const [{ exportToCanvas }, { jsPDF }] = await Promise.all([
       import("https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps"),
       import("https://esm.sh/jspdf@2.5.1"),
     ]);
@@ -58,15 +69,26 @@
     const appState = api.getAppState();
     const files = api.getFiles();
     if (!elements || !elements.length) throw new Error("Nothing to export");
-    // Render at 3x scale for high quality
-    const canvas = await exportToCanvas({
-      elements, appState: { ...appState, exportBackground: true, exportWithDarkMode: false },
-      files, getDimensions: (w, h) => ({ width: w * 3, height: h * 3, scale: 3 }),
-    });
-    const dataUrl = canvas.toDataURL("image/png");
+    // Pre-decode every embedded image so exportToCanvas doesn't fail on half-loaded blobs.
+    await preloadImages(files);
+    let canvas;
+    try {
+      // Render at 3x scale for high quality
+      canvas = await exportToCanvas({
+        elements,
+        appState: { ...appState, exportBackground: true, exportWithDarkMode: false },
+        files,
+        getDimensions: (w, h) => ({ width: w * 3, height: h * 3, scale: 3 }),
+      });
+    } catch (err) {
+      // Retry at 1x without images that failed to decode
+      console.warn("3x export failed, retrying at 1x", err);
+      canvas = await exportToCanvas({ elements, appState, files });
+    }
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
     const orientation = canvas.width > canvas.height ? "l" : "p";
     const pdf = new jsPDF({ orientation, unit: "px", format: [canvas.width, canvas.height], compress: true });
-    pdf.addImage(dataUrl, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+    pdf.addImage(dataUrl, "JPEG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
     const slug = (location.pathname.split("/").filter(Boolean).pop() || "drawing").replace(/\.excalidraw$/, "");
     pdf.save(`${slug}.pdf`);
   }
@@ -320,6 +342,8 @@
     const anchor = trigger || null;
     const insert = (el) => { if (anchor) inner.insertBefore(el, anchor); else inner.appendChild(el); };
     insert(themeBtn); insert(zoomBtn); insert(mmBtn);
+    // Default minimap on after first successful inject.
+    setTimeout(() => { if (!state.mmOn) setMinimap(true); }, 600);
     return true;
   }
 

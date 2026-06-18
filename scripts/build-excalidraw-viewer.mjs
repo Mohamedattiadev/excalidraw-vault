@@ -467,30 +467,36 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root .excalidraw-wrapper { will-change: transform; contain: layout paint; }
 .excalidraw__canvas { display: block; image-rendering: auto; }
 .excalidraw__canvas.interactive { will-change: transform; }
-/* PDF export button — mirrors sidebar toggle on right edge */
+/* PDF export button — mirrors sidebar toggle on right edge. Hidden until canvas paints. */
 .page[data-frame="excalidraw"] .exc-pdf-export {
   position: absolute; top: 12px; right: 12px; z-index: 9999;
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms ease;
   width: 32px; height: 32px; border-radius: 8px;
   background: var(--island-bg-color, #ffffff); color: var(--text-primary-color, #2a1f47);
   border: 1px solid rgba(123,92,214,0.18);
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background 100ms ease;
 }
+.exc-viewer-root.exc-ready ~ .exc-pdf-export,
+.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-pdf-export {
+  opacity: 1; pointer-events: auto;
+}
 html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-pdf-export { background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.22); }
 .page[data-frame="excalidraw"] .exc-pdf-export:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
 .page[data-frame="excalidraw"] .exc-pdf-export.exc-pdf-loading svg { animation: exc-spin 0.85s linear infinite; }
 .page[data-frame="excalidraw"] .exc-pdf-export[disabled] { opacity: 0.55; cursor: progress; }
 
-/* Loading overlay — covers viewer until canvas paints + images decoded */
+/* Loading overlay — covers viewer until canvas paints + images decoded.
+   z-index above PDF button (9999) so nothing leaks through. Background opaque to hide YT link bar. */
 .exc-loading-overlay {
-  position: absolute; inset: 0; z-index: 1000;
+  position: absolute; inset: 0; z-index: 10000;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-  background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(124,92,214,0.06));
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  background: #f5f3fa;
   font-family: "Assistant", system-ui, sans-serif; color: #5e3fbd;
   transition: opacity 240ms ease;
 }
-html[saved-theme="dark"] .exc-loading-overlay { background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(50,30,80,0.55)); color: #c4b5fd; }
+html[saved-theme="dark"] .exc-loading-overlay { background: #1f1830; color: #c4b5fd; }
 .exc-loading-overlay.exc-hide { opacity: 0; pointer-events: none; }
 .exc-spinner {
   width: 48px; height: 48px; border-radius: 50%;
@@ -771,8 +777,7 @@ async function mount() {
   const root = createRoot(el);
   root.render(render(currentTheme));
   mounted = true;
-  // Reveal iframes after Excalidraw canvas paints; small delay covers scrollToContent + first render.
-  setTimeout(() => { try { el.classList.add('exc-ready'); } catch {} }, 250);
+  // exc-ready class now set inside tryHide() once canvas actually painted.
   // Hide loading overlay once first canvas paint + scroll-to-content settle.
   const hideOverlay = () => {
     const ov = el.querySelector('.exc-loading-overlay');
@@ -780,13 +785,28 @@ async function mount() {
     ov.classList.add('exc-hide');
     setTimeout(() => ov.remove(), 320);
   };
-  // Wait long enough for Excalidraw to decode + paint images (heavy scenes ~30s).
-  // Hide on requestIdleCallback (browser quiet) OR 3s hard cap, whichever comes first.
+  // Hide overlay only AFTER Excalidraw canvas actually appears in DOM.
   let overlayHidden = false;
-  const tryHide = () => { if (overlayHidden) return; overlayHidden = true; hideOverlay(); };
-  if (window.requestIdleCallback) requestIdleCallback(tryHide, { timeout: 3000 });
-  else setTimeout(tryHide, 1500);
-  setTimeout(tryHide, 3000);
+  const tryHide = () => {
+    if (overlayHidden) return;
+    overlayHidden = true;
+    try { el.classList.add('exc-ready'); } catch {}
+    hideOverlay();
+  };
+  const canvasReady = () => el.querySelector('.excalidraw__canvas.interactive');
+  const waitForCanvas = (deadline) => {
+    if (canvasReady()) {
+      // give it one more idle tick for image decode
+      if (window.requestIdleCallback) requestIdleCallback(tryHide, { timeout: 1500 });
+      else setTimeout(tryHide, 500);
+      return;
+    }
+    if (performance.now() > deadline) { tryHide(); return; }
+    requestAnimationFrame(() => waitForCanvas(deadline));
+  };
+  waitForCanvas(performance.now() + 8000); // 8s hard cap
+  // Absolute fallback so user is never stuck behind spinner.
+  setTimeout(tryHide, 12000);
 
   const observer = new MutationObserver(() => {
     const t = getTheme();

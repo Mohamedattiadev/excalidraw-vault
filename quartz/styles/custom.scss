@@ -129,9 +129,18 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
 }
 .page-title a:hover { color: var(--exc-primary-fg) !important; text-decoration: none; }
 
+/* Vertical layout of left sidebar: balanced top/bottom padding, tight gaps */
+.left, .sidebar.left {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+.left > * + * { margin-top: 0.4rem; }
+.left .explorer { margin-top: 0.2rem; }
+.left .search { margin: 0.2rem 0; }
+
 /* Author block injected below page-title, above search */
 .exc-author-block {
-  margin: 8px 0 14px;
+  margin: 6px 0 8px;
   padding: 10px 12px;
   border-radius: 8px;
   background: linear-gradient(135deg, rgba(167,139,250,0.10), rgba(123,92,214,0.04));
