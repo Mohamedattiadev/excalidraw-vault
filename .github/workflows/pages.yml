@@ -45,7 +45,7 @@ jobs:
           cp -a .quartz/plugins/obsidian-plugin-excalidraw /tmp/plugin-patch/
 
       - name: Install Quartz plugins
-        run: npm run install-plugins
+        run: npx quartz plugin install
 
       - name: Restore patched plugins (overlay)
         run: |
