@@ -120,11 +120,34 @@
       canvas = await exportToCanvas({ elements, appState, files });
     }
     if (!canvas || !canvas.width || !canvas.height) throw new Error("exportToCanvas returned empty canvas");
-    const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
-    if (!dataUrl || dataUrl.length < 100) throw new Error("canvas toDataURL returned empty");
+    // Try multiple paths: PNG dataURL → JPEG dataURL → toBlob+FileReader → final SVG fallback.
+    async function canvasToDataUrl(c) {
+      // PNG first (lossless, broadest browser support)
+      try {
+        const u = c.toDataURL("image/png");
+        if (u && u.length > 100) return { url: u, fmt: "PNG" };
+      } catch (e) { console.warn("PNG dataURL failed", e); }
+      try {
+        const u = c.toDataURL("image/jpeg", 0.92);
+        if (u && u.length > 100) return { url: u, fmt: "JPEG" };
+      } catch (e) { console.warn("JPEG dataURL failed", e); }
+      // Promise-wrap toBlob (sometimes works when toDataURL throws on tainted)
+      const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
+      if (blob) {
+        const reader = new FileReader();
+        const url = await new Promise((res, rej) => {
+          reader.onload = () => res(reader.result);
+          reader.onerror = rej;
+          reader.readAsDataURL(blob);
+        });
+        if (url && url.length > 100) return { url, fmt: "PNG" };
+      }
+      throw new Error("canvas.toDataURL returned empty — canvas may be tainted; try refreshing");
+    }
+    const { url: dataUrl, fmt } = await canvasToDataUrl(canvas);
     const orientation = canvas.width > canvas.height ? "l" : "p";
     const pdf = new jsPDF({ orientation, unit: "px", format: [canvas.width, canvas.height], compress: true });
-    pdf.addImage(dataUrl, "JPEG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+    pdf.addImage(dataUrl, fmt, 0, 0, canvas.width, canvas.height, undefined, "FAST");
     const slug = (location.pathname.split("/").filter(Boolean).pop() || "drawing").replace(/\.excalidraw$/, "");
     pdf.save(`${slug}.pdf`);
   }

@@ -10,8 +10,8 @@ import sharp from 'sharp';
 
 const FILES_DIR  = path.resolve('public/_files');
 const SCENES_DIR = path.resolve('public/_scenes');
-const MAX_WIDTH  = 1200;
-const WEBP_QUALITY = 80;
+const MAX_WIDTH  = 900;
+const WEBP_QUALITY = 75;
 
 const IMG_EXT = /\.(png|jpe?g|webp)$/i;
 
@@ -48,7 +48,7 @@ for (const name of imgFiles) {
     }
     await sharp(inPath, { failOn: 'none' })
       .resize({ width: MAX_WIDTH, withoutEnlargement: true, fit: 'inside' })
-      .webp({ quality: WEBP_QUALITY, effort: 4 })
+      .webp({ quality: WEBP_QUALITY, effort: 5, smartSubsample: true })
       .toFile(outPath);
     if (outName !== name) await fs.rm(inPath);
     bytesAfter += (await fs.stat(outPath)).size;
