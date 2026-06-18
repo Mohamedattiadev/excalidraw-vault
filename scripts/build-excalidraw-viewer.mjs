@@ -432,9 +432,16 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root { width: 100% !important; height: 100% !important; display: block; }
 .exc-viewer-root .excalidraw, .exc-viewer-root .excalidraw .excalidraw-wrapper { height: 100% !important; width: 100% !important; }
 .excalidraw__canvas { display: block; }
-/* hide web-embed iframes until scene is ready (prevents stray YouTube refused-to-connect bar pre-mount) */
-.exc-viewer-root iframe, .exc-viewer-root .excalidraw__embeddable-container { visibility: hidden !important; }
-.exc-viewer-root.exc-ready iframe, .exc-viewer-root.exc-ready .excalidraw__embeddable-container { visibility: visible !important; }
+/* Permanently kill web-embed iframes inside canvas — YouTube/Notion/etc all set X-Frame-Options=sameorigin
+   and render as broken "refused to connect" panels. We keep the embeddable element shape but suppress iframe rendering. */
+.exc-viewer-root iframe { display: none !important; }
+.exc-viewer-root .excalidraw__embeddable-container { background: transparent !important; }
+.exc-viewer-root .excalidraw__embeddable-container::after {
+  content: "external embed (click element to open URL)"; display: block; padding: 8px 12px;
+  font-family: "Assistant", system-ui, sans-serif; font-size: 12px; color: var(--exc-text-muted, #888);
+  background: rgba(167,139,250,0.08); border: 1px dashed rgba(167,139,250,0.4); border-radius: 6px;
+  pointer-events: none;
+}
 /* drop Quartz plugin floating zoom controls (we use native footer) */
 .excalidraw-controls, .excalidraw-zoom-in, .excalidraw-zoom-out, .excalidraw-reset { display: none !important; }
 /* sidebar toggle on top — boost z so native UI never covers it */
@@ -576,36 +583,32 @@ async function mount() {
   }
 
   const bp = getBasepath();
-  // Defer image loading — mount canvas immediately, stream files in via addFiles().
+  // Defer image loading — keep files out of initialFiles, stream via api.addFiles() post-mount.
   const deferredFiles = [];
-  if (scene.files) {
-    const entries = Object.entries(scene.files);
-    for (const [id, f] of entries) {
+  const sceneFiles = scene.files || {};
+  if (sceneFiles) {
+    for (const [id, f] of Object.entries(sceneFiles)) {
       if (!f || typeof f.dataURL !== 'string') continue;
       if (f.dataURL.startsWith('data:') || f.dataURL.startsWith('blob:')) continue;
-      deferredFiles.push({ id, file: f, url: f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL });
-      // strip dataURL so Excalidraw doesn't try to render it pre-fetch
-      f.dataURL = '';
+      const url = f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL;
+      deferredFiles.push({ id, mimeType: f.mimeType || '', url });
+      delete sceneFiles[id]; // remove from initialFiles so Excalidraw doesn't show broken-image placeholder
     }
   }
   async function loadDeferredImages(api) {
-    if (!deferredFiles.length || !api) return;
-    const CONCURRENCY = 6;
+    if (!deferredFiles.length || !api || !api.addFiles) return;
+    const CONCURRENCY = 8;
     let cursor = 0;
     const worker = async () => {
       while (cursor < deferredFiles.length) {
         const idx = cursor++;
-        const { id, file, url } = deferredFiles[idx];
+        const { id, url, mimeType } = deferredFiles[idx];
         try {
           const res = await fetch(url);
           if (!res.ok) throw new Error('http ' + res.status);
           const blob = await res.blob();
           const dataURL = URL.createObjectURL(blob);
-          file.dataURL = dataURL;
-          if (!file.mimeType) file.mimeType = blob.type;
-          if (api.addFiles) {
-            api.addFiles([{ id, dataURL, mimeType: file.mimeType, created: Date.now(), lastRetrieved: Date.now() }]);
-          }
+          api.addFiles([{ id, dataURL, mimeType: mimeType || blob.type, created: Date.now(), lastRetrieved: Date.now() }]);
         } catch (err) {
           console.warn('image load failed', id, url, err);
         }
@@ -652,9 +655,13 @@ async function mount() {
     saveTimer = setTimeout(() => {
       const work = () => {
         try {
-          const payload = { elements, files: filterUserFiles(files, scene.files) };
-          localStorage.setItem(LOCAL_KEY, JSON.stringify(payload));
-        } catch (e) { console.warn('localStorage save failed', e); }
+          const payload = JSON.stringify({ elements, files: filterUserFiles(files, scene.files) });
+          // Skip silently if payload is huge (typical localStorage cap ≈ 5MB; reserve headroom).
+          if (payload.length > 4_500_000) return;
+          localStorage.setItem(LOCAL_KEY, payload);
+        } catch (e) {
+          if (!(e && e.name === 'QuotaExceededError')) console.warn('localStorage save failed', e);
+        }
       };
       if (window.requestIdleCallback) requestIdleCallback(work, { timeout: 2000 });
       else work();

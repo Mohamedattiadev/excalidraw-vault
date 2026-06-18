@@ -30,4 +30,4 @@ Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from
 - Edits save to your `localStorage` per drawing (canonical source stays clean)
 - Sidebar tree on canvas pages is static + native — no JS race conditions
 
-See [[README]] for the original vault structure.
+Source vault and structure: **https://github.com/Mohamedattiadev/my-study-summaries**
