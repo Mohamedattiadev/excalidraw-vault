@@ -159,30 +159,63 @@ const ALLOWED_TOP_LEVEL = new Set([
   '05-Networking', '06-DataScience-Mining', '07-SoftwareArchitecture',
   '08-ScientificComputing', '09-Security', '10-English',
 ]);
+// Pretty-print labels: drop leading "NN", "NN-", "NN.", "NN -" prefixes and
+// excess hyphens/spaces, then title-case.
+function prettifyLabel(raw) {
+  let s = String(raw)
+    .replace(/\.excalidraw$/i, '')
+    .replace(/^\s*\d+(\.\d+)?\s*[-._)]?\s*/, '')   // strip leading numeric prefix
+    .replace(/\(\s*\d+[^)]*\)/g, '')              // drop trailing "(5-..)" etc.
+    .replace(/([a-z])([A-Z])/g, '$1 $2')          // split CamelCase
+    .replace(/[-_]+/g, ' ')
+    .replace(/\.+$/g, '')                          // drop trailing dots
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!s) s = String(raw);
+  // Title case while preserving common acronyms (all-caps words).
+  return s.split(' ').map((w) => {
+    if (/^[A-Z]{2,}$/.test(w)) return w;          // keep "DB", "OS", "HOW"
+    return w[0] ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w;
+  }).join(' ');
+}
+function originalSortKey(rawSegment) {
+  // Sort by leading number if any, else fall back to alphabetic.
+  const m = String(rawSegment).match(/^\s*(\d+(?:\.\d+)?)/);
+  return m ? parseFloat(m[1]) : Infinity;
+}
+
 const treeEntries = mdFiles
   .map((mdPath) => {
     const rel = path.relative(CONTENT, mdPath).replace(/\\/g, '/');
     const top = rel.split('/')[0];
     if (!ALLOWED_TOP_LEVEL.has(top)) return null;
     const noExt = rel.replace(/\.excalidraw\.md$/, '').replace(/\.md$/, '');
-    const segments = noExt.split('/');
-    const fileLabel = segments.pop().replace(/\.excalidraw$/, '');
+    const rawSegs = noExt.split('/');
+    const rawFile = rawSegs.pop();
+    const segments = rawSegs.map((raw) => ({ raw, label: prettifyLabel(raw), sortKey: originalSortKey(raw) }));
+    const fileLabel = prettifyLabel(rawFile);
+    const fileSortKey = originalSortKey(rawFile);
     const urlPath = SITE_BASEPATH + '/' + noExt.toLowerCase().split('/').map((s) => s.replace(/ /g, '-')).join('/') + '.excalidraw';
-    return { segments, label: fileLabel, url: urlPath };
+    return { segments, label: fileLabel, sortKey: fileSortKey, url: urlPath };
   })
   .filter(Boolean);
 
 function buildTreeNode() {
-  return { folders: new Map(), files: [] };
+  return { folders: new Map(), files: [], sortKey: Infinity, label: '' };
 }
 const treeRoot = buildTreeNode();
 for (const e of treeEntries) {
   let node = treeRoot;
   for (const seg of e.segments) {
-    if (!node.folders.has(seg)) node.folders.set(seg, buildTreeNode());
-    node = node.folders.get(seg);
+    if (!node.folders.has(seg.raw)) {
+      const child = buildTreeNode();
+      child.label = seg.label;
+      child.sortKey = seg.sortKey;
+      node.folders.set(seg.raw, child);
+    }
+    node = node.folders.get(seg.raw);
   }
-  node.files.push({ label: e.label, url: e.url });
+  node.files.push({ label: e.label, url: e.url, sortKey: e.sortKey });
 }
 
 function escapeHtml(s) {
@@ -190,11 +223,19 @@ function escapeHtml(s) {
 }
 function renderTree(node, depth = 0) {
   let html = '<ul class="exc-tree-ul">';
-  const folderNames = [...node.folders.keys()].sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-  for (const name of folderNames) {
-    html += `<li class="exc-tree-folder"><details${depth === 0 ? ' open' : ''}><summary>${escapeHtml(name)}</summary>${renderTree(node.folders.get(name), depth + 1)}</details></li>`;
+  const folderEntries = [...node.folders.entries()].sort((a, b) => {
+    const [, A] = a, [, B] = b;
+    if (A.sortKey !== B.sortKey) return A.sortKey - B.sortKey;
+    return A.label.localeCompare(B.label, undefined, { numeric: true, sensitivity: 'base' });
+  });
+  for (const [, child] of folderEntries) {
+    html += `<li class="exc-tree-folder"><details${depth === 0 ? ' open' : ''}><summary>${escapeHtml(child.label)}</summary>${renderTree(child, depth + 1)}</details></li>`;
   }
-  for (const f of node.files.sort((a, b) => a.label.localeCompare(b.label, undefined, { numeric: true, sensitivity: 'base' }))) {
+  const files = node.files.slice().sort((a, b) => {
+    if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey;
+    return a.label.localeCompare(b.label, undefined, { numeric: true, sensitivity: 'base' });
+  });
+  for (const f of files) {
     html += `<li class="exc-tree-file"><a href="${escapeHtml(f.url)}">${escapeHtml(f.label)}</a></li>`;
   }
   html += '</ul>';
