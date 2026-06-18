@@ -75,21 +75,38 @@
     if (!elements || !elements.length) throw new Error("Nothing to export");
     // Pre-decode every embedded image so exportToCanvas doesn't fail on half-loaded blobs.
     await preloadImages(files);
+    // Compute scene bounds so we can clamp export to jsPDF's 14400px max dimension.
+    let xmin = Infinity, ymin = Infinity, xmax = -Infinity, ymax = -Infinity;
+    for (const e of elements) {
+      if (e.isDeleted) continue;
+      xmin = Math.min(xmin, e.x);
+      ymin = Math.min(ymin, e.y);
+      xmax = Math.max(xmax, e.x + (e.width || 0));
+      ymax = Math.max(ymax, e.y + (e.height || 0));
+    }
+    const naturalW = Math.max(1, xmax - xmin);
+    const naturalH = Math.max(1, ymax - ymin);
+    const MAX_DIM = 13800;
+    let scale = 3;
+    if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
+      scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
+    }
+    scale = Math.max(1, Math.min(3, scale));
     let canvas;
     try {
-      // Render at 3x scale for high quality
       canvas = await exportToCanvas({
         elements,
         appState: { ...appState, exportBackground: true, exportWithDarkMode: false },
         files,
-        getDimensions: (w, h) => ({ width: w * 3, height: h * 3, scale: 3 }),
+        getDimensions: (w, h) => ({ width: Math.floor(w * scale), height: Math.floor(h * scale), scale }),
       });
     } catch (err) {
-      // Retry at 1x without images that failed to decode
-      console.warn("3x export failed, retrying at 1x", err);
+      console.warn("scaled export failed, retrying at 1x", err);
       canvas = await exportToCanvas({ elements, appState, files });
     }
+    if (!canvas || !canvas.width || !canvas.height) throw new Error("exportToCanvas returned empty canvas");
     const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+    if (!dataUrl || dataUrl.length < 100) throw new Error("canvas toDataURL returned empty");
     const orientation = canvas.width > canvas.height ? "l" : "p";
     const pdf = new jsPDF({ orientation, unit: "px", format: [canvas.width, canvas.height], compress: true });
     pdf.addImage(dataUrl, "JPEG", 0, 0, canvas.width, canvas.height, undefined, "FAST");

@@ -359,6 +359,12 @@ await fs.mkdir(path.dirname(EXTRAS_DST), { recursive: true });
 try { await fs.copyFile(EXTRAS_SRC, EXTRAS_DST); console.log('copied extras -> public/static/exc-extras.js'); }
 catch (err) { console.warn('extras copy failed', err.message); }
 
+// Service Worker (precache static assets, fast repeat-visit loads)
+try {
+  await fs.copyFile(path.resolve('scripts/sw.js'), path.resolve('public/sw.js'));
+  console.log('copied sw -> public/sw.js');
+} catch (err) { console.warn('sw copy failed', err.message); }
+
 // === Inject author block into every page's left sidebar (above search) ===
 const AUTHOR_BLOCK_HTML = `
 <div class="exc-author-block">
@@ -372,16 +378,46 @@ const AUTHOR_BLOCK_HTML = `
   </div>
 </div>`;
 
+const SITE_URL = `https:${SITE_BASEPATH ? '//mohamedattiadev.github.io' + SITE_BASEPATH : '//mohamedattiadev.github.io'}`;
+const OG_IMAGE = `${SITE_URL}/static/icon.png`;
+const SW_REGISTER = `<script>if('serviceWorker'in navigator){addEventListener('load',()=>{navigator.serviceWorker.register('${SITE_BASEPATH}/sw.js').catch(e=>console.warn('SW reg fail',e))})}</script>`;
+
 const allHtml = await glob(`${PUBLIC}/**/*.html`);
-console.log(`injecting author block into ${allHtml.length} html pages`);
+console.log(`injecting author block + meta + SW into ${allHtml.length} html pages`);
 for (const fp of allHtml) {
   try {
     const html = await fs.readFile(fp, 'utf8');
-    if (html.includes('exc-author-block')) continue;
     const $$ = load(html, { xmlMode: false });
-    const pt = $$('.page-title').first();
-    if (!pt.length) continue;
-    pt.after(AUTHOR_BLOCK_HTML);
+
+    // Inject author block (once)
+    if (!html.includes('exc-author-block')) {
+      const pt = $$('.page-title').first();
+      if (pt.length) pt.after(AUTHOR_BLOCK_HTML);
+    }
+
+    // OG / Twitter meta (once)
+    if (!$$('meta[property="og:title"]').length) {
+      const title = $$('title').first().text() || 'MY STUDYING EXCALI';
+      const desc = ($$('meta[name="description"]').attr('content') || 'Personal CS study vault — Excalidraw drawings, design patterns, OS, DB, networking notes').slice(0, 200);
+      const ogTags = [
+        `<meta property="og:type" content="website" />`,
+        `<meta property="og:site_name" content="MY STUDYING EXCALI" />`,
+        `<meta property="og:title" content="${title.replace(/"/g, '&quot;')}" />`,
+        `<meta property="og:description" content="${desc.replace(/"/g, '&quot;')}" />`,
+        `<meta property="og:image" content="${OG_IMAGE}" />`,
+        `<meta name="twitter:card" content="summary_large_image" />`,
+        `<meta name="twitter:title" content="${title.replace(/"/g, '&quot;')}" />`,
+        `<meta name="twitter:description" content="${desc.replace(/"/g, '&quot;')}" />`,
+        `<meta name="twitter:image" content="${OG_IMAGE}" />`,
+      ].join('\\n');
+      $$('head').append(ogTags);
+    }
+
+    // Service Worker register (once)
+    if (!html.includes('navigator.serviceWorker.register')) {
+      $$('body').append(SW_REGISTER);
+    }
+
     await fs.writeFile(fp, $$.html());
   } catch {}
 }
@@ -624,9 +660,29 @@ html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255
 
   $('body').append(`
 <script type="module">
-import React from 'https://esm.sh/react@18.2.0';
-import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
-import { Excalidraw } from 'https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps';
+let React, createRoot, Excalidraw;
+async function loadDeps() {
+  // Race two CDNs; whichever resolves first wins. Falls back if esm.sh is flaky.
+  const tries = [
+    async () => {
+      const r = await import('https://esm.sh/react@18.2.0');
+      const rd = await import('https://esm.sh/react-dom@18.2.0/client');
+      const e = await import('https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps');
+      return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
+    },
+    async () => {
+      const r = await import('https://cdn.skypack.dev/react@18.2.0');
+      const rd = await import('https://cdn.skypack.dev/react-dom@18.2.0/client');
+      const e = await import('https://cdn.skypack.dev/@excalidraw/excalidraw@0.18.0');
+      return { React: r.default || r, createRoot: rd.createRoot, Excalidraw: e.Excalidraw };
+    },
+  ];
+  let lastErr;
+  for (const t of tries) {
+    try { return await t(); } catch (err) { lastErr = err; console.warn('CDN load failed, trying next', err); }
+  }
+  throw lastErr;
+}
 
 const SCENE_SLUG = ${JSON.stringify(slug)};
 
@@ -651,6 +707,16 @@ async function mount() {
   const pctEl = el.querySelector('.exc-loading-pct');
   const labelEl = el.querySelector('.exc-loading-label');
   let displayedPct = 0;
+  try {
+    if (labelEl) labelEl.textContent = 'Loading Excalidraw…';
+    const deps = await loadDeps();
+    React = deps.React; createRoot = deps.createRoot; Excalidraw = deps.Excalidraw;
+  } catch (err) {
+    console.error('Excalidraw bundle failed to load', err);
+    if (labelEl) labelEl.textContent = 'Bundle failed to load — refresh to retry';
+    if (pctEl) pctEl.textContent = '!';
+    return;
+  }
   function setProgress(target, label) {
     if (label && labelEl) labelEl.textContent = label;
     // smooth-step the displayed value towards target
