@@ -56,6 +56,9 @@ jobs:
       - name: Quartz build
         run: npx quartz build
 
+      - name: Build self-hosted Excalidraw bundle
+        run: node scripts/build-vendor.mjs
+
       - name: Scene extractor + sidebar tree injection
         run: node scripts/build-excalidraw-viewer.mjs
 

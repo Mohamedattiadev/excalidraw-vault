@@ -61,8 +61,23 @@
   async function exportCanvasAsPdf() {
     const api = getApi();
     if (!api) throw new Error("Excalidraw API not ready");
+    // Prefer the self-hosted vendor bundle (already loaded for mount), then CDN.
+    async function loadExc() {
+      // Reuse already-loaded module if mount script exposed it on window
+      if (window.__excVendor && window.__excVendor.exportToCanvas) return window.__excVendor;
+      const bp = (document.body?.dataset?.basepath || '').replace(/\/$/, '');
+      const tries = [
+        async () => import(`${bp}/vendor/excalidraw.bundle.js`),
+        async () => import("https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps"),
+      ];
+      let lastErr;
+      for (const t of tries) {
+        try { return await t(); } catch (err) { lastErr = err; }
+      }
+      throw lastErr || new Error("Excalidraw bundle unavailable");
+    }
     const [excalMod, jspdfMod] = await Promise.all([
-      import("https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@18.2.0,react-dom@18.2.0&bundle-deps"),
+      loadExc(),
       import("https://esm.sh/jspdf@2.5.1"),
     ]);
     const exportToCanvas = excalMod.exportToCanvas;

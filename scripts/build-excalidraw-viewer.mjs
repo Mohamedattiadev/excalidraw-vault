@@ -488,11 +488,11 @@ for (const file of htmlFiles) {
   const depth = rel.split(path.sep).length - 1;
   const extrasSrc = (depth > 0 ? '../'.repeat(depth) : './') + 'static/exc-extras.js';
 
+  const vendorBase = (depth > 0 ? '../'.repeat(depth) : './') + 'vendor';
   $('head').append(`
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-<link rel="preconnect" href="https://esm.sh" crossorigin />
-<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.18.0/dist/prod/index.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.18.0/dist/prod/index.css" />
+<link rel="preload" as="style" href="${vendorBase}/excalidraw.css" />
+<link rel="stylesheet" href="${vendorBase}/excalidraw.css" />
+<link rel="modulepreload" href="${vendorBase}/excalidraw.bundle.js" />
 <style>${STATIC_TREE_CSS}</style>
 <style>
 html, body { height: 100%; margin: 0; }
@@ -660,10 +660,17 @@ html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255
 
   $('body').append(`
 <script type="module">
+const VENDOR_BUNDLE = ${JSON.stringify(vendorBase + '/excalidraw.bundle.js')};
 let React, createRoot, Excalidraw;
 async function loadDeps() {
-  // Race two CDNs; whichever resolves first wins. Falls back if esm.sh is flaky.
+  // 1) Local self-hosted bundle (fastest, most reliable, SW-cacheable)
+  // 2) esm.sh CDN fallback
+  // 3) skypack CDN fallback
   const tries = [
+    async () => {
+      const m = await import(VENDOR_BUNDLE);
+      return { React: m.React, createRoot: m.createRoot, Excalidraw: m.Excalidraw, exportToCanvas: m.exportToCanvas };
+    },
     async () => {
       const r = await import('https://esm.sh/react@18.2.0');
       const rd = await import('https://esm.sh/react-dom@18.2.0/client');
@@ -679,7 +686,7 @@ async function loadDeps() {
   ];
   let lastErr;
   for (const t of tries) {
-    try { return await t(); } catch (err) { lastErr = err; console.warn('CDN load failed, trying next', err); }
+    try { return await t(); } catch (err) { lastErr = err; console.warn('bundle source failed, trying next', err); }
   }
   throw lastErr;
 }
@@ -711,6 +718,8 @@ async function mount() {
     if (labelEl) labelEl.textContent = 'Loading Excalidraw…';
     const deps = await loadDeps();
     React = deps.React; createRoot = deps.createRoot; Excalidraw = deps.Excalidraw;
+    // Expose for PDF-export reuse so we don't re-fetch the bundle.
+    try { window.__excVendor = deps; } catch {}
   } catch (err) {
     console.error('Excalidraw bundle failed to load', err);
     if (labelEl) labelEl.textContent = 'Bundle failed to load — refresh to retry';

@@ -196,6 +196,27 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
 /* Hide right-rail completely (graph, ToC, backlinks already disabled in config) */
 .right.sidebar, .sidebar.right { display: none !important; }
 
+/* Mobile: sidebar slides up from bottom on small screens */
+@media (max-width: 640px) {
+  .exc-author-block { padding: 8px 10px; }
+  .exc-author-block .exc-author-name { font-size: 12px; }
+  .exc-author-block .exc-author-sub { font-size: 10px; }
+  .page[data-frame="excalidraw"] .excalidraw-sidebar {
+    width: 88% !important;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.35) !important;
+  }
+  .page[data-frame="excalidraw"] .exc-pdf-export { top: 8px; right: 8px; }
+}
+
+/* Print: hide UI, expand main content */
+@media print {
+  .left, .right, .sidebar, .footer, .breadcrumb-container, .exc-author-block,
+  .excalidraw-sidebar-toggle, .exc-pdf-export, .excali-minimap, .App-toolbar,
+  .App-menu_bottom, .layer-ui__wrapper { display: none !important; }
+  .center { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  body, html { background: #ffffff !important; color: #000 !important; }
+}
+
 /* Swap reader-mode book icon → pin icon */
 .readermode .readerIcon { display: none !important; }
 .readermode {
