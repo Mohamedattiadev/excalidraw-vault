@@ -39,10 +39,10 @@
     "quartz": "./quartz/bootstrap-cli.mjs"
   },
   "dependencies": {
-    "@clack/prompts": "^0.11.0",
-    "@excalidraw/excalidraw": "^0.18.0",
+    "@clack/prompts": "^1.5.1",
+    "@excalidraw/excalidraw": "^0.18.1",
     "@floating-ui/dom": "^1.7.4",
-    "@myriaddreamin/rehype-typst": "^0.6.0",
+    "@myriaddreamin/rehype-typst": "^0.7.0",
     "@napi-rs/simple-git": "0.1.22",
     "ansi-truncate": "^1.4.0",
     "async-mutex": "^0.5.0",
@@ -59,13 +59,13 @@
     "preact-render-to-string": "^6.6.5",
     "pretty-bytes": "^7.1.0",
     "pretty-time": "^1.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "rfdc": "^1.4.1",
     "serve-handler": "^6.1.6",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.1",
     "source-map-support": "^0.5.21",
     "to-vfile": "^8.0.0",
     "unified": "^11.0.5",
@@ -86,10 +86,10 @@
     "@types/ws": "^8.18.1",
     "@types/yargs": "^17.0.35",
     "cheerio": "^1.2.0",
-    "esbuild": "^0.27.7",
+    "esbuild": "^0.28.1",
     "glob": "^13.0.6",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
