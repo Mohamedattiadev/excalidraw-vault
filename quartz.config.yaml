@@ -14,7 +14,6 @@ configuration:
     - .obsidian
     - 9999 - Excalidraw
     - 999-Templates
-    - 90-Assets
     - _system
     - _cache
     - Collab
@@ -125,6 +124,9 @@ plugins:
     enabled: true
   - source: github:quartz-community/explorer
     enabled: true
+    options:
+      folderClickBehavior: collapse
+      folderDefaultState: collapsed
     layout:
       position: left
       priority: 50

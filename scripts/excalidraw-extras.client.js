@@ -3,13 +3,30 @@
   if (window.__excExtrasLoaded) return;
   window.__excExtrasLoaded = true;
 
-  // Sidebar toggle via document-level delegation so SPA navigation doesn't break it.
-  document.addEventListener("click", (e) => {
+  // Sidebar toggle — capture-phase + pointerdown so Excalidraw's React event layer can't swallow it.
+  function handleSidebarToggle(e) {
     const btn = e.target && e.target.closest && e.target.closest(".excalidraw-sidebar-toggle");
     if (!btn) return;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     const page = btn.closest(".page[data-frame='excalidraw']") || document.querySelector(".page[data-frame='excalidraw']");
     if (page) page.classList.toggle("excalidraw-sidebar-open");
-  }, true);
+  }
+  document.addEventListener("pointerdown", handleSidebarToggle, true);
+  document.addEventListener("click", handleSidebarToggle, true);
+
+  // Defensive: also bind directly when button appears (covers obscure cases where capture-phase doesn't fire).
+  const bindToggle = (btn) => {
+    if (btn.dataset.excBound === "1") return;
+    btn.dataset.excBound = "1";
+    btn.addEventListener("pointerdown", handleSidebarToggle, true);
+    btn.addEventListener("click", handleSidebarToggle, true);
+  };
+  const sidebarMO = new MutationObserver(() => {
+    document.querySelectorAll(".excalidraw-sidebar-toggle").forEach(bindToggle);
+  });
+  sidebarMO.observe(document.body, { childList: true, subtree: true });
+  document.querySelectorAll(".excalidraw-sidebar-toggle").forEach(bindToggle);
 
   const ICONS = {
     theme: '<svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>',
