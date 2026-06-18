@@ -432,16 +432,15 @@ html, body { height: 100%; margin: 0; }
 .exc-viewer-root { width: 100% !important; height: 100% !important; display: block; }
 .exc-viewer-root .excalidraw, .exc-viewer-root .excalidraw .excalidraw-wrapper { height: 100% !important; width: 100% !important; }
 .excalidraw__canvas { display: block; }
-/* Permanently kill web-embed iframes inside canvas — YouTube/Notion/etc all set X-Frame-Options=sameorigin
-   and render as broken "refused to connect" panels. We keep the embeddable element shape but suppress iframe rendering. */
-.exc-viewer-root iframe { display: none !important; }
-.exc-viewer-root .excalidraw__embeddable-container { background: transparent !important; }
-.exc-viewer-root .excalidraw__embeddable-container::after {
-  content: "external embed (click element to open URL)"; display: block; padding: 8px 12px;
-  font-family: "Assistant", system-ui, sans-serif; font-size: 12px; color: var(--exc-text-muted, #888);
-  background: rgba(167,139,250,0.08); border: 1px dashed rgba(167,139,250,0.4); border-radius: 6px;
-  pointer-events: none;
-}
+/* Kill ALL web-embed UI inside canvas — iframe, container, link popup. YouTube/Notion etc set
+   X-Frame-Options=sameorigin so embeds render as a "refused to connect" stub. We suppress all of it. */
+.exc-viewer-root iframe,
+.exc-viewer-root .excalidraw__embeddable-container,
+.exc-viewer-root .excalidraw-hyperlinkContainer,
+.exc-viewer-root .excalidraw-hyperlinkContainer__input { display: none !important; }
+/* Block the small purple link banner that hovers above the canvas */
+.exc-viewer-root .excalidraw-link__url,
+.exc-viewer-root .excalidraw-link-popup { display: none !important; }
 /* drop Quartz plugin floating zoom controls (we use native footer) */
 .excalidraw-controls, .excalidraw-zoom-in, .excalidraw-zoom-out, .excalidraw-reset { display: none !important; }
 /* sidebar toggle on top — boost z so native UI never covers it */
