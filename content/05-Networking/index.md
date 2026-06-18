@@ -18,4 +18,4 @@ Computer networks — protocols, architecture, addressing.
 
 ## Drawings
 
-- [[6 - Computer Networking|Computer Networking (main canvas)]]
+- [[Computer-Networking|Computer Networking (main canvas)]]

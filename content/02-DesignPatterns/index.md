@@ -16,4 +16,4 @@ OOP design patterns — Gang of Four classics + practical usage notes.
 
 ## Drawings
 
-- [[1- DesignPattern|Design Pattern (main canvas)]]
+- [[Design-Patterns|Design Pattern (main canvas)]]

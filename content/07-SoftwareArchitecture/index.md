@@ -17,7 +17,7 @@ Architecture patterns, quality attributes, and evaluation.
 
 ## Drawings
 
-- [[8.2 - Software Architecture - (5-..)|Software Architecture (Ch 5+)]]
+- [[Software-Architecture|Software Architecture (Ch 5+)]]
 
 ## PDFs
 

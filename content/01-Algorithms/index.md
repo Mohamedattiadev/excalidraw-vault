@@ -18,4 +18,4 @@ Visual notes on algorithm analysis & classic problems.
 
 ## Drawings
 
-- [[2- Algo|Algo (main canvas)]]
+- [[Algorithms|Algo (main canvas)]]

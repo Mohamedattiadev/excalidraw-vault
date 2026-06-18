@@ -18,5 +18,5 @@ Data analysis pipeline + mining algorithms.
 
 ## Drawings
 
-- [[3 - Data SCi.|Data Science]]
-- [[7- Data Mining|Data Mining]]
+- [[Data-Science|Data Science]]
+- [[Data-Mining|Data Mining]]

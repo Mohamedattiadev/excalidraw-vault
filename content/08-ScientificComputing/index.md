@@ -19,4 +19,4 @@ Numerical methods + matrix computations.
 
 ## Drawings
 
-- [[9- Scientific Computing|Scientific Computing (main canvas)]]
+- [[Scientific-Computing|Scientific Computing (main canvas)]]

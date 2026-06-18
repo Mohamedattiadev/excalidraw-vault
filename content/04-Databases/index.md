@@ -18,4 +18,4 @@ Relational database concepts, SQL, and design.
 
 ## Drawings
 
-- [[5- DB|DB (main canvas)]]
+- [[Databases|DB (main canvas)]]

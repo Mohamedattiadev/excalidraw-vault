@@ -19,4 +19,4 @@ Information security fundamentals, crypto, and attacks.
 
 ## Drawings
 
-- [[10 - secure|Security (main canvas)]]
+- [[Security|Security (main canvas)]]

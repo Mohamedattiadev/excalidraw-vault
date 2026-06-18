@@ -583,39 +583,32 @@ async function mount() {
   }
 
   const bp = getBasepath();
-  // Defer image loading — keep files out of initialFiles, stream via api.addFiles() post-mount.
-  const deferredFiles = [];
-  const sceneFiles = scene.files || {};
-  if (sceneFiles) {
-    for (const [id, f] of Object.entries(sceneFiles)) {
-      if (!f || typeof f.dataURL !== 'string') continue;
-      if (f.dataURL.startsWith('data:') || f.dataURL.startsWith('blob:')) continue;
-      const url = f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL;
-      deferredFiles.push({ id, mimeType: f.mimeType || '', url });
-      delete sceneFiles[id]; // remove from initialFiles so Excalidraw doesn't show broken-image placeholder
-    }
-  }
-  async function loadDeferredImages(api) {
-    if (!deferredFiles.length || !api || !api.addFiles) return;
-    const CONCURRENCY = 8;
+  // Inline images into scene.files before mount (Excalidraw needs dataURL in initialFiles to render).
+  // Parallel fetch w/ blob URLs — fast + no base64 conversion.
+  if (scene.files) {
+    const entries = Object.entries(scene.files).filter(([, f]) =>
+      f && typeof f.dataURL === 'string' && !f.dataURL.startsWith('data:') && !f.dataURL.startsWith('blob:'),
+    );
+    const CONCURRENCY = 12;
     let cursor = 0;
-    const worker = async () => {
-      while (cursor < deferredFiles.length) {
+    await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
+      while (cursor < entries.length) {
         const idx = cursor++;
-        const { id, url, mimeType } = deferredFiles[idx];
+        const [, f] = entries[idx];
+        const url = f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL;
         try {
           const res = await fetch(url);
           if (!res.ok) throw new Error('http ' + res.status);
           const blob = await res.blob();
-          const dataURL = URL.createObjectURL(blob);
-          api.addFiles([{ id, dataURL, mimeType: mimeType || blob.type, created: Date.now(), lastRetrieved: Date.now() }]);
+          f.dataURL = URL.createObjectURL(blob);
+          if (!f.mimeType) f.mimeType = blob.type;
         } catch (err) {
-          console.warn('image load failed', id, url, err);
+          console.warn('image load failed', url, err);
         }
       }
-    };
-    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    }));
   }
+  function loadDeferredImages() { /* no-op (kept for compat) */ }
 
   const LOCAL_KEY = 'exc-scene:' + SCENE_SLUG;
   let local = null;
@@ -638,9 +631,6 @@ async function mount() {
           if (els && els.length) api.scrollToContent(els, { fitToContent: true, animate: false });
         } catch (e) { console.warn('scrollToContent failed', e); }
       }, 50);
-      // Stream deferred images after first paint so LCP isn't blocked on N image fetches.
-      requestIdleCallback ? requestIdleCallback(() => loadDeferredImages(api), { timeout: 1500 })
-                          : setTimeout(() => loadDeferredImages(api), 50);
     }
   };
 

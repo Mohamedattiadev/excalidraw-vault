@@ -17,4 +17,4 @@ Exam-prep revision notes.
 
 ## Drawings
 
-- [[Prep Eng|Prep Eng (revision canvas)]]
+- [[Prep-Eng|Prep Eng (revision canvas)]]

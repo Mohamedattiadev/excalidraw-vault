@@ -18,5 +18,5 @@ OS internals notes — heavy focus on xv6 (the MIT teaching kernel).
 
 ## Drawings
 
-- [[000- xv6- workflow|xv6 Workflow]]
-- [[4- OS|OS (main canvas)]]
+- [[xv6-Workflow|xv6 Workflow]]
+- [[Operating-Systems|OS (main canvas)]]
