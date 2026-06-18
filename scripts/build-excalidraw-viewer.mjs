@@ -154,11 +154,12 @@ console.log(`site basepath: ${SITE_BASEPATH || '(none)'}`);
 
 // Build a static collapsible tree (no JS needed — uses <details>) from the scene list.
 // Replaces Quartz's broken explorer inside .excalidraw-sidebar.
-const ALLOWED_TOP_LEVEL = new Set([
-  '00-Index', '01-Algorithms', '02-DesignPatterns', '03-OS', '04-Databases',
-  '05-Networking', '06-DataScience-Mining', '07-SoftwareArchitecture',
-  '08-ScientificComputing', '09-Security', '10-English',
-]);
+// Auto-detect subject folders: any top-level dir whose name starts with a numeric prefix.
+const SUBJECT_DIR_RE = /^\d{1,2}[-._ ]/;
+const subjectDirs = (await fs.readdir(CONTENT, { withFileTypes: true }))
+  .filter((e) => e.isDirectory() && SUBJECT_DIR_RE.test(e.name))
+  .map((e) => e.name);
+const ALLOWED_TOP_LEVEL = new Set(subjectDirs);
 // Pretty-print labels: drop leading "NN", "NN-", "NN.", "NN -" prefixes and
 // excess hyphens/spaces, then title-case.
 function prettifyLabel(raw) {
