@@ -3,6 +3,7 @@
 Personal CS study vault published as an interactive site.
 
 **Live:** https://mohamedattiadev.github.io/excalidraw-vault/
+
 **Canonical vault (source notes):** https://github.com/Mohamedattiadev/my-study-summaries
 
 This repo is the **publishing pipeline** (Quartz v5 + patched Excalidraw plugin + scene extractor). The notes themselves live in the canonical vault above. Edits in the live site save per-drawing to your browser's `localStorage`; the static deploy stays clean.
