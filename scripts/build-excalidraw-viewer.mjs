@@ -419,6 +419,9 @@ for (const file of htmlFiles) {
   const extrasSrc = (depth > 0 ? '../'.repeat(depth) : './') + 'static/exc-extras.js';
 
   $('head').append(`
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://esm.sh" crossorigin />
+<link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.18.0/dist/prod/index.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@excalidraw/excalidraw@0.18.0/dist/prod/index.css" />
 <style>${STATIC_TREE_CSS}</style>
 <style>
@@ -438,7 +441,10 @@ html, body { height: 100%; margin: 0; }
 .page[data-frame="excalidraw"] .excalidraw-sidebar-toggle { z-index: 9999 !important; top: 12px; left: 12px; pointer-events: auto !important; }
 .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-sidebar-toggle { left: calc(var(--excalidraw-sidebar-width) + 12px); }
 .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-frame { padding-left: 0 !important; }
-.page[data-frame="excalidraw"] .excalidraw-sidebar { box-shadow: 4px 0 24px rgba(0,0,0,0.2) !important; z-index: 30; }
+.page[data-frame="excalidraw"] .excalidraw-sidebar { box-shadow: 4px 0 24px rgba(0,0,0,0.2) !important; z-index: 2000 !important; pointer-events: auto !important; isolation: isolate; }
+.page[data-frame="excalidraw"] .excalidraw-sidebar * { pointer-events: auto !important; }
+/* Native Excalidraw canvas must not capture pointer events over the sidebar area */
+.page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: var(--excalidraw-sidebar-width, 260px); }
 .page[data-frame="excalidraw"] .excalidraw-sidebar .darkmode { display: none !important; }
 /* force-show explorer file tree inside sidebar */
 .page[data-frame="excalidraw"] .excalidraw-sidebar .explorer,
