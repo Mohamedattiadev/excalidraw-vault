@@ -2,7 +2,6 @@
 title: Networking
 ---
 
-# Networking
 
 Computer networks — protocols, architecture, addressing.
 
@@ -18,4 +17,4 @@ Computer networks — protocols, architecture, addressing.
 
 ## Drawings
 
-- [[Computer-Networking|Computer Networking (main canvas)]]
+- [[Computer-Networking.excalidraw|Computer Networking (main canvas)]]

@@ -2,7 +2,6 @@
 title: Algorithms
 ---
 
-# Algorithms
 
 Visual notes on algorithm analysis & classic problems.
 
@@ -18,4 +17,4 @@ Visual notes on algorithm analysis & classic problems.
 
 ## Drawings
 
-- [[Algorithms|Algo (main canvas)]]
+- [[Algorithms.excalidraw|Algo (main canvas)]]

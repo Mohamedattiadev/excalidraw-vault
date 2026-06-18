@@ -437,7 +437,9 @@ html, body { height: 100%; margin: 0; }
 .excalidraw-container { display: block !important; height: 100% !important; width: 100% !important; min-height: 100% !important; padding: 0 !important; background: transparent !important; }
 .exc-viewer-root { width: 100% !important; height: 100% !important; display: block; }
 .exc-viewer-root .excalidraw, .exc-viewer-root .excalidraw .excalidraw-wrapper { height: 100% !important; width: 100% !important; }
-.excalidraw__canvas { display: block; }
+.exc-viewer-root .excalidraw-wrapper { will-change: transform; contain: layout paint; }
+.excalidraw__canvas { display: block; image-rendering: auto; }
+.excalidraw__canvas.interactive { will-change: transform; }
 /* Loading overlay — covers viewer until canvas paints + images decoded */
 .exc-loading-overlay {
   position: absolute; inset: 0; z-index: 1000;

@@ -2,7 +2,6 @@
 title: MY STUDYING EXCALI
 ---
 
-# MY STUDYING EXCALI
 
 Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from coursework. Optimized for revision and visual memory, not exhaustive textbook coverage.
 
@@ -31,3 +30,15 @@ Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from
 - Sidebar tree on canvas pages is static + native — no JS race conditions
 
 Source vault and structure: **https://github.com/Mohamedattiadev/my-study-summaries**
+
+---
+
+## About
+
+Built by **Mohamed Attia** — CS undergrad, sharing his study notes openly.
+
+- GitHub: [@Mohamedattiadev](https://github.com/Mohamedattiadev)
+- Canonical vault: [my-study-summaries](https://github.com/Mohamedattiadev/my-study-summaries)
+- Pipeline source: [excalidraw-vault](https://github.com/Mohamedattiadev/excalidraw-vault)
+
+Free to read, fork, and learn from. Not a textbook — a living visual revision deck.

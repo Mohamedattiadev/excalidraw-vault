@@ -2,7 +2,6 @@
 title: Security
 ---
 
-# Security
 
 Information security fundamentals, crypto, and attacks.
 
@@ -19,4 +18,4 @@ Information security fundamentals, crypto, and attacks.
 
 ## Drawings
 
-- [[Security|Security (main canvas)]]
+- [[Security.excalidraw|Security (main canvas)]]

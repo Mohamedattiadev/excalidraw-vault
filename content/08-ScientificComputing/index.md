@@ -2,7 +2,6 @@
 title: Scientific Computing
 ---
 
-# Scientific Computing
 
 Numerical methods + matrix computations.
 
@@ -19,4 +18,4 @@ Numerical methods + matrix computations.
 
 ## Drawings
 
-- [[Scientific-Computing|Scientific Computing (main canvas)]]
+- [[Scientific-Computing.excalidraw|Scientific Computing (main canvas)]]

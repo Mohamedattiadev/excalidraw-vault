@@ -126,7 +126,7 @@ plugins:
     enabled: true
     options:
       title: Index
-      folderClickBehavior: collapse
+      folderClickBehavior: link
       folderDefaultState: collapsed
     layout:
       position: left
@@ -180,7 +180,9 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/
+        GitHub: https://github.com/Mohamedattiadev
+        Source Vault: https://github.com/Mohamedattiadev/my-study-summaries
+        Site Repo: https://github.com/Mohamedattiadev/excalidraw-vault
   - source: github:quartz-community/spacer
     enabled: true
     options: {}

@@ -2,7 +2,6 @@
 title: Data Science & Mining
 ---
 
-# Data Science & Mining
 
 Data analysis pipeline + mining algorithms.
 
@@ -18,5 +17,5 @@ Data analysis pipeline + mining algorithms.
 
 ## Drawings
 
-- [[Data-Science|Data Science]]
-- [[Data-Mining|Data Mining]]
+- [[Data-Science.excalidraw|Data Science]]
+- [[Data-Mining.excalidraw|Data Mining]]

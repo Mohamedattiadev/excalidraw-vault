@@ -2,7 +2,6 @@
 title: Databases
 ---
 
-# Databases
 
 Relational database concepts, SQL, and design.
 
@@ -18,4 +17,4 @@ Relational database concepts, SQL, and design.
 
 ## Drawings
 
-- [[Databases|DB (main canvas)]]
+- [[Databases.excalidraw|DB (main canvas)]]

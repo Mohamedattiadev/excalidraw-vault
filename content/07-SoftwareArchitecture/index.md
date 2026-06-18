@@ -2,7 +2,6 @@
 title: Software Architecture
 ---
 
-# Software Architecture
 
 Architecture patterns, quality attributes, and evaluation.
 
@@ -17,7 +16,7 @@ Architecture patterns, quality attributes, and evaluation.
 
 ## Drawings
 
-- [[Software-Architecture|Software Architecture (Ch 5+)]]
+- [[Software-Architecture.excalidraw|Software Architecture (Ch 5+)]]
 
 ## PDFs
 

@@ -2,7 +2,6 @@
 title: Operating Systems
 ---
 
-# Operating Systems
 
 OS internals notes — heavy focus on xv6 (the MIT teaching kernel).
 
@@ -18,5 +17,5 @@ OS internals notes — heavy focus on xv6 (the MIT teaching kernel).
 
 ## Drawings
 
-- [[xv6-Workflow|xv6 Workflow]]
-- [[Operating-Systems|OS (main canvas)]]
+- [[xv6-Workflow.excalidraw|xv6 Workflow]]
+- [[Operating-Systems.excalidraw|OS (main canvas)]]
