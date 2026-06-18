@@ -1,0 +1,132 @@
+[
+  {
+    "id": "cfe10a45c46b47279c52",
+    "type": "line",
+    "x": 0,
+    "y": 0,
+    "width": 120,
+    "height": 90,
+    "angle": 0,
+    "strokeColor": "#41B883",
+    "backgroundColor": "#41B883",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1290626618,
+    "version": 1,
+    "versionNonce": 1663611446,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651452,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        120,
+        0
+      ],
+      [
+        60,
+        90
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "213610c2195843249ee1",
+    "type": "line",
+    "x": 24,
+    "y": 0,
+    "width": 72,
+    "height": 56,
+    "angle": 0,
+    "strokeColor": "#34495E",
+    "backgroundColor": "#34495E",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 2025856686,
+    "version": 1,
+    "versionNonce": 7830327,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651452,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        72,
+        0
+      ],
+      [
+        36,
+        56
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "6cacda04962d4f93b839",
+    "type": "text",
+    "x": 0,
+    "y": 95,
+    "width": 120,
+    "height": 22,
+    "angle": 0,
+    "strokeColor": "#41B883",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1961279768,
+    "version": 1,
+    "versionNonce": 1527719007,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651452,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "text": "Vue",
+    "originalText": "Vue",
+    "fontSize": 16,
+    "fontFamily": 1,
+    "textAlign": "center",
+    "verticalAlign": "middle",
+    "baseline": 18,
+    "containerId": null,
+    "lineHeight": 1.25,
+    "autoResize": true
+  }
+]

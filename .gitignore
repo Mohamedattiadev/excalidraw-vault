@@ -1,5 +1,4 @@
 .DS_Store
-.gitignore
 node_modules
 public
 prof
@@ -9,5 +8,26 @@ tsconfig.tsbuildinfo
 private/
 .replit
 replit.nix
-.quartz/
 quartz/cli/tui/dist/
+quartz/.quartz-cache/
+content.backup-*
+
+# Ignore .quartz/ entirely EXCEPT the two plugins we patched.
+# Other plugins re-install fresh via `npm run install-plugins` (per quartz.config.yaml).
+.quartz/*
+!.quartz/plugins/
+.quartz/plugins/*
+!.quartz/plugins/explorer/
+!.quartz/plugins/obsidian-plugin-excalidraw/
+
+# Within those two plugins, drop heavy/regenerable dirs
+.quartz/plugins/explorer/node_modules/
+.quartz/plugins/explorer/.git/
+.quartz/plugins/explorer/test/
+.quartz/plugins/explorer/coverage/
+
+.quartz/plugins/obsidian-plugin-excalidraw/node_modules/
+.quartz/plugins/obsidian-plugin-excalidraw/.git/
+.quartz/plugins/obsidian-plugin-excalidraw/test/
+.quartz/plugins/obsidian-plugin-excalidraw/coverage/
+.quartz/plugins/obsidian-plugin-excalidraw/.tsup/

@@ -1,0 +1,136 @@
+[
+  {
+    "id": "72a2ac11e0ff4e80a187",
+    "type": "line",
+    "x": 0,
+    "y": 0,
+    "width": 100,
+    "height": 100,
+    "angle": 0,
+    "strokeColor": "#10b981",
+    "backgroundColor": "#10b981",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 107708631,
+    "version": 1,
+    "versionNonce": 1631486398,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651652108,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        15
+      ],
+      [
+        50,
+        0
+      ],
+      [
+        100,
+        15
+      ],
+      [
+        90,
+        70
+      ],
+      [
+        50,
+        100
+      ],
+      [
+        10,
+        70
+      ],
+      [
+        0,
+        15
+      ]
+    ]
+  },
+  {
+    "id": "76b2368d7bd145b6b6c5",
+    "type": "line",
+    "x": 25,
+    "y": 50,
+    "width": 18,
+    "height": 18,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 5,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1736551937,
+    "version": 1,
+    "versionNonce": 2118157482,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651652108,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        18,
+        18
+      ]
+    ]
+  },
+  {
+    "id": "239f28996d344ae7a87f",
+    "type": "line",
+    "x": 43,
+    "y": 68,
+    "width": 30,
+    "height": -35,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 5,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1698400451,
+    "version": 1,
+    "versionNonce": 909965658,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651652108,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        30,
+        -35
+      ]
+    ]
+  }
+]

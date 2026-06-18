@@ -1,0 +1,102 @@
+[
+  {
+    "id": "1b039c282e5b48f88c7c",
+    "type": "line",
+    "x": 6.378964829999703,
+    "y": 5,
+    "width": 107.2420703400006,
+    "height": 104.55328773463305,
+    "angle": 0,
+    "strokeColor": "#326CE5",
+    "backgroundColor": "#326CE5",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 447111820,
+    "version": 1,
+    "versionNonce": 965244006,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651038,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        53.6210351700003,
+        0
+      ],
+      [
+        96.62176670574193,
+        20.708060897769656
+      ],
+      [
+        107.2420703400006,
+        67.2386513675973
+      ],
+      [
+        77.484640821466,
+        104.55328773463305
+      ],
+      [
+        29.757429518534607,
+        104.55328773463305
+      ],
+      [
+        0,
+        67.2386513675973
+      ],
+      [
+        10.620303634258654,
+        20.708060897769663
+      ],
+      [
+        53.6210351700003,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "53e49d05322441769d29",
+    "type": "text",
+    "x": 20,
+    "y": 45,
+    "width": 80,
+    "height": 30,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1246762706,
+    "version": 1,
+    "versionNonce": 1433640269,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651038,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "text": "k8s",
+    "originalText": "k8s",
+    "fontSize": 22,
+    "fontFamily": 1,
+    "textAlign": "center",
+    "verticalAlign": "middle",
+    "baseline": 18,
+    "containerId": null,
+    "lineHeight": 1.25,
+    "autoResize": true
+  }
+]

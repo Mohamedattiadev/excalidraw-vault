@@ -1,0 +1,108 @@
+[
+  {
+    "id": "f740c1efa36f45129f76",
+    "type": "rectangle",
+    "x": 0,
+    "y": 0,
+    "width": 120,
+    "height": 80,
+    "angle": 0,
+    "strokeColor": "#0ea5e9",
+    "backgroundColor": "#0ea5e9",
+    "fillStyle": "solid",
+    "strokeWidth": 1,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": {
+      "type": 3
+    },
+    "seed": 1366029651,
+    "version": 1,
+    "versionNonce": 1433169198,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651784,
+    "link": null,
+    "locked": false,
+    "customData": null
+  },
+  {
+    "id": "d740e619952b4b6ea8d1",
+    "type": "line",
+    "x": 0,
+    "y": 0,
+    "width": 60,
+    "height": 40,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 3,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1482516664,
+    "version": 1,
+    "versionNonce": 570381657,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651784,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        60,
+        40
+      ]
+    ]
+  },
+  {
+    "id": "7cccf5b3b6f148a59fe4",
+    "type": "line",
+    "x": 60,
+    "y": 40,
+    "width": 60,
+    "height": -40,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 3,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1944600852,
+    "version": 1,
+    "versionNonce": 356357518,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651785,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        60,
+        -40
+      ]
+    ]
+  }
+]

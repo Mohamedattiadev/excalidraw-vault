@@ -1,0 +1,106 @@
+[
+  {
+    "id": "8483b5026a0f41699799",
+    "type": "ellipse",
+    "x": 0,
+    "y": 0,
+    "width": 100,
+    "height": 100,
+    "angle": 0,
+    "strokeColor": "#10b981",
+    "backgroundColor": "#10b981",
+    "fillStyle": "solid",
+    "strokeWidth": 3,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 474027929,
+    "version": 1,
+    "versionNonce": 974682167,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651632,
+    "link": null,
+    "locked": false,
+    "customData": null
+  },
+  {
+    "id": "3a298562e88c4df1b0ba",
+    "type": "line",
+    "x": 25,
+    "y": 50,
+    "width": 20,
+    "height": 20,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 5,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 45919817,
+    "version": 1,
+    "versionNonce": 1656266932,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651632,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        20,
+        20
+      ]
+    ]
+  },
+  {
+    "id": "daeb178b8c324a388ac3",
+    "type": "line",
+    "x": 45,
+    "y": 70,
+    "width": 30,
+    "height": -35,
+    "angle": 0,
+    "strokeColor": "#ffffff",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 5,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1581615996,
+    "version": 1,
+    "versionNonce": 1816277921,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651632,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        30,
+        -35
+      ]
+    ]
+  }
+]

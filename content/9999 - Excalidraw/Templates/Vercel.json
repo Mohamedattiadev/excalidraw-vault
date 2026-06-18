@@ -1,0 +1,86 @@
+[
+  {
+    "id": "a48a2c30682845099d1b",
+    "type": "line",
+    "x": 0,
+    "y": 0,
+    "width": 120,
+    "height": 90,
+    "angle": 0,
+    "strokeColor": "#000000",
+    "backgroundColor": "#000000",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1548432826,
+    "version": 1,
+    "versionNonce": 1264463700,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651199,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        60,
+        0
+      ],
+      [
+        120,
+        90
+      ],
+      [
+        0,
+        90
+      ],
+      [
+        60,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "0538e1f4a4024de3be06",
+    "type": "text",
+    "x": 0,
+    "y": 95,
+    "width": 120,
+    "height": 26,
+    "angle": 0,
+    "strokeColor": "#000000",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 469856790,
+    "version": 1,
+    "versionNonce": 1046876370,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651200,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "text": "Vercel",
+    "originalText": "Vercel",
+    "fontSize": 18,
+    "fontFamily": 1,
+    "textAlign": "center",
+    "verticalAlign": "middle",
+    "baseline": 18,
+    "containerId": null,
+    "lineHeight": 1.25,
+    "autoResize": true
+  }
+]

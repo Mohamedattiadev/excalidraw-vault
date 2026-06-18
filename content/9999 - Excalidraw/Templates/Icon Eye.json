@@ -1,0 +1,108 @@
+[
+  {
+    "id": "0accdf92850d4c8a9ce2",
+    "type": "line",
+    "x": 0,
+    "y": 0,
+    "width": 100,
+    "height": 80,
+    "angle": 0,
+    "strokeColor": "#1e293b",
+    "backgroundColor": "#ffffff",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1266710107,
+    "version": 1,
+    "versionNonce": 1272014409,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651997,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        40
+      ],
+      [
+        50,
+        0
+      ],
+      [
+        100,
+        40
+      ],
+      [
+        50,
+        80
+      ],
+      [
+        0,
+        40
+      ]
+    ]
+  },
+  {
+    "id": "28fccd04f68948d3b2c4",
+    "type": "ellipse",
+    "x": 35,
+    "y": 25,
+    "width": 30,
+    "height": 30,
+    "angle": 0,
+    "strokeColor": "#0ea5e9",
+    "backgroundColor": "#0ea5e9",
+    "fillStyle": "solid",
+    "strokeWidth": 1,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 249618717,
+    "version": 1,
+    "versionNonce": 1518079550,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651997,
+    "link": null,
+    "locked": false,
+    "customData": null
+  },
+  {
+    "id": "ed46ccd2dc4f4d8da36f",
+    "type": "ellipse",
+    "x": 43,
+    "y": 33,
+    "width": 14,
+    "height": 14,
+    "angle": 0,
+    "strokeColor": "#1e293b",
+    "backgroundColor": "#1e293b",
+    "fillStyle": "solid",
+    "strokeWidth": 1,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 137167033,
+    "version": 1,
+    "versionNonce": 988070609,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651997,
+    "link": null,
+    "locked": false,
+    "customData": null
+  }
+]

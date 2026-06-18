@@ -1,0 +1,136 @@
+[
+  {
+    "id": "8f33dcf9621f450d864e",
+    "type": "line",
+    "x": 5,
+    "y": 0,
+    "width": 90,
+    "height": 110,
+    "angle": 0,
+    "strokeColor": "#1B5E20",
+    "backgroundColor": "#47A248",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1974491113,
+    "version": 1,
+    "versionNonce": 2004785952,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651302,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        45,
+        0
+      ],
+      [
+        90,
+        40
+      ],
+      [
+        75,
+        90
+      ],
+      [
+        45,
+        110
+      ],
+      [
+        15,
+        90
+      ],
+      [
+        0,
+        40
+      ],
+      [
+        45,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "4916f43252df461599d2",
+    "type": "line",
+    "x": 50,
+    "y": 0,
+    "width": 0,
+    "height": 110,
+    "angle": 0,
+    "strokeColor": "#1B5E20",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1459386280,
+    "version": 1,
+    "versionNonce": 570026496,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651303,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        110
+      ]
+    ]
+  },
+  {
+    "id": "b5652b2bc6db42e69483",
+    "type": "text",
+    "x": 0,
+    "y": 115,
+    "width": 100,
+    "height": 22,
+    "angle": 0,
+    "strokeColor": "#47A248",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 573194154,
+    "version": 1,
+    "versionNonce": 1341787800,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651651303,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "text": "MongoDB",
+    "originalText": "MongoDB",
+    "fontSize": 13,
+    "fontFamily": 1,
+    "textAlign": "center",
+    "verticalAlign": "middle",
+    "baseline": 18,
+    "containerId": null,
+    "lineHeight": 1.25,
+    "autoResize": true
+  }
+]

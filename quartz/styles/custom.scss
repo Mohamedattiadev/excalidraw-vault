@@ -1,3 +1,104 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+/* ===== Native Excalidraw-flavored Explorer (homepage + non-excalidraw pages) ===== */
+
+:root {
+  --exc-island-bg: #ffffff;
+  --exc-text: #1b1b1f;
+  --exc-text-muted: #6b6b75;
+  --exc-border: rgba(0, 0, 0, 0.08);
+  --exc-hover: rgba(0, 0, 0, 0.06);
+  --exc-primary: #1971c2;
+  --exc-primary-bg: #d3e4fd;
+  --exc-primary-fg: #0d62ad;
+}
+
+:root[saved-theme="dark"] {
+  --exc-island-bg: #232329;
+  --exc-text: #e3e3e8;
+  --exc-text-muted: #888893;
+  --exc-border: rgba(255, 255, 255, 0.08);
+  --exc-hover: rgba(255, 255, 255, 0.06);
+  --exc-primary: #74c0fc;
+  --exc-primary-bg: rgba(116, 192, 252, 0.22);
+  --exc-primary-fg: #a5d8ff;
+}
+
+.explorer {
+  font-family: "Assistant", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.005em;
+  color: var(--exc-text);
+}
+
+.explorer h1, .explorer h2, .explorer .explorer-toggle {
+  font-family: "Assistant", system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--exc-text);
+}
+
+.explorer .explorer-ul,
+.explorer ul.overflow {
+  font-size: 13px;
+}
+
+.explorer .folder-container .folder-button,
+.explorer .folder-container .folder-title,
+.explorer .folder-title {
+  font-weight: 600;
+  color: var(--exc-text);
+  font-family: inherit;
+  letter-spacing: 0.005em;
+}
+
+.explorer .folder-icon {
+  color: var(--exc-text-muted);
+  opacity: 0.65;
+}
+
+.explorer .folder-container:hover,
+.explorer .folder-button:hover {
+  background: var(--exc-hover);
+  border-radius: 6px;
+}
+
+.explorer .folder-outer > ul {
+  border-left: 1px solid var(--exc-border);
+  margin-left: 6px;
+  padding-left: 8px;
+}
+
+.explorer li a,
+.explorer .file a {
+  color: var(--exc-text);
+  text-decoration: none;
+  font-weight: 400;
+  border-radius: 6px;
+  padding: 3px 8px;
+  display: inline-block;
+  transition: background 80ms ease, color 80ms ease;
+}
+
+.explorer li a:hover {
+  background: var(--exc-hover);
+  color: var(--exc-primary);
+}
+
+.explorer li a.active,
+.explorer li a.is-active {
+  background: var(--exc-primary-bg);
+  color: var(--exc-primary-fg);
+  font-weight: 600;
+}
+
+.explorer .explorer-content::-webkit-scrollbar { width: 6px; }
+.explorer .explorer-content::-webkit-scrollbar-thumb {
+  background: var(--exc-border);
+  border-radius: 3px;
+}
+
+/* Sidebar title (homepage left rail) */
+.page-title a {
+  font-family: "Assistant", system-ui, sans-serif;
+  color: var(--exc-text);
+}

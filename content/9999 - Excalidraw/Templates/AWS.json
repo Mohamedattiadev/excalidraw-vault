@@ -1,0 +1,124 @@
+[
+  {
+    "id": "02936364583a48409333",
+    "type": "rectangle",
+    "x": 0,
+    "y": 0,
+    "width": 140,
+    "height": 90,
+    "angle": 0,
+    "strokeColor": "#FF9900",
+    "backgroundColor": "#FF9900",
+    "fillStyle": "solid",
+    "strokeWidth": 1,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [
+      "90ea683132444535bbba"
+    ],
+    "frameId": null,
+    "roundness": {
+      "type": 3
+    },
+    "seed": 605804381,
+    "version": 1,
+    "versionNonce": 1031679144,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651650944,
+    "link": null,
+    "locked": false,
+    "customData": null
+  },
+  {
+    "id": "ca5cf8880db34f85b9fb",
+    "type": "text",
+    "x": 40.3,
+    "y": 22.5,
+    "width": 59.400000000000006,
+    "height": 45,
+    "angle": 0,
+    "strokeColor": "#232F3E",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 2,
+    "strokeStyle": "solid",
+    "roughness": 1,
+    "opacity": 100,
+    "groupIds": [
+      "90ea683132444535bbba"
+    ],
+    "frameId": null,
+    "roundness": null,
+    "seed": 1213346722,
+    "version": 1,
+    "versionNonce": 1426442560,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651650944,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "text": "aws",
+    "originalText": "aws",
+    "fontSize": 36,
+    "fontFamily": 1,
+    "textAlign": "center",
+    "verticalAlign": "middle",
+    "baseline": 18,
+    "containerId": null,
+    "lineHeight": 1.25,
+    "autoResize": true
+  },
+  {
+    "id": "e3c83cc4d7ae4155b30e",
+    "type": "line",
+    "x": 25,
+    "y": 60,
+    "width": 90,
+    "height": 14,
+    "angle": 0,
+    "strokeColor": "#232F3E",
+    "backgroundColor": "transparent",
+    "fillStyle": "solid",
+    "strokeWidth": 4,
+    "strokeStyle": "solid",
+    "roughness": 0,
+    "opacity": 100,
+    "groupIds": [],
+    "frameId": null,
+    "roundness": null,
+    "seed": 632345201,
+    "version": 1,
+    "versionNonce": 1530645335,
+    "isDeleted": false,
+    "boundElements": null,
+    "updated": 1781651650944,
+    "link": null,
+    "locked": false,
+    "customData": null,
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        25,
+        10
+      ],
+      [
+        50,
+        14
+      ],
+      [
+        75,
+        10
+      ],
+      [
+        90,
+        0
+      ]
+    ]
+  }
+]

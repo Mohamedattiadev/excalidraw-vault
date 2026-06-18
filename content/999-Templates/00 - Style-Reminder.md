@@ -1,0 +1,35 @@
+---
+cssclasses:
+  -  pen-gray
+  - pen-blue
+  - pen-red
+  - pen-orange
+  -  pen-black
+  - pen-green
+  - pen-blue
+  - pen-purple
+  - pen-pink
+  - pen-teal
+  - pen-white
+  - page-graphite
+  - page-waves
+  - page-diagonal
+  - page-solarized
+  - page-dotted
+  - page-lined
+  - page-cross-random
+  - page-grain
+  - page-ladder
+  - page-isomatric
+  - center-titles
+  - page-lavender
+  - page-peach
+  - page-manila
+  - page-white
+  - page-chalk
+  - page-mint
+  - page-blueprint
+  - page-grid
+  - page-diagonal
+parent: "[[0000 - Template Index]]"
+---
