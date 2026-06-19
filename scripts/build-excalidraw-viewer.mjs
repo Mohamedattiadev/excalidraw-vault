@@ -900,16 +900,54 @@ function getTheme() {
   return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-// ---------- IndexedDB snapshot cache (per-user, browser-local) ----------
+// ---------- IndexedDB stores (per-user, browser-local) ----------
+//   exc-snapshots: dataURL preview for instant paint
+//   exc-edits   : full user edits (elements + user-added files) — beats the 5 MB localStorage cap big scenes blow past.
 const SNAP_DB = 'exc-snapshots';
 const SNAP_STORE = 'snaps';
+const EDITS_STORE = 'edits';
 function snapOpen() {
   return new Promise((res, rej) => {
-    const r = indexedDB.open(SNAP_DB, 1);
-    r.onupgradeneeded = () => r.result.createObjectStore(SNAP_STORE);
+    const r = indexedDB.open(SNAP_DB, 2);
+    r.onupgradeneeded = () => {
+      const db = r.result;
+      if (!db.objectStoreNames.contains(SNAP_STORE)) db.createObjectStore(SNAP_STORE);
+      if (!db.objectStoreNames.contains(EDITS_STORE)) db.createObjectStore(EDITS_STORE);
+    };
     r.onsuccess = () => res(r.result);
     r.onerror = () => rej(r.error);
   });
+}
+async function editsGet(slug) {
+  try {
+    const db = await snapOpen();
+    return await new Promise((res, rej) => {
+      const tx = db.transaction(EDITS_STORE, 'readonly');
+      const req = tx.objectStore(EDITS_STORE).get(slug);
+      req.onsuccess = () => res(req.result || null);
+      req.onerror = () => rej(req.error);
+    });
+  } catch { return null; }
+}
+async function editsPut(slug, payload) {
+  try {
+    const db = await snapOpen();
+    await new Promise((res, rej) => {
+      const tx = db.transaction(EDITS_STORE, 'readwrite');
+      tx.objectStore(EDITS_STORE).put({ ...payload, ts: Date.now() }, slug);
+      tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+    });
+  } catch {}
+}
+async function editsDel(slug) {
+  try {
+    const db = await snapOpen();
+    await new Promise((res, rej) => {
+      const tx = db.transaction(EDITS_STORE, 'readwrite');
+      tx.objectStore(EDITS_STORE).delete(slug);
+      tx.oncomplete = res; tx.onerror = () => rej(tx.error);
+    });
+  } catch {}
 }
 async function snapGet(slug) {
   try {
@@ -1027,11 +1065,18 @@ async function mount() {
   function loadDeferredImages() { /* no-op (kept for compat) */ }
 
   const LOCAL_KEY = 'exc-scene:' + SCENE_SLUG;
+  // Prefer IDB (no ~5 MB cap; big scenes broke localStorage path). Fall back to legacy localStorage.
   let local = null;
   try {
-    const raw = localStorage.getItem(LOCAL_KEY);
-    if (raw) local = JSON.parse(raw);
+    const idb = await editsGet(SCENE_SLUG);
+    if (idb && Array.isArray(idb.elements)) local = idb;
   } catch {}
+  if (!local) {
+    try {
+      const raw = localStorage.getItem(LOCAL_KEY);
+      if (raw) local = JSON.parse(raw);
+    } catch {}
+  }
   const initialElements = (local && Array.isArray(local.elements) && local.elements.length) ? local.elements : scene.elements;
   const initialFiles = { ...(scene.files || {}), ...((local && local.files) || {}) };
 
@@ -1054,18 +1099,17 @@ async function mount() {
   let lastVersion = -1;
   let pendingElements = null, pendingFiles = null;
   function doSave() {
-    // Reset flow nulls window.__excResetting before reload; skip persistence so canonical scene restores.
+    // Reset flow sets window.__excResetting before reload; skip persistence so canonical scene restores.
     if (window.__excResetting) return;
     if (!pendingElements) return;
+    const payloadObj = { elements: pendingElements, files: filterUserFiles(pendingFiles, scene.files) };
+    // Primary store: IndexedDB (no payload cap).
+    editsPut(SCENE_SLUG, payloadObj).catch(() => {});
+    // Secondary: localStorage as a sync fallback (works on tabs without IDB or while IDB write is in flight).
     try {
-      const payloadObj = { elements: pendingElements, files: filterUserFiles(pendingFiles, scene.files) };
       let payload = JSON.stringify(payloadObj);
-      if (payload.length > 4_500_000) {
-        // Drop user files to fit. Elements alone almost always fit.
-        payload = JSON.stringify({ elements: pendingElements, files: {} });
-      }
-      if (payload.length > 4_500_000) return;
-      localStorage.setItem(LOCAL_KEY, payload);
+      if (payload.length > 4_500_000) payload = JSON.stringify({ elements: pendingElements, files: {} });
+      if (payload.length <= 4_500_000) localStorage.setItem(LOCAL_KEY, payload);
     } catch (e) {
       if (!(e && e.name === 'QuotaExceededError')) console.warn('localStorage save failed', e);
     }

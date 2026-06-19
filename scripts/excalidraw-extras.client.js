@@ -80,14 +80,21 @@
       // Signal mount-script's beforeunload/pagehide handlers to skip persistence on the upcoming reload.
       try { window.__excResetting = true; } catch {}
       try { if (slug) localStorage.removeItem("exc-scene:" + slug); } catch {}
-      // Also drop the cached snapshot for this slug so a fresh one is captured next render.
+      // Drop IDB stores: edits (user changes) AND snaps (cached preview).
       try {
-        const req = indexedDB.open("exc-snapshots", 1);
+        const req = indexedDB.open("exc-snapshots", 2);
+        req.onupgradeneeded = () => {
+          const db = req.result;
+          if (!db.objectStoreNames.contains("snaps")) db.createObjectStore("snaps");
+          if (!db.objectStoreNames.contains("edits")) db.createObjectStore("edits");
+        };
         req.onsuccess = () => {
           const db = req.result;
           try {
-            const tx = db.transaction("snaps", "readwrite");
-            tx.objectStore("snaps").delete(slug);
+            const stores = ["snaps", "edits"].filter((s) => db.objectStoreNames.contains(s));
+            if (!stores.length) return location.reload();
+            const tx = db.transaction(stores, "readwrite");
+            for (const s of stores) tx.objectStore(s).delete(slug);
             tx.oncomplete = () => location.reload();
             tx.onerror = () => location.reload();
           } catch { location.reload(); }
