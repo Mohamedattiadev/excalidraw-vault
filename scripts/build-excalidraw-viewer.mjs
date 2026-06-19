@@ -831,6 +831,22 @@ html[saved-theme="dark"] .excali-minimap canvas { background: #1b1b1f; }
 }
 html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255,255,0.08); color: #888; }
 .exc-zoombox-overlay { position: absolute; inset: 0; z-index: 4; cursor: crosshair; background: transparent; display: none; }
+/* Brand override: Excalidraw defaults to blue (#1971c2); use vault purple instead. */
+.excalidraw-container, .excalidraw {
+  --color-primary: #7b5cd6 !important;
+  --color-primary-darker: #6b4cc6 !important;
+  --color-primary-darkest: #5e3fbd !important;
+  --color-primary-light: rgba(123,92,214,0.16) !important;
+  --color-primary-light-darker: rgba(123,92,214,0.28) !important;
+  --color-primary-hover: #6b4cc6 !important;
+  --color-selection: #7b5cd6 !important;
+  --color-brand-active: #5e3fbd !important;
+  --color-brand-hover: #6b4cc6 !important;
+  --color-promo: #7b5cd6 !important;
+}
+.excalidraw-container ::selection, .excalidraw ::selection { background: rgba(123,92,214,0.35) !important; color: inherit !important; }
+.App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(123,92,214,0.16) !important; color: #7b5cd6 !important; }
+html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(167,139,250,0.22) !important; color: #a78bfa !important; }
 </style>
 `);
 
