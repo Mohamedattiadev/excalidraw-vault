@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write
 
 concurrency:
   group: pages
@@ -60,19 +61,45 @@ jobs:
         run: node scripts/build-vendor.mjs
 
       - name: Restore scene extractor cache
-        uses: actions/cache@v4
+        id: scene-cache
+        uses: actions/cache/restore@v4
         with:
           path: |
             public/_scenes
             public/_files
-          key: scenes-v1-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-${{ hashFiles('content/**/*.md') }}
+          key: scenes-v2-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-${{ github.run_id }}
           restore-keys: |
-            scenes-v1-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-
-            scenes-v1-
+            scenes-v2-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-
+            scenes-v2-
 
       - name: Scene extractor + sidebar tree injection
-        timeout-minutes: 25
+        timeout-minutes: 15
+        env:
+          SCENE_TIME_BUDGET_MS: "600000"
+          SCENE_CHUNK_SIZE: "200"
+          SCENE_CHUNK_THRESHOLD: "400"
         run: node scripts/build-excalidraw-viewer.mjs
+
+      - name: Save scene extractor cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            public/_scenes
+            public/_files
+          key: scenes-v2-${{ hashFiles('scripts/build-excalidraw-viewer.mjs') }}-${{ github.run_id }}
+
+      - name: Re-trigger deploy if scenes incomplete
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f .exc-incomplete ]; then
+            echo "Scenes incomplete — triggering next deploy"
+            gh workflow run pages.yml --ref v5 -R ${{ github.repository }}
+          else
+            echo "All scenes done."
+          fi
 
       - name: Optimize images (webp + downscale)
         run: node scripts/optimize-images.mjs

@@ -54,8 +54,10 @@ async function copyFileOnce(fp, hash) {
   return { mime, outName };
 }
 
-async function resolveEmbedded(data, imgIndex) {
+async function resolveEmbedded(data, imgIndex, chunkCap = Infinity) {
   data.files = data.files || {};
+  let written = 0;
+  let pending = 0;
   // Inline base64 dataURLs from compressed JSON files → write to disk, replace with URL.
   for (const [hash, file] of Object.entries(data.files)) {
     if (!file?.dataURL || !file.dataURL.startsWith('data:')) continue;
@@ -65,10 +67,12 @@ async function resolveEmbedded(data, imgIndex) {
     const ext = Object.entries(MIME).find(([, v]) => v === mime)?.[0] ?? '.bin';
     const outName = `${hash}${ext}`;
     const outPath = path.join(FILES_DIR, outName);
-    try {
-      await fs.access(outPath);
-    } catch {
+    let exists = false;
+    try { await fs.access(outPath); exists = true; } catch {}
+    if (!exists) {
+      if (written >= chunkCap) { pending++; continue; }
       await fs.writeFile(outPath, Buffer.from(m[2], 'base64'));
+      written++;
     }
     data.files[hash] = { id: hash, dataURL: `/_files/${outName}`, mimeType: mime, created: Date.now(), lastRetrieved: Date.now() };
   }
@@ -79,18 +83,24 @@ async function resolveEmbedded(data, imgIndex) {
       const name = (wikilink.split('/').pop() ?? '').toLowerCase();
       const fp = imgIndex.get(name);
       if (!fp) continue;
+      const ext = path.extname(fp).toLowerCase();
+      const outPath = path.join(FILES_DIR, `${hash}${ext}`);
+      let exists = false;
+      try { await fs.access(outPath); exists = true; } catch {}
+      if (exists) {
+        const mime = MIME[ext] ?? 'application/octet-stream';
+        data.files[hash] = { id: hash, dataURL: `/_files/${hash}${ext}`, mimeType: mime, created: Date.now(), lastRetrieved: Date.now() };
+        continue;
+      }
+      if (written >= chunkCap) { pending++; continue; }
       try {
         const { mime, outName } = await copyFileOnce(fp, hash);
-        data.files[hash] = {
-          id: hash,
-          dataURL: `/_files/${outName}`,
-          mimeType: mime,
-          created: Date.now(),
-          lastRetrieved: Date.now(),
-        };
+        data.files[hash] = { id: hash, dataURL: `/_files/${outName}`, mimeType: mime, created: Date.now(), lastRetrieved: Date.now() };
+        written++;
       } catch {}
     }
   }
+  return { written, pending };
 }
 
 const imgIndex = await buildImageIndex();
@@ -110,6 +120,13 @@ console.log(`scanning ${mdFiles.length} excalidraw md`);
 
 const sceneIndex = {};
 
+// Batching: bound work per deploy. Big scenes (>400 files) processed in chunks; partial state cached.
+const TIME_BUDGET_MS = Number(process.env.SCENE_TIME_BUDGET_MS) || Infinity;
+const CHUNK_THRESHOLD = Number(process.env.SCENE_CHUNK_THRESHOLD) || 400;
+const CHUNK_SIZE = Number(process.env.SCENE_CHUNK_SIZE) || 200;
+const SCENE_START = Date.now();
+const budgetLeft = () => TIME_BUDGET_MS - (Date.now() - SCENE_START);
+
 async function processScene(mdPath) {
   const rel = path.relative(CONTENT, mdPath);
   const content = await fs.readFile(mdPath, 'utf8');
@@ -125,16 +142,18 @@ async function processScene(mdPath) {
       await fs.access(jsonPath);
       sceneIndex[rel.replace(/\.md$/, '').toLowerCase()] = slug;
       console.log(`cache hit: ${rel}`);
-      return;
+      return 'done';
     }
   } catch {}
 
   const data = parseExcalidraw(content, mdPath);
   if (!data) {
     console.log(`skip parse: ${rel}`);
-    return;
+    return 'done';
   }
-  await resolveEmbedded(data, imgIndex);
+  const totalFiles = Object.keys(data.files || {}).length + Object.keys(data.embeddedFiles || {}).length;
+  const chunkCap = totalFiles > CHUNK_THRESHOLD ? CHUNK_SIZE : Infinity;
+  const { written, pending } = await resolveEmbedded(data, imgIndex, chunkCap);
   const scene = {
     type: 'excalidraw',
     version: data.version || 2,
@@ -144,14 +163,36 @@ async function processScene(mdPath) {
     files: data.files || {},
   };
   await fs.writeFile(jsonPath, JSON.stringify(scene));
-  await fs.writeFile(hashPath, mdHash);
   sceneIndex[rel.replace(/\.md$/, '').toLowerCase()] = slug;
   const fileCount = Object.keys(scene.files).length;
+  if (pending > 0) {
+    console.log(`scene partial: ${rel} -> ${slug}.json (${scene.elements.length} els, +${written} files, ${pending} pending)`);
+    return 'partial';
+  }
+  await fs.writeFile(hashPath, mdHash);
   console.log(`scene: ${rel} -> ${slug}.json (${scene.elements.length} els, ${fileCount} files)`);
+  return 'done';
 }
 
+let incomplete = false;
+let processedCount = 0;
 for (const mdPath of mdFiles) {
-  await processScene(mdPath);
+  if (budgetLeft() <= 0) {
+    incomplete = true;
+    console.log(`==> time budget exhausted after ${processedCount} scenes; ${mdFiles.length - processedCount} pending`);
+    break;
+  }
+  const res = await processScene(mdPath);
+  processedCount++;
+  if (res === 'partial') incomplete = true;
+}
+const sentinelPath = path.resolve('.exc-incomplete');
+if (incomplete) {
+  await fs.writeFile(sentinelPath, String(Date.now()));
+  console.log('==> incomplete: retrigger needed');
+} else {
+  try { await fs.unlink(sentinelPath); } catch {}
+  console.log('==> all scenes done');
 }
 
 await fs.writeFile(path.join(SCENES_DIR, 'index.json'), JSON.stringify(sceneIndex, null, 2));
