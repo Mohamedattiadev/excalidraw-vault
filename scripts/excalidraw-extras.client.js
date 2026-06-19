@@ -229,7 +229,22 @@
     const jsPDF = jspdfMod.jsPDF || jspdfMod.default || jspdfMod.default?.jsPDF;
     if (!jsPDF) throw new Error("jsPDF could not be loaded");
     if (!exportToCanvas) throw new Error("exportToCanvas not exported");
-    const elements = api.getSceneElements();
+    // Embeddable elements (YouTube, etc.) load via iframe + cross-origin previews and taint the export canvas.
+    // Replace them with a rectangle + label so the rest of the scene still exports cleanly.
+    const rawElements = api.getSceneElements();
+    const elements = rawElements.map((e) => {
+      if (e.type !== "embeddable" && e.type !== "iframe") return e;
+      return {
+        ...e,
+        type: "rectangle",
+        strokeColor: "#7b5cd6",
+        backgroundColor: "rgba(123,92,214,0.08)",
+        strokeStyle: "dashed",
+        fillStyle: "solid",
+        roundness: { type: 3 },
+        link: e.link || null,
+      };
+    });
     const appState = api.getAppState();
     // Convert every file to an inline data: URL so the export canvas can never taint.
     const files = await blobifyFiles(api.getFiles());
