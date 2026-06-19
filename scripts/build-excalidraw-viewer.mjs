@@ -889,10 +889,13 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 
-  /* Top mobile toolbar: keep within viewport, slim icons */
+  /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips */
   .excalidraw .App-toolbar.App-toolbar--mobile {
-    max-width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 16px) !important;
     box-sizing: border-box !important;
+    flex-wrap: wrap !important;
+    row-gap: 2px !important;
+    padding: 4px 6px !important;
   }
   .excalidraw .App-toolbar.App-toolbar--mobile .ToolIcon__icon { width: 26px !important; height: 26px !important; }
 
@@ -904,12 +907,16 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
     display: none !important;
   }
 
-  /* Bottom mobile footer toolbar — slim native-style row, viewport bound */
+  /* Bottom mobile footer toolbar — slim native-style row, viewport bound.
+     Excalidraw native sets margin-bottom: 64px on this footer (reserves space
+     for zoom controls we hide on phone); override so the Island is just the
+     footer height. */
   .excalidraw--mobile footer.App-toolbar,
   .excalidraw .Island > footer.App-toolbar {
     box-sizing: border-box !important;
     max-width: calc(100vw - 16px) !important;
     padding: 6px 8px !important;
+    margin: 0 !important;
   }
   .excalidraw--mobile footer.App-toolbar .App-toolbar-content,
   .excalidraw .Island > footer.App-toolbar .App-toolbar-content {
@@ -936,7 +943,7 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .page[data-frame="excalidraw"] .exc-reset-btn,
   .page[data-frame="excalidraw"] .exc-reset-all-btn {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 64px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 80px) !important;
     width: 36px !important; height: 36px !important;
     z-index: 1100 !important;
   }
