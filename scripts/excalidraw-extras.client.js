@@ -301,7 +301,11 @@
     if (naturalW * naturalH * scale * scale > MAX_PIXELS) {
       scale = Math.sqrt(MAX_PIXELS / (naturalW * naturalH));
     }
-    scale = Math.max(1, Math.min(3, scale));
+    // Cap at 3 (we never want to upscale beyond 3x) but DO allow <1 so giant scenes downscale to fit canvas limits.
+    scale = Math.min(3, scale);
+    // Browsers cap canvas area + per-side dim. Re-clamp so neither side exceeds MAX_DIM after rounding.
+    scale = Math.min(scale, MAX_DIM / naturalW, MAX_DIM / naturalH);
+    if (scale <= 0 || !isFinite(scale)) scale = 1;
     LOG("scene bounds:", { naturalW: Math.round(naturalW), naturalH: Math.round(naturalH), scale });
     let canvas;
     try {
