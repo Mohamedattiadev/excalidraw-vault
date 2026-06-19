@@ -853,8 +853,32 @@ html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255
 .excalidraw-container ::selection, .excalidraw ::selection { background: rgba(123,92,214,0.35) !important; color: inherit !important; }
 .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(123,92,214,0.16) !important; color: #7b5cd6 !important; }
 html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(167,139,250,0.22) !important; color: #a78bfa !important; }
-/* Excalidraw z-index buttons (Layers panel) ship SVGs with no explicit width/height; they fill the parent and overflow. Only clamp the svg's max box, leave everything else (stroke, color, fill, button paddings) to the library. */
-.excalidraw .buttonList .zIndexButton svg { width: 16px; height: 16px; max-width: 16px; max-height: 16px; }
+/* Hide the Layers / z-index fieldset entirely — the library renders SVGs with no intrinsic size and they overflow no matter how we clamp them. */
+.excalidraw fieldset:has(.zIndexButton) { display: none !important; }
+
+/* === Mobile + tablet responsiveness === */
+/* Drop the sidebar to overlay style on small screens and shrink toolbar paddings so it doesn't get cropped. */
+@media (max-width: 900px) {
+  .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; }
+  .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: 0 !important; }
+  .page[data-frame="excalidraw"] .exc-pdf-export { right: 8px !important; top: 8px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-btn { right: 44px !important; top: 8px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 80px !important; top: 8px !important; }
+  .excalidraw .App-toolbar { padding: 2px 4px !important; gap: 2px !important; flex-wrap: wrap !important; max-width: calc(100vw - 24px) !important; }
+  .excalidraw .App-toolbar .ToolIcon__icon { width: 28px !important; height: 28px !important; }
+  .excalidraw .App-toolbar .ToolIcon__keybinding { display: none !important; }
+  .excalidraw .layer-ui__wrapper__footer-right .help-icon,
+  .excalidraw .layer-ui__wrapper__footer-right .zen-mode { display: none !important; }
+  .excalidraw .App-menu_top { right: 8px !important; top: 8px !important; }
+  /* Right action panel becomes too wide; let it scroll instead of overflowing. */
+  .excalidraw .Island.App-menu__left { max-width: 88vw !important; max-height: 80vh !important; overflow: auto !important; }
+  /* Minimap shouldn't overlap the toolbar. */
+  .excali-minimap { display: none !important; }
+}
+@media (max-width: 600px) {
+  .excalidraw .App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
+  .excalidraw .HintViewer { display: none !important; }
+}
 </style>
 `);
 
