@@ -856,8 +856,17 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 /* Hide the Layers / z-index fieldset entirely — the library renders SVGs with no intrinsic size and they overflow no matter how we clamp them. */
 .excalidraw fieldset:has(.zIndexButton) { display: none !important; }
 
+/* Hamburger main menu: drop items that don't apply to a read-only / personal viewer. */
+.excalidraw button[data-testid="json-export-button"],
+.excalidraw button[data-testid="image-export-button"],
+.excalidraw button[data-testid="search-menu-button"],
+.excalidraw button[data-testid="help-menu-item"],
+.excalidraw .dropdown-menu-group:has(> .dropdown-menu-group-title) { display: none !important; }
+/* Trailing divider that follows the now-hidden Excalidraw-links group leaves a stray rule. Drop adjacent dividers. */
+.excalidraw .dropdown-menu-container > div[style*="background-color"]:first-child,
+.excalidraw .dropdown-menu-container > div[style*="background-color"] + div[style*="background-color"] { display: none !important; }
+
 /* === Mobile + tablet responsiveness === */
-/* Drop the sidebar to overlay style on small screens and shrink toolbar paddings so it doesn't get cropped. */
 @media (max-width: 900px) {
   .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; }
   .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: 0 !important; }
@@ -870,14 +879,29 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excalidraw .layer-ui__wrapper__footer-right .help-icon,
   .excalidraw .layer-ui__wrapper__footer-right .zen-mode { display: none !important; }
   .excalidraw .App-menu_top { right: 8px !important; top: 8px !important; }
-  /* Right action panel becomes too wide; let it scroll instead of overflowing. */
   .excalidraw .Island.App-menu__left { max-width: 88vw !important; max-height: 80vh !important; overflow: auto !important; }
-  /* Minimap shouldn't overlap the toolbar. */
   .excali-minimap { display: none !important; }
 }
+
+/* === Phone (≤600px) — Excalidraw library swaps to App-mobile-menu layout. Wire it up properly. === */
 @media (max-width: 600px) {
   .excalidraw .App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
   .excalidraw .HintViewer { display: none !important; }
+  /* Mobile menu container is absolutely-positioned and clips off the right side on small phones. Pin it to the bottom edge instead. */
+  .excalidraw .App-mobile-menu { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; max-height: 50vh !important; overflow-y: auto !important; background: var(--island-bg-color, #fff) !important; border-top: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 0 -4px 16px rgba(0,0,0,0.16) !important; z-index: 1000 !important; padding: 8px !important; box-sizing: border-box !important; }
+  html[saved-theme="dark"] .excalidraw .App-mobile-menu { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
+  .excalidraw .App-mobile-menu .panelColumn { gap: 6px !important; }
+  .excalidraw .App-mobile-menu fieldset { padding: 4px !important; margin: 0 !important; }
+  .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; }
+  .excalidraw .App-mobile-menu .buttonList { flex-wrap: wrap !important; gap: 4px !important; }
+  /* Bottom footer toolbar (Edit / Duplicate / Delete / Undo / Redo) — pin to viewport bottom too, above the menu. */
+  .excalidraw footer.App-toolbar { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 1001 !important; padding: 6px 8px !important; background: var(--island-bg-color, #fff) !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
+  html[saved-theme="dark"] .excalidraw footer.App-toolbar { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
+  .excalidraw footer.App-toolbar .App-toolbar-content { display: flex !important; justify-content: space-around !important; flex-wrap: nowrap !important; max-width: 100% !important; overflow-x: auto !important; }
+  /* When mobile-menu is shown, lift the footer above it. */
+  .excalidraw .Island:has(.App-mobile-menu) ~ footer.App-toolbar { bottom: 50vh !important; }
+  /* Hide minimap + extras on phones to keep canvas usable. */
+  .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
 }
 </style>
 `);
