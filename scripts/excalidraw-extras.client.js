@@ -67,7 +67,7 @@
       btn.className = "exc-reset-all-btn";
       btn.setAttribute("aria-label", "Reset all drawings to original (drops local edits across every canvas)");
       btn.title = "Reset ALL canvases";
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg>';
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>';
       page.appendChild(btn);
       btn.addEventListener("click", (e) => { e.preventDefault(); openResetAllModal(); });
     }
@@ -141,27 +141,16 @@
         }
         for (const k of keys) localStorage.removeItem(k);
       } catch {}
-      // Clear both IDB stores entirely.
+      // Nuke the IDB database entirely so every snap + every edit goes with it.
+      // Any open connection in the current tab is closed first; the DB is recreated by mount() on the next load.
+      const done = () => location.reload();
+      let safety = setTimeout(done, 1500); // never get stuck on a hung delete
       try {
-        const req = indexedDB.open("exc-snapshots", 2);
-        req.onupgradeneeded = () => {
-          const db = req.result;
-          if (!db.objectStoreNames.contains("snaps")) db.createObjectStore("snaps");
-          if (!db.objectStoreNames.contains("edits")) db.createObjectStore("edits");
-        };
-        req.onsuccess = () => {
-          const db = req.result;
-          try {
-            const stores = ["snaps", "edits"].filter((s) => db.objectStoreNames.contains(s));
-            if (!stores.length) return location.reload();
-            const tx = db.transaction(stores, "readwrite");
-            for (const s of stores) tx.objectStore(s).clear();
-            tx.oncomplete = () => location.reload();
-            tx.onerror = () => location.reload();
-          } catch { location.reload(); }
-        };
-        req.onerror = () => location.reload();
-      } catch { location.reload(); }
+        const req = indexedDB.deleteDatabase("exc-snapshots");
+        req.onsuccess = () => { clearTimeout(safety); done(); };
+        req.onerror = () => { clearTimeout(safety); done(); };
+        req.onblocked = () => { /* let safety timer fire */ };
+      } catch { clearTimeout(safety); done(); }
     });
     document.addEventListener("keydown", function escClose(ev) {
       if (ev.key === "Escape") { close(); document.removeEventListener("keydown", escClose); }
