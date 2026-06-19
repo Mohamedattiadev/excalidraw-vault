@@ -78,6 +78,7 @@ jobs:
           SCENE_TIME_BUDGET_MS: "600000"
           SCENE_CHUNK_SIZE: "200"
           SCENE_CHUNK_THRESHOLD: "400"
+          SCENE_FILES_PER_RUN: "200"
         run: node scripts/build-excalidraw-viewer.mjs
 
       - name: Save scene extractor cache

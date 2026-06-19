@@ -120,12 +120,18 @@ console.log(`scanning ${mdFiles.length} excalidraw md`);
 
 const sceneIndex = {};
 
-// Batching: bound work per deploy. Big scenes (>400 files) processed in chunks; partial state cached.
+// Batching: bound work per deploy.
+// SCENE_FILES_PER_RUN = global cap on file writes per deploy (across all scenes).
+// SCENE_CHUNK_THRESHOLD / SCENE_CHUNK_SIZE = per-scene chunking when a scene is huge.
+// SCENE_TIME_BUDGET_MS = wall-clock cap (last-resort).
 const TIME_BUDGET_MS = Number(process.env.SCENE_TIME_BUDGET_MS) || Infinity;
 const CHUNK_THRESHOLD = Number(process.env.SCENE_CHUNK_THRESHOLD) || 400;
 const CHUNK_SIZE = Number(process.env.SCENE_CHUNK_SIZE) || 200;
+const FILES_PER_RUN = Number(process.env.SCENE_FILES_PER_RUN) || Infinity;
 const SCENE_START = Date.now();
 const budgetLeft = () => TIME_BUDGET_MS - (Date.now() - SCENE_START);
+let globalFilesWritten = 0;
+const globalCapLeft = () => FILES_PER_RUN - globalFilesWritten;
 
 async function processScene(mdPath) {
   const rel = path.relative(CONTENT, mdPath);
@@ -152,8 +158,10 @@ async function processScene(mdPath) {
     return 'done';
   }
   const totalFiles = Object.keys(data.files || {}).length + Object.keys(data.embeddedFiles || {}).length;
-  const chunkCap = totalFiles > CHUNK_THRESHOLD ? CHUNK_SIZE : Infinity;
+  const perSceneCap = totalFiles > CHUNK_THRESHOLD ? CHUNK_SIZE : Infinity;
+  const chunkCap = Math.min(perSceneCap, globalCapLeft());
   const { written, pending } = await resolveEmbedded(data, imgIndex, chunkCap);
+  globalFilesWritten += written;
   const scene = {
     type: 'excalidraw',
     version: data.version || 2,
@@ -180,6 +188,11 @@ for (const mdPath of mdFiles) {
   if (budgetLeft() <= 0) {
     incomplete = true;
     console.log(`==> time budget exhausted after ${processedCount} scenes; ${mdFiles.length - processedCount} pending`);
+    break;
+  }
+  if (globalCapLeft() <= 0) {
+    incomplete = true;
+    console.log(`==> file cap reached (${globalFilesWritten}/${FILES_PER_RUN}); ${mdFiles.length - processedCount} scenes deferred`);
     break;
   }
   const res = await processScene(mdPath);
