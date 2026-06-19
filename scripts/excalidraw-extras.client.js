@@ -324,17 +324,7 @@
     LOG("export canvas:", canvas.width, "x", canvas.height);
     // Try multiple paths: PNG dataURL → JPEG dataURL → toBlob+FileReader → final SVG fallback.
     async function canvasToDataUrl(c) {
-      // For huge canvases the PNG dataURL string can be 30+ MB and OOM the tab. Prefer JPEG via toBlob → reader for memory.
-      try {
-        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.99) : res(null));
-        LOG("JPEG toBlob size:", blob && blob.size);
-        if (blob) {
-          const fr = new FileReader();
-          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
-          if (url && url.length > 100) return { url, fmt: "JPEG" };
-        }
-      } catch (e) { console.warn("[exc-pdf] JPEG toBlob failed", e.name, e.message); }
-      // Fallback: PNG via toBlob (still cheaper than toDataURL for big canvases).
+      // PNG via toBlob first: lossless, no JPEG artifacts on text — output is bigger but stays sharp under deep zoom.
       try {
         const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
         LOG("PNG toBlob size:", blob && blob.size);
@@ -344,7 +334,17 @@
           if (url && url.length > 100) return { url, fmt: "PNG" };
         }
       } catch (e) { console.warn("[exc-pdf] PNG toBlob failed", e.name, e.message); }
-      // Last resort: toDataURL JPEG (lower bytes than PNG).
+      // Fallback: JPEG via toBlob (smaller, lossy).
+      try {
+        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.99) : res(null));
+        LOG("JPEG toBlob size:", blob && blob.size);
+        if (blob) {
+          const fr = new FileReader();
+          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+          if (url && url.length > 100) return { url, fmt: "JPEG" };
+        }
+      } catch (e) { console.warn("[exc-pdf] JPEG toBlob failed", e.name, e.message); }
+      // Last resort: toDataURL JPEG.
       try {
         const u = c.toDataURL("image/jpeg", 0.92);
         LOG("JPEG dataURL length:", u && u.length);

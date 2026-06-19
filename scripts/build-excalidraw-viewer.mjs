@@ -853,9 +853,8 @@ html[saved-theme="dark"] .excali-minimap .mm-footer { border-color: rgba(255,255
 .excalidraw-container ::selection, .excalidraw ::selection { background: rgba(123,92,214,0.35) !important; color: inherit !important; }
 .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(123,92,214,0.16) !important; color: #7b5cd6 !important; }
 html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { background: rgba(167,139,250,0.22) !important; color: #a78bfa !important; }
-/* Excalidraw z-index buttons (Layers panel) ship SVGs without width/height so they overflow our themed buttons. Clamp them. */
-.excalidraw .buttonList .zIndexButton { width: 28px !important; height: 28px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 4px !important; overflow: hidden !important; }
-.excalidraw .buttonList .zIndexButton svg { width: 16px !important; height: 16px !important; max-width: 16px !important; max-height: 16px !important; flex: 0 0 auto !important; }
+/* Excalidraw z-index buttons (Layers panel) ship SVGs with no explicit width/height; they fill the parent and overflow. Only clamp the svg's max box, leave everything else (stroke, color, fill, button paddings) to the library. */
+.excalidraw .buttonList .zIndexButton svg { width: 16px; height: 16px; max-width: 16px; max-height: 16px; }
 </style>
 `);
 
