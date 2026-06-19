@@ -166,11 +166,41 @@
       if (!f || typeof f.dataURL !== "string" || !f.dataURL) return null;
       return new Promise((resolve) => {
         const img = new Image();
+        img.crossOrigin = "anonymous"; // keep export canvas un-tainted
         img.onload = () => resolve();
         img.onerror = () => resolve(); // tolerate broken images
         img.src = f.dataURL;
       });
     }));
+  }
+
+  // Convert every file entry whose dataURL is still a relative/absolute /_files path
+  // (or any non-blob, non-data URL) into a base64 data: URL by fetching → blob → reader.
+  // exportToCanvas draws via <img>; without this, a network-fetched image can taint the canvas.
+  async function blobifyFiles(files) {
+    if (!files) return files;
+    const out = {};
+    await Promise.all(Object.entries(files).map(async ([id, f]) => {
+      if (!f || typeof f.dataURL !== "string") { out[id] = f; return; }
+      const u = f.dataURL;
+      if (u.startsWith("data:")) { out[id] = f; return; }
+      try {
+        const res = await fetch(u, { credentials: "same-origin" });
+        if (!res.ok) throw new Error("http " + res.status);
+        const blob = await res.blob();
+        const b64 = await new Promise((r, rej) => {
+          const fr = new FileReader();
+          fr.onload = () => r(fr.result);
+          fr.onerror = rej;
+          fr.readAsDataURL(blob);
+        });
+        out[id] = { ...f, dataURL: b64, mimeType: f.mimeType || blob.type };
+      } catch (err) {
+        console.warn("blobify failed for", u, err);
+        out[id] = f;
+      }
+    }));
+    return out;
   }
 
   async function exportCanvasAsPdf() {
@@ -201,7 +231,8 @@
     if (!exportToCanvas) throw new Error("exportToCanvas not exported");
     const elements = api.getSceneElements();
     const appState = api.getAppState();
-    const files = api.getFiles();
+    // Convert every file to an inline data: URL so the export canvas can never taint.
+    const files = await blobifyFiles(api.getFiles());
     if (!elements || !elements.length) throw new Error("Nothing to export");
     // Pre-decode every embedded image so exportToCanvas doesn't fail on half-loaded blobs.
     await preloadImages(files);
