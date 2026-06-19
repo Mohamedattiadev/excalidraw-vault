@@ -866,8 +866,9 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 .excalidraw .dropdown-menu-container > div[style*="background-color"]:first-child,
 .excalidraw .dropdown-menu-container > div[style*="background-color"] + div[style*="background-color"] { display: none !important; }
 
-/* === Tablet/iPad (≤900px) — mimic phone treatment: slim bars, popup pinned, exc-* bottom-right === */
-@media (max-width: 900px) {
+/* === Tablet/iPad (≤1180px) — mimic phone treatment: slim bars, popup pinned, exc-* bottom-right.
+       1180 covers iPad Pro 11" landscape; phone-specific block below at ≤600. === */
+@media (max-width: 1180px) {
   .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; }
   .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: 0 !important; }
 
