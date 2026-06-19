@@ -292,8 +292,9 @@
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
     // Memory cap. toBlob (used below) streams instead of building a huge base64 string, so we can safely push the cap higher than the old toDataURL path could handle.
-    const MAX_DIM = 7500;
-    const MAX_PIXELS = 50_000_000;
+    // 12000 per side / 120 MP fits well inside Chrome's 16384-per-side and 268 MP canvas limits, and JPEG at 0.98 keeps file size in the 8-15 MB range.
+    const MAX_DIM = 12000;
+    const MAX_PIXELS = 120_000_000;
     let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
