@@ -291,9 +291,9 @@
     }
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
-    // Memory cap. Large dataURL strings + jsPDF re-encoding OOM the tab. Stay under ~25M output pixels.
-    const MAX_DIM = 5000;
-    const MAX_PIXELS = 25_000_000;
+    // Memory cap. toBlob (used below) streams instead of building a huge base64 string, so we can safely push the cap higher than the old toDataURL path could handle.
+    const MAX_DIM = 7500;
+    const MAX_PIXELS = 50_000_000;
     let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
@@ -325,7 +325,7 @@
     async function canvasToDataUrl(c) {
       // For huge canvases the PNG dataURL string can be 30+ MB and OOM the tab. Prefer JPEG via toBlob → reader for memory.
       try {
-        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.95) : res(null));
+        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.98) : res(null));
         LOG("JPEG toBlob size:", blob && blob.size);
         if (blob) {
           const fr = new FileReader();
@@ -357,7 +357,7 @@
     try { canvas.width = 1; canvas.height = 1; } catch {}
     const orientation = cw > ch ? "l" : "p";
     const pdf = new jsPDF({ orientation, unit: "px", format: [cw, ch], compress: true });
-    pdf.addImage(dataUrl, fmt, 0, 0, cw, ch, undefined, "FAST");
+    pdf.addImage(dataUrl, fmt, 0, 0, cw, ch, undefined, "NONE");
     const slug = (location.pathname.split("/").filter(Boolean).pop() || "drawing").replace(/\.excalidraw$/, "");
     pdf.save(`${slug}.pdf`);
   }
