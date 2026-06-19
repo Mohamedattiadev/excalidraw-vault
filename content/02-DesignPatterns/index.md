@@ -35,11 +35,11 @@ GoF patterns plus principles, anti-patterns, and code smells.
 
 ## Resources
 
-Video links pulled from the canvas. Click to open.
+Links pulled from the canvas. One row per video.
 
-| Topic                             | Resources                                                |
-| --------------------------------- | -------------------------------------------------------- |
-| Chain of Responsibility pattern   | [v1](https://www.youtube.com/watch?v=FafNcoBvVQo)        |
+| Topic                  | Resource                                              |
+| ---------------------- | ----------------------------------------------------- |
+| Chain of Responsibility| [Go to link](https://www.youtube.com/watch?v=FafNcoBvVQo) |
 
 ## Drawings
 

@@ -70,14 +70,17 @@ OS notes by chapter, plus the xv6 workflow.
 
 ## Resources
 
-Links pulled from the canvas. Click to open.
+Links pulled from the canvas. One row per link.
 
-| Topic                        | Resources                                                                                |
-| ---------------------------- | ---------------------------------------------------------------------------------------- |
-| How to study (textbook + intros) | [Silberschatz OS Concepts (PDF)](https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf), [v1](https://www.youtube.com/watch?v=-Izsh82Ykmg), [v2](https://www.youtube.com/watch?v=IrEpPlrIXOQ), [v3](https://www.youtube.com/watch?v=tb843MRs_0Q) |
-| Memory allocation             | [v1](https://www.youtube.com/watch?v=yrO5fvXlESE&t=8s)                                    |
-| First fit / best fit / worst fit | [v1](https://www.youtube.com/watch?v=N3rG_1CEQkQ)                                       |
-| Page replacement (LRU, OPT, FIFO) | [v1](https://www.youtube.com/watch?v=cjWnEtnKVGM)                                      |
+| Topic                    | Resource                                                                                              |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| Silberschatz OS Concepts | [Go to link](https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf) |
+| CPU Scheduling           | [Go to link](https://www.youtube.com/watch?v=-Izsh82Ykmg)                                              |
+| OS intro                 | [Go to link](https://www.youtube.com/watch?v=IrEpPlrIXOQ)                                              |
+| Deadlock Detection       | [Go to link](https://www.youtube.com/watch?v=tb843MRs_0Q)                                              |
+| First / Best / Worst Fit | [Go to link](https://www.youtube.com/watch?v=N3rG_1CEQkQ)                                              |
+| Disk Scheduling          | [Go to link](https://www.youtube.com/watch?v=yrO5fvXlESE&t=8s)                                         |
+| Page Replacement         | [Go to link](https://www.youtube.com/watch?v=cjWnEtnKVGM)                                              |
 
 ## Drawings
 

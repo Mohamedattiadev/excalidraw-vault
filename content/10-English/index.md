@@ -17,11 +17,11 @@ Exam-prep revision split into days, plus older notes.
 
 ## Resources
 
-Links pulled from the canvas. Click to open.
+Links pulled from the canvas. One row per link.
 
-| Topic              | Resources                                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------ |
-| Old study plan     | [Notion: English study plan](https://dark-gemini-05b.notion.site/ENGLISH-STUDY-PLAN-PRO-7539670cff934048a5c2948febfcd13e) |
+| Topic                | Resource                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| English study plan   | [Go to link](https://dark-gemini-05b.notion.site/ENGLISH-STUDY-PLAN-PRO-7539670cff934048a5c2948febfcd13e) |
 
 ## Drawings
 

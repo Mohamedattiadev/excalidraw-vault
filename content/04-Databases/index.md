@@ -80,13 +80,14 @@ Database concepts, design, SQL, transactions, and indexing.
 
 ## Resources
 
-Video links pulled from the canvas. Click to open.
+Links pulled from the canvas. One row per video.
 
-| Topic                 | Resources                                                                      |
-| --------------------- | ------------------------------------------------------------------------------ |
-| How to study          | [v1](https://www.youtube.com/watch?v=_UZLrD_R0T4)                              |
-| Indexing key videos   | [v1](https://www.youtube.com/watch?v=aZjYr87r1b8), [v2](https://www.youtube.com/watch?v=pN4C8cLVc7I) |
-| B-Tree                | [v1](https://www.youtube.com/watch?v=1ZhBULsbZGw)                              |
+| Topic              | Resource                                              |
+| ------------------ | ----------------------------------------------------- |
+| Keys in RDBMS      | [Go to link](https://www.youtube.com/watch?v=_UZLrD_R0T4) |
+| B Trees            | [Go to link](https://www.youtube.com/watch?v=aZjYr87r1b8) |
+| Database Indexes   | [Go to link](https://www.youtube.com/watch?v=1ZhBULsbZGw) |
+| B-trees in detail  | [Go to link](https://www.youtube.com/watch?v=pN4C8cLVc7I) |
 
 ## Drawings
 
