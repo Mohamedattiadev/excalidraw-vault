@@ -292,9 +292,9 @@
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
     // Memory cap. toBlob (used below) streams instead of building a huge base64 string, so we can safely push the cap higher than the old toDataURL path could handle.
-    // 12000 per side / 120 MP fits well inside Chrome's 16384-per-side and 268 MP canvas limits, and JPEG at 0.98 keeps file size in the 8-15 MB range.
-    const MAX_DIM = 12000;
-    const MAX_PIXELS = 120_000_000;
+    // 15000 per side / 220 MP stays just under Chrome's 16384-per-side and 268 MP canvas hard caps. JPEG @ 0.99 keeps file size manageable while keeping text sharp at 4x zoom.
+    const MAX_DIM = 15000;
+    const MAX_PIXELS = 220_000_000;
     let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
@@ -326,7 +326,7 @@
     async function canvasToDataUrl(c) {
       // For huge canvases the PNG dataURL string can be 30+ MB and OOM the tab. Prefer JPEG via toBlob → reader for memory.
       try {
-        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.98) : res(null));
+        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.99) : res(null));
         LOG("JPEG toBlob size:", blob && blob.size);
         if (blob) {
           const fr = new FileReader();
@@ -652,4 +652,26 @@
   }
   tryInject();
   document.addEventListener("nav", () => { resetState(); tryInject(); });
+
+  // Quartz SPA navigation doesn't re-execute <script type="module"> in swapped pages,
+  // so the inline excalidraw mount script never runs on SPA-internal nav into a canvas.
+  // Detect SPA arrival on an excalidraw page where nothing is mounted, and force a full reload.
+  function isExcalidrawPage() {
+    return !!document.querySelector('.excalidraw-container');
+  }
+  function isMounted() {
+    return !!document.querySelector('.exc-viewer-root');
+  }
+  document.addEventListener("nav", () => {
+    if (isExcalidrawPage() && !isMounted()) {
+      // Avoid an infinite loop if reload itself somehow fails to render.
+      if (sessionStorage.getItem('exc-nav-reload') !== location.pathname) {
+        sessionStorage.setItem('exc-nav-reload', location.pathname);
+        location.reload();
+      }
+    } else if (isMounted()) {
+      // Clear once successfully mounted so a later visit can reload again if needed.
+      sessionStorage.removeItem('exc-nav-reload');
+    }
+  });
 })();
