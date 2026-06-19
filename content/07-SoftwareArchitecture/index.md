@@ -32,4 +32,8 @@ Architecture styles, patterns, design methods, and evaluation.
 
 ## PDFs
 
-- 8.1 - Software Architecture - chp (1-4), source PDF (high and mid quality)
+| File                                       | Link                                                                                                                                       |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8.1 - Software Architecture chp (1-4) — High quality | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-High%20quality.pdf) |
+| 8.1 - Software Architecture chp (1-4) — Mid quality  | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-Mid%20quality.pdf)  |
+| Folder                                     | [Open on GitHub](https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/07-SoftwareArchitecture)                              |
