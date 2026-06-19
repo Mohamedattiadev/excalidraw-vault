@@ -278,9 +278,8 @@ async function write404() {
     console.log('wrote custom public/404.html');
   } catch (err) { console.warn('404 write failed', err.message); }
 }
-// run at end of script, after Quartz's emission
-process.on('beforeExit', () => { write404().catch(() => {}); });
-write404();
+// run once at start; Quartz already emitted its 404, this overrides it.
+await write404();
 
 // Build a static collapsible tree (no JS needed — uses <details>) from the scene list.
 // Replaces Quartz's broken explorer inside .excalidraw-sidebar.
