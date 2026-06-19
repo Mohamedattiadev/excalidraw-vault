@@ -150,9 +150,8 @@ async function processScene(mdPath) {
   console.log(`scene: ${rel} -> ${slug}.json (${scene.elements.length} els, ${fileCount} files)`);
 }
 
-const SCENE_CONCURRENCY = 4;
-for (let i = 0; i < mdFiles.length; i += SCENE_CONCURRENCY) {
-  await Promise.all(mdFiles.slice(i, i + SCENE_CONCURRENCY).map(processScene));
+for (const mdPath of mdFiles) {
+  await processScene(mdPath);
 }
 
 await fs.writeFile(path.join(SCENES_DIR, 'index.json'), JSON.stringify(sceneIndex, null, 2));

@@ -71,6 +71,7 @@ jobs:
             scenes-v1-
 
       - name: Scene extractor + sidebar tree injection
+        timeout-minutes: 25
         run: node scripts/build-excalidraw-viewer.mjs
 
       - name: Optimize images (webp + downscale)
