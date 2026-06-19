@@ -940,6 +940,38 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
   /* Hamburger dropdown should respect viewport edges. */
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
+  /* exc-* buttons collide with the top mobile App-toolbar at this width.
+     Move them to the bottom-right, floating above the pinned mobile Island. */
+  .page[data-frame="excalidraw"] .exc-pdf-export,
+  .page[data-frame="excalidraw"] .exc-reset-btn,
+  .page[data-frame="excalidraw"] .exc-reset-all-btn {
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+    width: 36px !important; height: 36px !important;
+    z-index: 1100 !important;
+  }
+  .page[data-frame="excalidraw"] .exc-pdf-export    { right: 8px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
+  /* When the mobile Island is mounted, lift exc-* above it so they don't get covered. */
+  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-pdf-export,
+  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-reset-btn,
+  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-reset-all-btn {
+    bottom: calc(55vh + 8px) !important;
+  }
+  /* Constrain top mobile toolbar so it can't push under our exc-* buttons. */
+  .excalidraw .App-toolbar.App-toolbar--mobile { max-width: calc(100vw - 24px) !important; }
+  /* Idle-state mobile bottom footer (no selection → no .App-mobile-menu).
+     Default Excalidraw lays it out with intrinsic width that overshoots 100vw,
+     clipping the redo button. Force box-sizing + viewport-bound width. */
+  .excalidraw--mobile footer.App-toolbar {
+    box-sizing: border-box !important;
+    max-width: calc(100vw - 16px) !important;
+  }
+  .excalidraw--mobile footer.App-toolbar .App-toolbar-content {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+  }
 }
 </style>
 `);

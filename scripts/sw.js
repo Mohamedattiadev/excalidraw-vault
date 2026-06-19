@@ -1,5 +1,5 @@
 // Service Worker — stale-while-revalidate for static assets, cache-first for scenes/images.
-const CACHE = 'exc-vault-v16';
+const CACHE = 'exc-vault-v17';
 const ASSET_RE = /\/_files\/|\/_scenes\/|\/static\/|\.(?:js|css|woff2?|webp|svg|png|jpe?g|ico|html|json)$/;
 
 self.addEventListener('install', (e) => {
