@@ -866,21 +866,65 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 .excalidraw .dropdown-menu-container > div[style*="background-color"]:first-child,
 .excalidraw .dropdown-menu-container > div[style*="background-color"] + div[style*="background-color"] { display: none !important; }
 
-/* === Mobile + tablet responsiveness === */
+/* === Tablet/iPad (≤900px) — mimic phone treatment: slim bars, popup pinned, exc-* bottom-right === */
 @media (max-width: 900px) {
   .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; }
   .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: 0 !important; }
-  .page[data-frame="excalidraw"] .exc-pdf-export { right: 8px !important; top: 8px !important; }
-  .page[data-frame="excalidraw"] .exc-reset-btn { right: 44px !important; top: 8px !important; }
-  .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 80px !important; top: 8px !important; }
-  .excalidraw .App-toolbar { padding: 2px 4px !important; gap: 2px !important; flex-wrap: wrap !important; max-width: calc(100vw - 24px) !important; }
-  .excalidraw .App-toolbar .ToolIcon__icon { width: 28px !important; height: 28px !important; }
-  .excalidraw .App-toolbar .ToolIcon__keybinding { display: none !important; }
+
+  /* Hide noise */
+  .excalidraw .HintViewer { display: none !important; }
+  .excali-minimap { display: none !important; }
   .excalidraw .layer-ui__wrapper__footer-right .help-icon,
   .excalidraw .layer-ui__wrapper__footer-right .zen-mode { display: none !important; }
-  .excalidraw .App-menu_top { right: 8px !important; top: 8px !important; }
-  .excalidraw .Island.App-menu__left { max-width: 88vw !important; max-height: 80vh !important; overflow: auto !important; }
-  .excali-minimap { display: none !important; }
+  .excalidraw .App-toolbar .ToolIcon__keybinding { display: none !important; }
+
+  /* Top toolbar: compact, wrap if too wide */
+  .excalidraw .App-toolbar {
+    padding: 4px 6px !important;
+    gap: 4px !important;
+    flex-wrap: wrap !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+  .excalidraw .App-toolbar .ToolIcon__icon { width: 30px !important; height: 30px !important; }
+
+  /* App-menu_top: keep hamburger anchored top-left (it is the only menu access on desktop layout) */
+  .excalidraw .App-menu_top {
+    right: auto !important;
+    left: 8px !important;
+    top: 8px !important;
+  }
+
+  /* exc-* buttons → bottom-right, above the bottom zoom strip — frees top-right for native toolbar icons */
+  .page[data-frame="excalidraw"] .exc-pdf-export,
+  .page[data-frame="excalidraw"] .exc-reset-btn,
+  .page[data-frame="excalidraw"] .exc-reset-all-btn {
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 80px) !important;
+    width: 36px !important; height: 36px !important;
+    z-index: 1100 !important;
+  }
+  .page[data-frame="excalidraw"] .exc-pdf-export    { right: 8px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
+
+  /* Selection action panel (.Island.App-menu__left) — pin as floating bottom-left sheet
+     (mimics native mobile bottom-sheet look at tablet size) */
+  .excalidraw .Island.App-menu__left {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 72px !important;
+    left: 8px !important;
+    right: auto !important;
+    max-width: min(320px, calc(100vw - 16px)) !important;
+    max-height: 60vh !important;
+    overflow: auto !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
+    z-index: 900 !important;
+  }
+  html[saved-theme="dark"] .excalidraw .Island.App-menu__left {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+  }
 }
 
 /* === Phone (≤600px) — let Excalidraw native mobile layout handle most things. === */
