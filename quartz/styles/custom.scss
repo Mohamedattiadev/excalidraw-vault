@@ -227,6 +227,23 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
     max-height: none !important;
     padding: 12px 0 !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+  body:not([data-frame="excalidraw"]) .sidebar.left > *,
+  body:not([data-frame="excalidraw"]) .left > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  body:not([data-frame="excalidraw"]) .sidebar.left .page-title,
+  body:not([data-frame="excalidraw"]) .left .page-title {
+    text-align: left !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
   }
   body:not([data-frame="excalidraw"]) .center {
     width: 100% !important;
