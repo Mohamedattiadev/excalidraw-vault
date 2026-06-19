@@ -883,25 +883,63 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excali-minimap { display: none !important; }
 }
 
-/* === Phone (≤600px) — Excalidraw library swaps to App-mobile-menu layout. Wire it up properly. === */
+/* === Phone (≤600px) — Excalidraw library swaps to App-mobile-menu layout. === */
+/* Strategy: one fixed container at the bottom that holds BOTH the action panel (top, scrollable) and the footer toolbar (below, fixed row). No overlap, no overlap-fix hacks. */
 @media (max-width: 600px) {
   .excalidraw .App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
   .excalidraw .HintViewer { display: none !important; }
-  /* Mobile menu container is absolutely-positioned and clips off the right side on small phones. Pin it to the bottom edge instead. */
-  .excalidraw .App-mobile-menu { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; max-height: 50vh !important; overflow-y: auto !important; background: var(--island-bg-color, #fff) !important; border-top: 1px solid rgba(0,0,0,0.08) !important; box-shadow: 0 -4px 16px rgba(0,0,0,0.16) !important; z-index: 1000 !important; padding: 8px !important; box-sizing: border-box !important; }
-  html[saved-theme="dark"] .excalidraw .App-mobile-menu { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
-  .excalidraw .App-mobile-menu .panelColumn { gap: 6px !important; }
-  .excalidraw .App-mobile-menu fieldset { padding: 4px !important; margin: 0 !important; }
-  .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; }
+  /* The mobile menu Island wraps BOTH the action panel and the bottom footer. Pin the whole wrapper to the bottom and let its children flow naturally. */
+  .excalidraw .Island:has(> .App-mobile-menu) {
+    position: fixed !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100vw !important; max-width: 100vw !important;
+    margin: 0 !important; padding: 0 !important;
+    background: var(--island-bg-color, #fff) !important;
+    border-top: 1px solid rgba(0,0,0,0.08) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.18) !important;
+    z-index: 1000 !important;
+    max-height: 55vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  html[saved-theme="dark"] .excalidraw .Island:has(> .App-mobile-menu) { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
+  /* Top half: scrollable action panel (Stroke / Width / Style / etc.). */
+  .excalidraw .Island > .App-mobile-menu {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important; overflow-x: hidden !important;
+    padding: 10px 12px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .excalidraw .App-mobile-menu .panelColumn { gap: 8px !important; }
+  .excalidraw .App-mobile-menu fieldset { padding: 4px 6px !important; margin: 0 !important; border-radius: 6px !important; }
+  .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; opacity: 0.7 !important; }
   .excalidraw .App-mobile-menu .buttonList { flex-wrap: wrap !important; gap: 4px !important; }
-  /* Bottom footer toolbar (Edit / Duplicate / Delete / Undo / Redo) — pin to viewport bottom too, above the menu. */
-  .excalidraw footer.App-toolbar { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 1001 !important; padding: 6px 8px !important; background: var(--island-bg-color, #fff) !important; border-top: 1px solid rgba(0,0,0,0.08) !important; }
-  html[saved-theme="dark"] .excalidraw footer.App-toolbar { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
-  .excalidraw footer.App-toolbar .App-toolbar-content { display: flex !important; justify-content: space-around !important; flex-wrap: nowrap !important; max-width: 100% !important; overflow-x: auto !important; }
-  /* When mobile-menu is shown, lift the footer above it. */
-  .excalidraw .Island:has(.App-mobile-menu) ~ footer.App-toolbar { bottom: 50vh !important; }
-  /* Hide minimap + extras on phones to keep canvas usable. */
+  /* Bottom half: pinned single-row toolbar (hamburger / Edit / Duplicate / Delete / Undo / Redo). Always visible, never overlapping the panel. */
+  .excalidraw .Island > footer.App-toolbar {
+    flex: 0 0 auto !important;
+    position: static !important;
+    padding: 8px 10px !important;
+    background: var(--island-bg-color, #fff) !important;
+    border-top: 1px solid rgba(0,0,0,0.08) !important;
+    box-shadow: none !important;
+  }
+  html[saved-theme="dark"] .excalidraw .Island > footer.App-toolbar { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
+  .excalidraw .Island > footer.App-toolbar .App-toolbar-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+  }
+  .excalidraw .Island > footer.App-toolbar .ToolIcon__icon { width: 32px !important; height: 32px !important; }
+  /* Hide native zoom strip + minimap on phones so the canvas isn't cluttered. */
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
+  /* Hamburger dropdown should respect viewport edges. */
+  .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 }
 </style>
 `);
