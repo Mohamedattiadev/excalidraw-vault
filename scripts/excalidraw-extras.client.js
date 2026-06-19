@@ -44,9 +44,11 @@
       page.appendChild(btn);
       btn.addEventListener("click", async (e) => {
         e.preventDefault();
+        const quality = await openPdfQualityModal();
+        if (!quality) return;
         btn.disabled = true;
         btn.classList.add("exc-pdf-loading");
-        try { await exportCanvasAsPdf(); }
+        try { await exportCanvasAsPdf(quality); }
         catch (err) { console.error("pdf export failed", err); alert("PDF export failed: " + (err?.message || err)); }
         finally { btn.disabled = false; btn.classList.remove("exc-pdf-loading"); }
       });
@@ -114,6 +116,37 @@
     });
     document.addEventListener("keydown", function escClose(ev) {
       if (ev.key === "Escape") { close(); document.removeEventListener("keydown", escClose); }
+    });
+  }
+
+  function openPdfQualityModal() {
+    return new Promise((resolve) => {
+      if (document.querySelector(".exc-reset-modal")) return resolve(null);
+      const overlay = document.createElement("div");
+      overlay.className = "exc-reset-modal";
+      overlay.innerHTML = '<div class="exc-reset-card">'
+        + '<div class="exc-reset-title">Export PDF — pick quality</div>'
+        + '<div class="exc-reset-body">'
+        +   '<b>Mid</b> — JPEG, ~3-8 MB, fast, sharp at normal zoom.<br/>'
+        +   '<b>High</b> — PNG, ~30-80 MB, lossless, sharp at deep zoom. Slower.'
+        + '</div>'
+        + '<div class="exc-reset-actions">'
+        +   '<button type="button" class="exc-reset-no" data-q="cancel">Cancel</button>'
+        +   '<button type="button" class="exc-reset-no" data-q="mid">Mid</button>'
+        +   '<button type="button" class="exc-reset-yes" data-q="high">High</button>'
+        + '</div>'
+        + '</div>';
+      document.body.appendChild(overlay);
+      const done = (val) => { overlay.remove(); document.removeEventListener("keydown", esc); resolve(val); };
+      overlay.querySelectorAll("button[data-q]").forEach((b) => {
+        b.addEventListener("click", () => {
+          const q = b.getAttribute("data-q");
+          done(q === "cancel" ? null : q);
+        });
+      });
+      overlay.addEventListener("click", (e) => { if (e.target === overlay) done(null); });
+      function esc(ev) { if (ev.key === "Escape") done(null); }
+      document.addEventListener("keydown", esc);
     });
   }
 
@@ -207,9 +240,9 @@
     return out;
   }
 
-  async function exportCanvasAsPdf() {
+  async function exportCanvasAsPdf(quality = "mid") {
     const LOG = (...args) => console.log("[exc-pdf]", ...args);
-    LOG("start");
+    LOG("start, quality:", quality);
     const api = getApi();
     if (!api) throw new Error("Excalidraw API not ready");
     // Prefer the self-hosted vendor bundle (already loaded for mount), then CDN.
@@ -292,9 +325,10 @@
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
     // Memory cap. toBlob (used below) streams instead of building a huge base64 string, so we can safely push the cap higher than the old toDataURL path could handle.
-    // 15000 per side / 220 MP stays just under Chrome's 16384-per-side and 268 MP canvas hard caps. JPEG @ 0.99 keeps file size manageable while keeping text sharp at 4x zoom.
-    const MAX_DIM = 15000;
-    const MAX_PIXELS = 220_000_000;
+    // Mid (JPEG): 8000 px / 60 MP keeps file size in the 3-8 MB range while staying sharp at normal zoom.
+    // High (PNG): 14000 px / 180 MP stays inside Chrome's 16384-per-side and 268 MP canvas hard caps. Output ~30-80 MB.
+    const MAX_DIM = quality === "high" ? 14000 : 8000;
+    const MAX_PIXELS = quality === "high" ? 180_000_000 : 60_000_000;
     let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
@@ -324,26 +358,20 @@
     LOG("export canvas:", canvas.width, "x", canvas.height);
     // Try multiple paths: PNG dataURL → JPEG dataURL → toBlob+FileReader → final SVG fallback.
     async function canvasToDataUrl(c) {
-      // PNG via toBlob first: lossless, no JPEG artifacts on text — output is bigger but stays sharp under deep zoom.
-      try {
-        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
-        LOG("PNG toBlob size:", blob && blob.size);
-        if (blob) {
-          const fr = new FileReader();
-          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
-          if (url && url.length > 100) return { url, fmt: "PNG" };
-        }
-      } catch (e) { console.warn("[exc-pdf] PNG toBlob failed", e.name, e.message); }
-      // Fallback: JPEG via toBlob (smaller, lossy).
-      try {
-        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.99) : res(null));
-        LOG("JPEG toBlob size:", blob && blob.size);
-        if (blob) {
-          const fr = new FileReader();
-          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
-          if (url && url.length > 100) return { url, fmt: "JPEG" };
-        }
-      } catch (e) { console.warn("[exc-pdf] JPEG toBlob failed", e.name, e.message); }
+      const order = quality === "high"
+        ? [{ mime: "image/png", q: undefined, fmt: "PNG" }, { mime: "image/jpeg", q: 0.95, fmt: "JPEG" }]
+        : [{ mime: "image/jpeg", q: 0.92, fmt: "JPEG" }, { mime: "image/png", q: undefined, fmt: "PNG" }];
+      for (const enc of order) {
+        try {
+          const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, enc.mime, enc.q) : res(null));
+          LOG(enc.fmt, "toBlob size:", blob && blob.size);
+          if (blob) {
+            const fr = new FileReader();
+            const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+            if (url && url.length > 100) return { url, fmt: enc.fmt };
+          }
+        } catch (e) { console.warn("[exc-pdf]", enc.fmt, "toBlob failed", e.name, e.message); }
+      }
       // Last resort: toDataURL JPEG.
       try {
         const u = c.toDataURL("image/jpeg", 0.92);
