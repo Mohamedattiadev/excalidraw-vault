@@ -32,3 +32,4 @@ content.backup-*
 .quartz/plugins/obsidian-plugin-excalidraw/coverage/
 .quartz/plugins/obsidian-plugin-excalidraw/.tsup/
 .claude/
+.exc-incomplete

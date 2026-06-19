@@ -77,6 +77,8 @@
     overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
     overlay.querySelector(".exc-reset-yes").addEventListener("click", async () => {
       const slug = currentSlug();
+      // Signal mount-script's beforeunload/pagehide handlers to skip persistence on the upcoming reload.
+      try { window.__excResetting = true; } catch {}
       try { if (slug) localStorage.removeItem("exc-scene:" + slug); } catch {}
       // Also drop the cached snapshot for this slug so a fresh one is captured next render.
       try {

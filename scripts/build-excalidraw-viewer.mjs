@@ -1038,6 +1038,8 @@ async function mount() {
   let lastVersion = -1;
   let pendingElements = null, pendingFiles = null;
   function doSave() {
+    // Reset flow nulls window.__excResetting before reload; skip persistence so canonical scene restores.
+    if (window.__excResetting) return;
     if (!pendingElements) return;
     try {
       const payloadObj = { elements: pendingElements, files: filterUserFiles(pendingFiles, scene.files) };
