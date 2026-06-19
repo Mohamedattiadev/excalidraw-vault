@@ -31,3 +31,4 @@ content.backup-*
 .quartz/plugins/obsidian-plugin-excalidraw/test/
 .quartz/plugins/obsidian-plugin-excalidraw/coverage/
 .quartz/plugins/obsidian-plugin-excalidraw/.tsup/
+.claude/
