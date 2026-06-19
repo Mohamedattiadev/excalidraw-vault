@@ -180,12 +180,13 @@
   async function blobifyFiles(files) {
     if (!files) return files;
     const out = {};
+    let ok = 0, fail = 0;
     await Promise.all(Object.entries(files).map(async ([id, f]) => {
       if (!f || typeof f.dataURL !== "string") { out[id] = f; return; }
       const u = f.dataURL;
-      if (u.startsWith("data:")) { out[id] = f; return; }
+      if (u.startsWith("data:")) { out[id] = f; ok++; return; }
       try {
-        const res = await fetch(u, { credentials: "same-origin" });
+        const res = await fetch(u, { credentials: "same-origin", mode: "cors" });
         if (!res.ok) throw new Error("http " + res.status);
         const blob = await res.blob();
         const b64 = await new Promise((r, rej) => {
@@ -195,15 +196,20 @@
           fr.readAsDataURL(blob);
         });
         out[id] = { ...f, dataURL: b64, mimeType: f.mimeType || blob.type };
+        ok++;
       } catch (err) {
-        console.warn("blobify failed for", u, err);
+        console.warn("[exc-pdf] blobify failed for", u, err && err.message);
         out[id] = f;
+        fail++;
       }
     }));
+    console.log("[exc-pdf] blobify done. ok:", ok, "fail:", fail);
     return out;
   }
 
   async function exportCanvasAsPdf() {
+    const LOG = (...args) => console.log("[exc-pdf]", ...args);
+    LOG("start");
     const api = getApi();
     if (!api) throw new Error("Excalidraw API not ready");
     // Prefer the self-hosted vendor bundle (already loaded for mount), then CDN.
@@ -229,11 +235,17 @@
     const jsPDF = jspdfMod.jsPDF || jspdfMod.default || jspdfMod.default?.jsPDF;
     if (!jsPDF) throw new Error("jsPDF could not be loaded");
     if (!exportToCanvas) throw new Error("exportToCanvas not exported");
-    // Embeddable elements (YouTube, etc.) load via iframe + cross-origin previews and taint the export canvas.
-    // Replace them with a rectangle + label so the rest of the scene still exports cleanly.
+    // Snapshot scene + count types so we can see exactly what's about to be exported.
     const rawElements = api.getSceneElements();
+    const typeCounts = {};
+    for (const e of rawElements) typeCounts[e.type] = (typeCounts[e.type] || 0) + 1;
+    LOG("element type counts:", typeCounts, "total", rawElements.length);
+    // Embeddable / iframe elements load cross-origin previews and taint the export canvas.
+    // Replace them with a placeholder rectangle so the rest of the scene still exports cleanly.
+    let swapped = 0;
     const elements = rawElements.map((e) => {
       if (e.type !== "embeddable" && e.type !== "iframe") return e;
+      swapped++;
       return {
         ...e,
         type: "rectangle",
@@ -245,9 +257,26 @@
         link: e.link || null,
       };
     });
+    LOG("swapped embeddables → rectangles:", swapped);
     const appState = api.getAppState();
     // Convert every file to an inline data: URL so the export canvas can never taint.
-    const files = await blobifyFiles(api.getFiles());
+    const rawFiles = api.getFiles() || {};
+    const rawCount = Object.keys(rawFiles).length;
+    const rawSchemes = {};
+    for (const f of Object.values(rawFiles)) {
+      const u = f && typeof f.dataURL === "string" ? f.dataURL : "";
+      const k = u.startsWith("data:") ? "data:" : u.startsWith("blob:") ? "blob:" : u.startsWith("/") ? "/path" : u.startsWith("http") ? "http(s)" : "(empty)";
+      rawSchemes[k] = (rawSchemes[k] || 0) + 1;
+    }
+    LOG("raw files:", rawCount, "schemes:", rawSchemes);
+    const files = await blobifyFiles(rawFiles);
+    const afterSchemes = {};
+    for (const f of Object.values(files)) {
+      const u = f && typeof f.dataURL === "string" ? f.dataURL : "";
+      const k = u.startsWith("data:") ? "data:" : u.startsWith("blob:") ? "blob:" : u.startsWith("/") ? "/path" : u.startsWith("http") ? "http(s)" : "(empty)";
+      afterSchemes[k] = (afterSchemes[k] || 0) + 1;
+    }
+    LOG("post-blobify schemes:", afterSchemes);
     if (!elements || !elements.length) throw new Error("Nothing to export");
     // Pre-decode every embedded image so exportToCanvas doesn't fail on half-loaded blobs.
     await preloadImages(files);
@@ -273,6 +302,7 @@
       scale = Math.sqrt(MAX_PIXELS / (naturalW * naturalH));
     }
     scale = Math.max(1, Math.min(3, scale));
+    LOG("scene bounds:", { naturalW: Math.round(naturalW), naturalH: Math.round(naturalH), scale });
     let canvas;
     try {
       canvas = await exportToCanvas({
@@ -282,23 +312,27 @@
         getDimensions: (w, h) => ({ width: Math.floor(w * scale), height: Math.floor(h * scale), scale }),
       });
     } catch (err) {
-      console.warn("scaled export failed, retrying at 1x", err);
+      console.warn("[exc-pdf] scaled export failed, retrying at 1x", err);
       canvas = await exportToCanvas({ elements, appState, files });
     }
     if (!canvas || !canvas.width || !canvas.height) throw new Error("exportToCanvas returned empty canvas");
+    LOG("export canvas:", canvas.width, "x", canvas.height);
     // Try multiple paths: PNG dataURL → JPEG dataURL → toBlob+FileReader → final SVG fallback.
     async function canvasToDataUrl(c) {
       // PNG first (lossless, broadest browser support)
       try {
         const u = c.toDataURL("image/png");
+        LOG("PNG dataURL length:", u && u.length);
         if (u && u.length > 100) return { url: u, fmt: "PNG" };
-      } catch (e) { console.warn("PNG dataURL failed", e); }
+      } catch (e) { console.warn("[exc-pdf] PNG dataURL failed", e.name, e.message); }
       try {
         const u = c.toDataURL("image/jpeg", 0.97);
+        LOG("JPEG dataURL length:", u && u.length);
         if (u && u.length > 100) return { url: u, fmt: "JPEG" };
-      } catch (e) { console.warn("JPEG dataURL failed", e); }
+      } catch (e) { console.warn("[exc-pdf] JPEG dataURL failed", e.name, e.message); }
       // Promise-wrap toBlob (sometimes works when toDataURL throws on tainted)
       const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
+      LOG("toBlob result:", blob && blob.size);
       if (blob) {
         const reader = new FileReader();
         const url = await new Promise((res, rej) => {
