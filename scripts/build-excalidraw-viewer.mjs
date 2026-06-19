@@ -946,7 +946,7 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .page[data-frame="excalidraw"] .exc-reset-btn,
   .page[data-frame="excalidraw"] .exc-reset-all-btn {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 145px) !important;
     width: 36px !important; height: 36px !important;
     z-index: 1100 !important;
   }
