@@ -883,95 +883,66 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excali-minimap { display: none !important; }
 }
 
-/* === Phone (≤600px) — Excalidraw library swaps to App-mobile-menu layout. === */
-/* Strategy: one fixed container at the bottom that holds BOTH the action panel (top, scrollable) and the footer toolbar (below, fixed row). No overlap, no overlap-fix hacks. */
+/* === Phone (≤600px) — let Excalidraw native mobile layout handle most things. === */
 @media (max-width: 600px) {
-  .excalidraw .App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
   .excalidraw .HintViewer { display: none !important; }
-  /* The mobile menu Island wraps BOTH the action panel and the bottom footer. Pin the whole wrapper to the bottom and let its children flow naturally. */
-  .excalidraw .Island:has(> .App-mobile-menu) {
-    position: fixed !important;
-    left: 0 !important; right: 0 !important; bottom: 0 !important;
-    width: 100vw !important; max-width: 100vw !important;
-    margin: 0 !important; padding: 0 !important;
-    background: var(--island-bg-color, #fff) !important;
-    border-top: 1px solid rgba(0,0,0,0.08) !important;
-    border-radius: 0 !important;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.18) !important;
-    z-index: 1000 !important;
-    max-height: 55vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
+  .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
+  .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
+
+  /* Top mobile toolbar: keep within viewport, slim icons */
+  .excalidraw .App-toolbar.App-toolbar--mobile {
+    max-width: calc(100vw - 24px) !important;
+    box-sizing: border-box !important;
   }
-  html[saved-theme="dark"] .excalidraw .Island:has(> .App-mobile-menu) { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
-  /* Top half: scrollable action panel (Stroke / Width / Style / etc.). */
-  .excalidraw .Island > .App-mobile-menu {
-    flex: 1 1 auto !important;
-    overflow-y: auto !important; overflow-x: hidden !important;
-    padding: 10px 12px !important;
-    -webkit-overflow-scrolling: touch !important;
+  .excalidraw .App-toolbar.App-toolbar--mobile .ToolIcon__icon { width: 26px !important; height: 26px !important; }
+
+  /* Hide DUPLICATE hamburgers:
+     - floating .App-menu_top dropdown trigger (the one above the top toolbar)
+     - bottom footer's hamburger (already accessible via the top toolbar) */
+  .excalidraw .App-menu_top .dropdown-menu-button.main-menu-trigger,
+  .excalidraw footer.App-toolbar .dropdown-menu-button {
+    display: none !important;
   }
-  .excalidraw .App-mobile-menu .panelColumn { gap: 8px !important; }
-  .excalidraw .App-mobile-menu fieldset { padding: 4px 6px !important; margin: 0 !important; border-radius: 6px !important; }
-  .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; opacity: 0.7 !important; }
-  .excalidraw .App-mobile-menu .buttonList { flex-wrap: wrap !important; gap: 4px !important; }
-  /* Bottom half: pinned single-row toolbar (hamburger / Edit / Duplicate / Delete / Undo / Redo). Always visible, never overlapping the panel. */
+
+  /* Bottom mobile footer toolbar — slim native-style row, viewport bound */
+  .excalidraw--mobile footer.App-toolbar,
   .excalidraw .Island > footer.App-toolbar {
-    flex: 0 0 auto !important;
-    position: static !important;
-    padding: 8px 10px !important;
-    background: var(--island-bg-color, #fff) !important;
-    border-top: 1px solid rgba(0,0,0,0.08) !important;
-    box-shadow: none !important;
+    box-sizing: border-box !important;
+    max-width: calc(100vw - 16px) !important;
+    padding: 6px 8px !important;
   }
-  html[saved-theme="dark"] .excalidraw .Island > footer.App-toolbar { background: #232329 !important; border-top-color: rgba(255,255,255,0.08) !important; }
+  .excalidraw--mobile footer.App-toolbar .App-toolbar-content,
   .excalidraw .Island > footer.App-toolbar .App-toolbar-content {
     display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
     flex-wrap: nowrap !important;
-    width: 100% !important;
-    gap: 6px !important;
+    gap: 4px !important;
     overflow-x: auto !important;
   }
-  .excalidraw .Island > footer.App-toolbar .ToolIcon__icon { width: 32px !important; height: 32px !important; }
-  /* Hide native zoom strip + minimap on phones so the canvas isn't cluttered. */
-  .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
-  /* Hamburger dropdown should respect viewport edges. */
-  .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
-  /* exc-* buttons collide with the top mobile App-toolbar at this width.
-     Move them to the bottom-right, floating above the pinned mobile Island. */
+  .excalidraw--mobile footer.App-toolbar .ToolIcon__icon,
+  .excalidraw .Island > footer.App-toolbar .ToolIcon__icon { width: 28px !important; height: 28px !important; }
+
+  /* When the action panel popup mounts, viewport-bound it, but let native position it (no fixed 55vh strip). */
+  .excalidraw .App-mobile-menu {
+    max-width: calc(100vw - 16px) !important;
+    box-sizing: border-box !important;
+  }
+  .excalidraw .App-mobile-menu .panelColumn { gap: 6px !important; }
+  .excalidraw .App-mobile-menu fieldset { padding: 4px 6px !important; margin: 0 !important; }
+  .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; opacity: 0.7 !important; }
+  .excalidraw .App-mobile-menu .buttonList { flex-wrap: wrap !important; gap: 4px !important; }
+
+  /* exc-* buttons: bottom-right, above ~55px native footer */
   .page[data-frame="excalidraw"] .exc-pdf-export,
   .page[data-frame="excalidraw"] .exc-reset-btn,
   .page[data-frame="excalidraw"] .exc-reset-all-btn {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 145px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 64px) !important;
     width: 36px !important; height: 36px !important;
     z-index: 1100 !important;
   }
   .page[data-frame="excalidraw"] .exc-pdf-export    { right: 8px !important; }
   .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
   .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
-  /* When the mobile Island is mounted, lift exc-* above it so they don't get covered. */
-  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-pdf-export,
-  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-reset-btn,
-  .page[data-frame="excalidraw"]:has(.excalidraw .Island > .App-mobile-menu) .exc-reset-all-btn {
-    bottom: calc(55vh + 8px) !important;
-  }
-  /* Constrain top mobile toolbar so it can't push under our exc-* buttons. */
-  .excalidraw .App-toolbar.App-toolbar--mobile { max-width: calc(100vw - 24px) !important; }
-  /* Idle-state mobile bottom footer (no selection → no .App-mobile-menu).
-     Default Excalidraw lays it out with intrinsic width that overshoots 100vw,
-     clipping the redo button. Force box-sizing + viewport-bound width. */
-  .excalidraw--mobile footer.App-toolbar {
-    box-sizing: border-box !important;
-    max-width: calc(100vw - 16px) !important;
-  }
-  .excalidraw--mobile footer.App-toolbar .App-toolbar-content {
-    overflow-x: auto !important;
-    flex-wrap: nowrap !important;
-  }
 }
 </style>
 `);

@@ -196,7 +196,7 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
 /* Hide right-rail completely (graph, ToC, backlinks already disabled in config) */
 .right.sidebar, .sidebar.right { display: none !important; }
 
-/* Mobile: sidebar slides up from bottom on small screens */
+/* Mobile: collapse 3-col layout, full-width content, no horizontal overflow */
 @media (max-width: 640px) {
   .exc-author-block { padding: 8px 10px; }
   .exc-author-block .exc-author-name { font-size: 12px; }
@@ -206,6 +206,71 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
     box-shadow: 4px 0 32px rgba(0,0,0,0.35) !important;
   }
   .page[data-frame="excalidraw"] .exc-pdf-export { top: 8px; right: 8px; }
+
+  /* Index/note pages: force single-column, viewport-bound */
+  body:not([data-frame="excalidraw"]) #quartz-body,
+  body:not([data-frame="excalidraw"]) .page > #quartz-body {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    padding: 0 12px !important;
+  }
+  body:not([data-frame="excalidraw"]) .sidebar.left,
+  body:not([data-frame="excalidraw"]) .left {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 12px 0 !important;
+    box-sizing: border-box !important;
+  }
+  body:not([data-frame="excalidraw"]) .center {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 4px 0 12px !important;
+    box-sizing: border-box !important;
+  }
+  body:not([data-frame="excalidraw"]) article,
+  body:not([data-frame="excalidraw"]) .popover,
+  body:not([data-frame="excalidraw"]) main {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+  }
+  body:not([data-frame="excalidraw"]) .page-title {
+    font-size: 1.35rem !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+  body:not([data-frame="excalidraw"]) .exc-author-block {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 8px 0 !important;
+  }
+  body:not([data-frame="excalidraw"]) .search,
+  body:not([data-frame="excalidraw"]) .search > * {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  body:not([data-frame="excalidraw"]) table {
+    display: block !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  body:not([data-frame="excalidraw"]) img,
+  body:not([data-frame="excalidraw"]) pre,
+  body:not([data-frame="excalidraw"]) iframe {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }
 
 /* Print: hide UI, expand main content */
