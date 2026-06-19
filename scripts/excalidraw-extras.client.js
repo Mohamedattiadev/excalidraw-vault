@@ -291,9 +291,9 @@
     }
     const naturalW = Math.max(1, xmax - xmin);
     const naturalH = Math.max(1, ymax - ymin);
-    // Memory cap (bitmap = w*h*4 bytes). 8000×8000 = 256MB safe on most browsers.
-    const MAX_DIM = 8000;
-    const MAX_PIXELS = 64_000_000;
+    // Memory cap. Large dataURL strings + jsPDF re-encoding OOM the tab. Stay under ~25M output pixels.
+    const MAX_DIM = 5000;
+    const MAX_PIXELS = 25_000_000;
     let scale = 3;
     if (naturalW * scale > MAX_DIM || naturalH * scale > MAX_DIM) {
       scale = Math.min(MAX_DIM / naturalW, MAX_DIM / naturalH);
@@ -323,35 +323,41 @@
     LOG("export canvas:", canvas.width, "x", canvas.height);
     // Try multiple paths: PNG dataURL → JPEG dataURL → toBlob+FileReader → final SVG fallback.
     async function canvasToDataUrl(c) {
-      // PNG first (lossless, broadest browser support)
+      // For huge canvases the PNG dataURL string can be 30+ MB and OOM the tab. Prefer JPEG via toBlob → reader for memory.
       try {
-        const u = c.toDataURL("image/png");
-        LOG("PNG dataURL length:", u && u.length);
-        if (u && u.length > 100) return { url: u, fmt: "PNG" };
-      } catch (e) { console.warn("[exc-pdf] PNG dataURL failed", e.name, e.message); }
+        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/jpeg", 0.95) : res(null));
+        LOG("JPEG toBlob size:", blob && blob.size);
+        if (blob) {
+          const fr = new FileReader();
+          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+          if (url && url.length > 100) return { url, fmt: "JPEG" };
+        }
+      } catch (e) { console.warn("[exc-pdf] JPEG toBlob failed", e.name, e.message); }
+      // Fallback: PNG via toBlob (still cheaper than toDataURL for big canvases).
       try {
-        const u = c.toDataURL("image/jpeg", 0.97);
+        const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
+        LOG("PNG toBlob size:", blob && blob.size);
+        if (blob) {
+          const fr = new FileReader();
+          const url = await new Promise((res, rej) => { fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob); });
+          if (url && url.length > 100) return { url, fmt: "PNG" };
+        }
+      } catch (e) { console.warn("[exc-pdf] PNG toBlob failed", e.name, e.message); }
+      // Last resort: toDataURL JPEG (lower bytes than PNG).
+      try {
+        const u = c.toDataURL("image/jpeg", 0.92);
         LOG("JPEG dataURL length:", u && u.length);
         if (u && u.length > 100) return { url: u, fmt: "JPEG" };
       } catch (e) { console.warn("[exc-pdf] JPEG dataURL failed", e.name, e.message); }
-      // Promise-wrap toBlob (sometimes works when toDataURL throws on tainted)
-      const blob = await new Promise((res) => c.toBlob ? c.toBlob(res, "image/png") : res(null));
-      LOG("toBlob result:", blob && blob.size);
-      if (blob) {
-        const reader = new FileReader();
-        const url = await new Promise((res, rej) => {
-          reader.onload = () => res(reader.result);
-          reader.onerror = rej;
-          reader.readAsDataURL(blob);
-        });
-        if (url && url.length > 100) return { url, fmt: "PNG" };
-      }
       throw new Error("canvas.toDataURL returned empty — canvas may be tainted; try refreshing");
     }
     const { url: dataUrl, fmt } = await canvasToDataUrl(canvas);
-    const orientation = canvas.width > canvas.height ? "l" : "p";
-    const pdf = new jsPDF({ orientation, unit: "px", format: [canvas.width, canvas.height], compress: true });
-    pdf.addImage(dataUrl, fmt, 0, 0, canvas.width, canvas.height, undefined, "FAST");
+    const cw = canvas.width, ch = canvas.height;
+    // Free the canvas memory before jsPDF starts re-encoding (avoids OOM crashes on huge scenes).
+    try { canvas.width = 1; canvas.height = 1; } catch {}
+    const orientation = cw > ch ? "l" : "p";
+    const pdf = new jsPDF({ orientation, unit: "px", format: [cw, ch], compress: true });
+    pdf.addImage(dataUrl, fmt, 0, 0, cw, ch, undefined, "FAST");
     const slug = (location.pathname.split("/").filter(Boolean).pop() || "drawing").replace(/\.excalidraw$/, "");
     pdf.save(`${slug}.pdf`);
   }

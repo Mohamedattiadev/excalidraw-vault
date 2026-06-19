@@ -1083,8 +1083,35 @@ async function mount() {
       if (raw) local = JSON.parse(raw);
     } catch {}
   }
-  const initialElements = (local && Array.isArray(local.elements) && local.elements.length) ? local.elements : scene.elements;
+  let initialElements = (local && Array.isArray(local.elements) && local.elements.length) ? local.elements : scene.elements;
   const initialFiles = { ...(scene.files || {}), ...((local && local.files) || {}) };
+  // Rewrite YouTube watch URLs on embeddable elements to /embed/ form so the browser can iframe them
+  // (watch?v=... and youtu.be/... refuse to load in an iframe via X-Frame-Options).
+  function normalizeYouTubeLink(url) {
+    if (typeof url !== 'string') return url;
+    try {
+      const u = new URL(url);
+      const host = u.hostname.replace(/^www\\./, '');
+      let id = '';
+      if (host === 'youtu.be') id = u.pathname.replace(/^\\//, '').split('/')[0];
+      else if (host === 'youtube.com' || host === 'm.youtube.com') {
+        if (u.pathname === '/watch') id = u.searchParams.get('v') || '';
+        else if (u.pathname.startsWith('/shorts/')) id = u.pathname.split('/')[2] || '';
+        else if (u.pathname.startsWith('/embed/')) return url; // already embed form
+      }
+      if (!id) return url;
+      const t = u.searchParams.get('t') || u.searchParams.get('start');
+      const start = t ? '?start=' + parseInt(String(t).replace(/[^0-9]/g, ''), 10) : '';
+      return 'https://www.youtube-nocookie.com/embed/' + id + start;
+    } catch { return url; }
+  }
+  initialElements = initialElements.map((e) => {
+    if (e && (e.type === 'embeddable' || e.type === 'iframe') && typeof e.link === 'string') {
+      const fixed = normalizeYouTubeLink(e.link);
+      if (fixed !== e.link) return { ...e, link: fixed };
+    }
+    return e;
+  });
 
   let mounted = false;
   let apiRef = null;
