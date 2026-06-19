@@ -3,14 +3,17 @@ title: English
 ---
 
 
-Exam-prep revision notes split into days.
+Exam-prep revision split into days, plus older notes.
 
 ## Topics
 
-- All tenses: present, past, future
+- All tenses
+  - Present
+  - Past
+  - Future
 - Stories to make the tenses easier
 - Conjunctions
-- Singular indefinite pronouns
+- The complete list of singular indefinite pronouns
 - Day 1, Day 2, Day 3 plan
 - Examples and important notes
 - Old notes from 2022

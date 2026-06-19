@@ -9,16 +9,29 @@ Notes on the algorithms covered in class.
 
 - Big O notation
 - Recursion
-- Merge sort, quick sort, radix sort, count sort
-- Heap: build, heapify, heapsort
-- Priority queue
+- Sorting
+  - Merge sort
+  - Quick sort
+  - Radix sort
+  - Count sort
+- Heap and priority queue
+  - Binary trees, depth, height
+  - Min heap, max heap
+  - Build heap, heapify
+  - Heapsort algorithm
+  - Insert, extract max
 - Huffman coding
-- Dynamic programming: 0/1 knapsack, fractional knapsack
+  - Encoding
+  - Constructing a Huffman code
+  - Minimize total bits
+- Dynamic programming
+  - 0/1 knapsack (memoization top-down, bottom-up)
+  - Fractional knapsack
 - Matrix multiplication (Strassen)
 - Graph basics
-- BFS, DFS
+- BFS (shortest path), DFS
 - Shortest path: Dijkstra, Bellman-Ford, Floyd-Warshall
-- Minimum spanning tree
+- Minimum spanning tree: Prim, Kruskal
 
 ## Drawings
 
