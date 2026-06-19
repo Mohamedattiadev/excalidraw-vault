@@ -33,6 +33,14 @@ GoF patterns plus principles, anti-patterns, and code smells.
 | Couplers           | Coupling between classes                                                                |
 | Change Preventers  | Hard-to-follow logic, hard-to-maintain code                                              |
 
+## Resources
+
+Video links pulled from the canvas. Click to open.
+
+| Topic                             | Resources                                                |
+| --------------------------------- | -------------------------------------------------------- |
+| Chain of Responsibility pattern   | [v1](https://www.youtube.com/watch?v=FafNcoBvVQo)        |
+
 ## Drawings
 
 - [[Design-Patterns.excalidraw|Design Pattern (main canvas)]]

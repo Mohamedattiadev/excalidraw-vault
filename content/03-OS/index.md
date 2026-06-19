@@ -68,6 +68,17 @@ OS notes by chapter, plus the xv6 workflow.
 | Recovery      | Final-exam topic                                                   |
 | Exam prep     | Summaries from the book, exam-style questions                       |
 
+## Resources
+
+Links pulled from the canvas. Click to open.
+
+| Topic                        | Resources                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| How to study (textbook + intros) | [Silberschatz OS Concepts (PDF)](https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf), [v1](https://www.youtube.com/watch?v=-Izsh82Ykmg), [v2](https://www.youtube.com/watch?v=IrEpPlrIXOQ), [v3](https://www.youtube.com/watch?v=tb843MRs_0Q) |
+| Memory allocation             | [v1](https://www.youtube.com/watch?v=yrO5fvXlESE&t=8s)                                    |
+| First fit / best fit / worst fit | [v1](https://www.youtube.com/watch?v=N3rG_1CEQkQ)                                       |
+| Page replacement (LRU, OPT, FIFO) | [v1](https://www.youtube.com/watch?v=cjWnEtnKVGM)                                      |
+
 ## Drawings
 
 - [[xv6-Workflow.excalidraw|xv6 Workflow]]

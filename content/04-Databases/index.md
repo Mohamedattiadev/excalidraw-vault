@@ -78,6 +78,16 @@ Database concepts, design, SQL, transactions, and indexing.
 | Metrics                | Index evaluation metrics                                                       |
 | Storage                | File organization, index-organized tables in Oracle                             |
 
+## Resources
+
+Video links pulled from the canvas. Click to open.
+
+| Topic                 | Resources                                                                      |
+| --------------------- | ------------------------------------------------------------------------------ |
+| How to study          | [v1](https://www.youtube.com/watch?v=_UZLrD_R0T4)                              |
+| Indexing key videos   | [v1](https://www.youtube.com/watch?v=aZjYr87r1b8), [v2](https://www.youtube.com/watch?v=pN4C8cLVc7I) |
+| B-Tree                | [v1](https://www.youtube.com/watch?v=1ZhBULsbZGw)                              |
+
 ## Drawings
 
 - [[Databases.excalidraw|DB (main canvas)]]
