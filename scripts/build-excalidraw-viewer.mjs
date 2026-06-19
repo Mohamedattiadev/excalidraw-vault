@@ -637,7 +637,8 @@ html, body { height: 100%; margin: 0; }
 .excalidraw__canvas.interactive { will-change: transform; }
 /* PDF export + Reset buttons — top-right edge. Hidden until canvas paints. */
 .page[data-frame="excalidraw"] .exc-pdf-export,
-.page[data-frame="excalidraw"] .exc-reset-btn {
+.page[data-frame="excalidraw"] .exc-reset-btn,
+.page[data-frame="excalidraw"] .exc-reset-all-btn {
   position: absolute; z-index: 9999;
   opacity: 0; pointer-events: none;
   transition: opacity 200ms ease;
@@ -647,20 +648,25 @@ html, body { height: 100%; margin: 0; }
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: background 100ms ease;
 }
-.page[data-frame="excalidraw"] .exc-pdf-export { top: 12px; right: 12px; }
-.page[data-frame="excalidraw"] .exc-reset-btn  { top: 12px; right: 54px; }
+.page[data-frame="excalidraw"] .exc-pdf-export     { top: 12px; right: 12px; }
+.page[data-frame="excalidraw"] .exc-reset-btn      { top: 12px; right: 54px; }
+.page[data-frame="excalidraw"] .exc-reset-all-btn  { top: 12px; right: 96px; }
 .exc-viewer-root.exc-ready ~ .exc-pdf-export,
 .exc-viewer-root.exc-ready ~ .exc-reset-btn,
+.exc-viewer-root.exc-ready ~ .exc-reset-all-btn,
 .page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-pdf-export,
-.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-reset-btn {
+.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-reset-btn,
+.page[data-frame="excalidraw"]:has(.exc-viewer-root.exc-ready) .exc-reset-all-btn {
   opacity: 1; pointer-events: auto;
 }
 html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-pdf-export,
-html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-reset-btn {
+html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-reset-btn,
+html[saved-theme="dark"] .page[data-frame="excalidraw"] .exc-reset-all-btn {
   background: #232329; color: #e3e3e8; border-color: rgba(167,139,250,0.22);
 }
 .page[data-frame="excalidraw"] .exc-pdf-export:hover,
-.page[data-frame="excalidraw"] .exc-reset-btn:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
+.page[data-frame="excalidraw"] .exc-reset-btn:hover,
+.page[data-frame="excalidraw"] .exc-reset-all-btn:hover { background: rgba(167,139,250,0.12); color: #7b5cd6; }
 .page[data-frame="excalidraw"] .exc-pdf-export.exc-pdf-loading svg { animation: exc-spin 0.85s linear infinite; }
 .page[data-frame="excalidraw"] .exc-pdf-export[disabled] { opacity: 0.55; cursor: progress; }
 

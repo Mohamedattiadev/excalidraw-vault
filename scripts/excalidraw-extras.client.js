@@ -61,6 +61,16 @@
       page.appendChild(btn);
       btn.addEventListener("click", (e) => { e.preventDefault(); openResetModal(); });
     }
+    if (!page.querySelector(".exc-reset-all-btn")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "exc-reset-all-btn";
+      btn.setAttribute("aria-label", "Reset all drawings to original (drops local edits across every canvas)");
+      btn.title = "Reset ALL canvases";
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"/></svg>';
+      page.appendChild(btn);
+      btn.addEventListener("click", (e) => { e.preventDefault(); openResetAllModal(); });
+    }
   }
   function openResetModal() {
     if (document.querySelector(".exc-reset-modal")) return;
@@ -106,6 +116,58 @@
       if (ev.key === "Escape") { close(); document.removeEventListener("keydown", escClose); }
     });
   }
+
+  function openResetAllModal() {
+    if (document.querySelector(".exc-reset-modal")) return;
+    const overlay = document.createElement("div");
+    overlay.className = "exc-reset-modal";
+    overlay.innerHTML = '<div class="exc-reset-card">'
+      + '<div class="exc-reset-title">Reset ALL canvases?</div>'
+      + '<div class="exc-reset-body">This drops your local edits across <b>every drawing</b> in the vault. The original drawings will be restored. This cannot be undone.</div>'
+      + '<div class="exc-reset-actions"><button type="button" class="exc-reset-no">No, keep my edits</button><button type="button" class="exc-reset-yes">Yes, reset all</button></div>'
+      + '</div>';
+    document.body.appendChild(overlay);
+    const close = () => overlay.remove();
+    overlay.querySelector(".exc-reset-no").addEventListener("click", close);
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+    overlay.querySelector(".exc-reset-yes").addEventListener("click", async () => {
+      try { window.__excResetting = true; } catch {}
+      // Wipe every exc-scene:* localStorage key.
+      try {
+        const keys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && k.indexOf("exc-scene:") === 0) keys.push(k);
+        }
+        for (const k of keys) localStorage.removeItem(k);
+      } catch {}
+      // Clear both IDB stores entirely.
+      try {
+        const req = indexedDB.open("exc-snapshots", 2);
+        req.onupgradeneeded = () => {
+          const db = req.result;
+          if (!db.objectStoreNames.contains("snaps")) db.createObjectStore("snaps");
+          if (!db.objectStoreNames.contains("edits")) db.createObjectStore("edits");
+        };
+        req.onsuccess = () => {
+          const db = req.result;
+          try {
+            const stores = ["snaps", "edits"].filter((s) => db.objectStoreNames.contains(s));
+            if (!stores.length) return location.reload();
+            const tx = db.transaction(stores, "readwrite");
+            for (const s of stores) tx.objectStore(s).clear();
+            tx.oncomplete = () => location.reload();
+            tx.onerror = () => location.reload();
+          } catch { location.reload(); }
+        };
+        req.onerror = () => location.reload();
+      } catch { location.reload(); }
+    });
+    document.addEventListener("keydown", function escClose(ev) {
+      if (ev.key === "Escape") { close(); document.removeEventListener("keydown", escClose); }
+    });
+  }
+
   const pdfMO = new MutationObserver(ensureTopButtons);
   pdfMO.observe(document.body, { childList: true, subtree: true });
   ensureTopButtons();
