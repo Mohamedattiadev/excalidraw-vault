@@ -5,61 +5,68 @@ title: Operating Systems
 
 OS notes by chapter, plus the xv6 workflow.
 
-## Topics
+## Chapters
 
-- Ch 1: OS and storage devices, what an OS is, practice exercises
-- Ch 3-4: Process and thread (most modern OSes are multithreaded)
-- Ch 5: CPU scheduling
-  - FCFS (First Come First Served)
-  - SJF (Shortest Job First)
-  - SRTF (Shortest Remaining Time First)
-  - Round Robin (RR)
-  - Priority scheduling, Priority with RR
-- Ch 6-8: Synchronization and deadlocks
-  - Race condition
-  - Critical section rules
-  - Methods for handling deadlocks
-  - Local vs global vs heap variables and locking
-- Ch 9: Memory management
-  - Goals of memory management
-  - Sharing physical memory, memory protection
-  - Logical (virtual) memory
-  - Swapping (and context switch time)
-  - Roll Out / Roll In with priority scheduling
-  - Segmentation, segment tables, fragmentation
-  - Paging, paging advantages and disadvantages
-  - Page tables, page table structures (multilevel, hashed, inverted)
-  - Address translation, MMU, TLB
-  - Dynamic loading, dynamic linking
-- Ch 10: Virtual memory
-  - Core idea, virtual address space
-  - Demand paging, valid / invalid bit
-  - Page replacement: LRU, OPT, FIFO
-  - Locality, working set model
-  - Thrashing: what, why, how to prevent
-  - Copy-on-write
-  - Allocation of frames
-  - Kernel memory allocation
-- Ch 11-12: File system
-  - File types, files
-  - File allocation methods, allocation method performance
-  - File system implementation and layers
-  - Protection of files and directories
-  - Free-space management
-  - Journaling file systems
-  - Backups
-  - File system examples
-- Ch 13-14: I/O devices
-- Ch 18: Virtual machines
-  - What a VM is, history and importance
-  - Reasons to virtualize, benefits, cloud computing
-  - Virtual Machine Monitor (VMM / Hypervisor), hardware support
-  - Memory virtualization
-  - I/O virtualization
-  - Storage virtualization, live migration
-  - Application containment
-- Recovery
-- Final exam questions and summaries from the book
+| Ch      | Topics                                                                                       |
+| ------- | -------------------------------------------------------------------------------------------- |
+| 1       | What an OS is, OS and storage devices, practice exercises                                    |
+| 3-4     | Process, thread (most modern OSes are multithreaded)                                           |
+| 5       | CPU scheduling: FCFS, SJF, SRTF, Round Robin, Priority, Priority with RR                      |
+| 6-8     | Synchronization and deadlocks: race condition, critical section rules, handling deadlocks      |
+| 9       | Memory management (see below)                                                                |
+| 10      | Virtual memory (see below)                                                                   |
+| 11-12   | File system (see below)                                                                      |
+| 13-14   | I/O devices                                                                                  |
+| 18      | Virtual machines (see below)                                                                 |
+
+## Memory management (Ch 9)
+
+| Topic                  | Items                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| Goals                  | Sharing physical memory, memory protection                                              |
+| Logical memory         | Virtual memory, swapping, context switch time, roll out / roll in (priority scheduling) |
+| Segmentation           | Segment tables, fragmentation                                                          |
+| Paging                 | Advantages and disadvantages, address translation                                       |
+| Page tables            | Multilevel paging, hashed page table, inverted page table                                |
+| Hardware               | MMU, TLB                                                                                |
+| Loading and linking    | Dynamic loading, dynamic linking                                                        |
+
+## Virtual memory (Ch 10)
+
+| Topic                  | Items                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| Core idea              | Virtual address space, demand paging, valid / invalid bit                              |
+| Page replacement       | LRU, OPT, FIFO (the important ones)                                                    |
+| Access patterns        | Locality, working set model                                                            |
+| Thrashing              | What it is, why it happens, how to prevent                                              |
+| Other                  | Copy-on-write, allocation of frames, kernel memory allocation                           |
+
+## File system (Ch 11-12)
+
+| Topic           | Items                                                              |
+| --------------- | ------------------------------------------------------------------ |
+| Basics          | File types, file allocation methods, allocation method performance  |
+| Protection      | Files and directories                                              |
+| Structure       | File system implementation and layers                              |
+| Storage         | Free-space management, journaling file systems, backups             |
+| Examples        | File system examples                                               |
+
+## Virtual machines (Ch 18)
+
+| Topic         | Items                                                              |
+| ------------- | ------------------------------------------------------------------ |
+| Intro         | What a VM is, history and importance                               |
+| Why           | Reasons to virtualize, benefits, cloud computing                    |
+| Monitor       | Virtual Machine Monitor (VMM / Hypervisor), hardware support        |
+| Resources     | Memory, I/O, storage virtualization, live migration                 |
+| Isolation     | Application containment                                            |
+
+## Other
+
+| Topic         | Notes                                                              |
+| ------------- | ------------------------------------------------------------------ |
+| Recovery      | Final-exam topic                                                   |
+| Exam prep     | Summaries from the book, exam-style questions                       |
 
 ## Drawings
 

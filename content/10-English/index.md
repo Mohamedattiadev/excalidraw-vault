@@ -7,16 +7,13 @@ Exam-prep revision split into days, plus older notes.
 
 ## Topics
 
-- All tenses
-  - Present
-  - Past
-  - Future
-- Stories to make the tenses easier
-- Conjunctions
-- The complete list of singular indefinite pronouns
-- Day 1, Day 2, Day 3 plan
-- Examples and important notes
-- Old notes from 2022
+| Topic                | Items                                                  |
+| -------------------- | ------------------------------------------------------ |
+| All tenses           | Present, past, future                                   |
+| Tense practice       | Stories to make the tenses easier                        |
+| Grammar              | Conjunctions, complete list of singular indefinite pronouns |
+| Plan                 | Day 1, Day 2, Day 3                                      |
+| Notes                | Examples and important notes, old notes from 2022       |
 
 ## Drawings
 
