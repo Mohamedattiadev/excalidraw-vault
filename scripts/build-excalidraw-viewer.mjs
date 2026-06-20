@@ -918,16 +918,27 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
     position: fixed !important;
     top: 64px !important;
     bottom: auto !important;
-    left: 8px !important;
+    left: 16px !important;
     right: auto !important;
-    width: 240px !important;
-    max-width: calc(100vw - 16px) !important;
+    width: 200px !important;
+    max-width: calc(100vw - 32px) !important;
     max-height: calc(100vh - 140px) !important;
+    margin: 0 !important;
+    padding: 6px !important;
     overflow: auto !important;
     box-sizing: border-box !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
     z-index: 900 !important;
   }
+  .excalidraw .Island.App-menu__left .panelColumn { gap: 4px !important; }
+  .excalidraw .Island.App-menu__left fieldset { margin: 2px 0 !important; padding: 2px 0 !important; }
+  .excalidraw .Island.App-menu__left fieldset legend { font-size: 10px !important; padding: 0 4px !important; }
+  .excalidraw .Island.App-menu__left .color-picker__button,
+  .excalidraw .Island.App-menu__left .ColorPicker__button { width: 18px !important; height: 18px !important; }
+  .excalidraw .Island.App-menu__left .iconRow .ToolIcon,
+  .excalidraw .Island.App-menu__left .buttonList button { width: 24px !important; height: 24px !important; padding: 2px !important; }
+  .excalidraw .Island.App-menu__left .range-input,
+  .excalidraw .Island.App-menu__left input[type="range"] { height: 18px !important; }
   html[saved-theme="dark"] .excalidraw .Island.App-menu__left {
     box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
   }
@@ -972,10 +983,12 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excalidraw .Island > footer.App-toolbar,
   .excalidraw--mobile footer.App-toolbar {
     position: fixed !important;
-    left: 8px !important;
-    right: 8px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
     top: auto !important;
+    width: max-content !important;
     max-width: calc(100vw - 16px) !important;
     box-sizing: border-box !important;
     padding: 4px 6px !important;
@@ -1008,16 +1021,27 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
     position: fixed !important;
     top: 56px !important;
     bottom: auto !important;
-    left: 8px !important;
+    left: 16px !important;
     right: auto !important;
-    width: 220px !important;
-    max-width: calc(100vw - 16px) !important;
+    width: 200px !important;
+    max-width: calc(100vw - 32px) !important;
     max-height: calc(100vh - 120px) !important;
+    margin: 0 !important;
+    padding: 6px !important;
     overflow: auto !important;
     box-sizing: border-box !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
     z-index: 900 !important;
   }
+  .excalidraw .Island.App-menu__left .panelColumn { gap: 4px !important; }
+  .excalidraw .Island.App-menu__left fieldset { margin: 2px 0 !important; padding: 2px 0 !important; }
+  .excalidraw .Island.App-menu__left fieldset legend { font-size: 10px !important; padding: 0 4px !important; }
+  .excalidraw .Island.App-menu__left .color-picker__button,
+  .excalidraw .Island.App-menu__left .ColorPicker__button { width: 18px !important; height: 18px !important; }
+  .excalidraw .Island.App-menu__left .iconRow .ToolIcon,
+  .excalidraw .Island.App-menu__left .buttonList button { width: 24px !important; height: 24px !important; padding: 2px !important; }
+  .excalidraw .Island.App-menu__left .range-input,
+  .excalidraw .Island.App-menu__left input[type="range"] { height: 18px !important; }
   html[saved-theme="dark"] .excalidraw .Island.App-menu__left {
     box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
   }
