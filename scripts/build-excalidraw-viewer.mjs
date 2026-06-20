@@ -989,6 +989,7 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
     bottom: calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
     top: auto !important;
     width: max-content !important;
+    min-width: 0 !important;
     max-width: calc(100vw - 16px) !important;
     box-sizing: border-box !important;
     padding: 4px 6px !important;
