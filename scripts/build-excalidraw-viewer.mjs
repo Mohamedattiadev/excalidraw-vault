@@ -881,11 +881,13 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excalidraw .layer-ui__wrapper__footer-right .zen-mode { display: none !important; }
   .excalidraw .App-toolbar .ToolIcon__keybinding { display: none !important; }
 
-  /* Top toolbar: compact, wrap if too wide */
+  /* Top toolbar: compact, wrap if too wide. width:max-content prevents trailing
+     empty bar space after we hide minimap/zoombox/etc. */
   .excalidraw .App-toolbar {
     padding: 4px 6px !important;
     gap: 4px !important;
     flex-wrap: wrap !important;
+    width: max-content !important;
     max-width: calc(100vw - 24px) !important;
   }
   .excalidraw .App-toolbar .ToolIcon__icon { width: 30px !important; height: 30px !important; }
@@ -910,16 +912,17 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
   .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
 
-  /* Selection action panel (.Island.App-menu__left) — pin as floating bottom-left sheet
-     (mimics native mobile bottom-sheet look at tablet size) */
+  /* Selection action panel (.Island.App-menu__left) — float top-left below the
+     top toolbar so it doesn't sit over canvas content like a bottom sheet. */
   .excalidraw .Island.App-menu__left {
     position: fixed !important;
-    top: auto !important;
-    bottom: 72px !important;
+    top: 64px !important;
+    bottom: auto !important;
     left: 8px !important;
     right: auto !important;
-    max-width: min(320px, calc(100vw - 16px)) !important;
-    max-height: 60vh !important;
+    width: 240px !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 140px) !important;
     overflow: auto !important;
     box-sizing: border-box !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
@@ -945,8 +948,10 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .App-toolbar .exc-extra-btn[data-tool="minimap"],
   .App-toolbar .exc-extra-btn[data-tool="zoombox"] { display: none !important; }
 
-  /* Top toolbar: reserve 44px for hamburger, keep within viewport */
+  /* Top toolbar: reserve 44px for hamburger, keep within viewport, shrink-to-fit
+     so removed icons (zoombox/minimap/diamond) don't leave empty bar space */
   .excalidraw .App-toolbar {
+    width: max-content !important;
     max-width: calc(100vw - 60px) !important;
     margin-left: 44px !important;
     box-sizing: border-box !important;
@@ -998,15 +1003,16 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
   .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
 
-  /* Selection action panel as floating bottom-left sheet */
+  /* Selection action panel floats top-left below the top toolbar */
   .excalidraw .Island.App-menu__left {
     position: fixed !important;
-    top: auto !important;
-    bottom: 56px !important;
+    top: 56px !important;
+    bottom: auto !important;
     left: 8px !important;
     right: auto !important;
-    max-width: min(280px, calc(100vw - 16px)) !important;
-    max-height: 50vh !important;
+    width: 220px !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100vh - 120px) !important;
     overflow: auto !important;
     box-sizing: border-box !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
