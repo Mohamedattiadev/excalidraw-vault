@@ -930,6 +930,95 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   }
 }
 
+/* === Hide Diamond shape on phone-sized viewports (portrait + landscape) === */
+@media (max-width: 600px), (max-width: 1180px) and (max-height: 500px) {
+  .excalidraw .App-toolbar label.ToolIcon[title^="Diamond"] { display: none !important; }
+}
+
+/* === Phone LANDSCAPE (≤1180px wide AND ≤500px tall) — mirror phone-portrait fixes.
+       Native Excalidraw skips its "mobile" layout above 600px width, so 844×390 etc.
+       falls into the tablet layout and regresses (floating duplicate hamburger,
+       unpinned footer, exc-* in wrong spot). Re-apply phone treatment. === */
+@media (max-width: 1180px) and (max-height: 500px) {
+  .excalidraw .HintViewer { display: none !important; }
+  .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
+  .App-toolbar .exc-extra-btn[data-tool="minimap"],
+  .App-toolbar .exc-extra-btn[data-tool="zoombox"] { display: none !important; }
+
+  /* Top toolbar: reserve 44px for hamburger, keep within viewport */
+  .excalidraw .App-toolbar {
+    max-width: calc(100vw - 60px) !important;
+    margin-left: 44px !important;
+    box-sizing: border-box !important;
+    flex-wrap: wrap !important;
+    row-gap: 2px !important;
+    padding: 4px 6px !important;
+  }
+  .excalidraw .App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
+
+  /* Hide duplicate hamburgers (floating one above + footer one) */
+  .excalidraw .App-menu_top .dropdown-menu-button.main-menu-trigger,
+  .excalidraw footer.App-toolbar .dropdown-menu-button {
+    display: none !important;
+  }
+
+  /* Pin native footer toolbar to bottom slim — landscape native does NOT pin it */
+  .excalidraw footer.App-toolbar,
+  .excalidraw .Island > footer.App-toolbar,
+  .excalidraw--mobile footer.App-toolbar {
+    position: fixed !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 4px) !important;
+    top: auto !important;
+    max-width: calc(100vw - 16px) !important;
+    box-sizing: border-box !important;
+    padding: 4px 6px !important;
+    margin: 0 !important;
+    z-index: 900 !important;
+  }
+  .excalidraw footer.App-toolbar .App-toolbar-content {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    overflow-x: auto !important;
+  }
+  .excalidraw footer.App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
+
+  /* exc-* buttons → bottom-right, 56px from bottom like portrait phone */
+  .page[data-frame="excalidraw"] .exc-pdf-export,
+  .page[data-frame="excalidraw"] .exc-reset-btn,
+  .page[data-frame="excalidraw"] .exc-reset-all-btn {
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 56px) !important;
+    width: 36px !important; height: 36px !important;
+    z-index: 1100 !important;
+  }
+  .page[data-frame="excalidraw"] .exc-pdf-export    { right: 8px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-btn     { right: 52px !important; }
+  .page[data-frame="excalidraw"] .exc-reset-all-btn { right: 96px !important; }
+
+  /* Selection action panel as floating bottom-left sheet */
+  .excalidraw .Island.App-menu__left {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 56px !important;
+    left: 8px !important;
+    right: auto !important;
+    max-width: min(280px, calc(100vw - 16px)) !important;
+    max-height: 50vh !important;
+    overflow: auto !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
+    z-index: 900 !important;
+  }
+  html[saved-theme="dark"] .excalidraw .Island.App-menu__left {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+  }
+
+  .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
+}
+
 /* === Phone (≤600px) — let Excalidraw native mobile layout handle most things. === */
 @media (max-width: 600px) {
   .excalidraw .HintViewer { display: none !important; }
