@@ -1,7 +1,7 @@
 // @ts-nocheck
-const MIN_ZOOM = 0.05;
-const MAX_ZOOM = 50;
-const ZOOM_STEP = 0.2;
+const MIN_ZOOM = 0.1;
+const MAX_ZOOM = 5;
+const ZOOM_STEP = 0.15;
 
 function initExcalidraw() {
   const framePage = document.querySelector(".page[data-frame='excalidraw']");
@@ -13,8 +13,6 @@ function initExcalidraw() {
 
   const embeddedPages = document.querySelectorAll(".excalidraw-page");
   for (const page of embeddedPages) {
-    // Skip pan/zoom when native Excalidraw viewer is mounted — it handles gestures natively.
-    if (page.querySelector(".exc-viewer-root")) continue;
     initPanZoom(page);
   }
 }
@@ -23,11 +21,11 @@ function initSidebar(page) {
   const toggle = page.querySelector(".excalidraw-sidebar-toggle");
   if (!toggle) return;
 
-  const onClick = () => page.classList.toggle("excalidraw-sidebar-open");
-  toggle.addEventListener("click", onClick);
+  toggle.addEventListener("click", () => {
+    page.classList.toggle("excalidraw-sidebar-open");
+  });
 
   window.addCleanup(() => {
-    toggle.removeEventListener("click", onClick);
     page.classList.remove("excalidraw-sidebar-open");
   });
 }

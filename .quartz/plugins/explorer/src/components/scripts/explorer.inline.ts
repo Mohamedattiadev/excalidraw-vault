@@ -259,6 +259,9 @@ async function handleNavOrRender(e) {
         continue;
       }
 
+      // Clear existing content
+      explorerUl.innerHTML = '<li class="overflow-end"></li>';
+
       // Get data functions configuration
       const dataFns = explorer.dataset.dataFns;
       const folderBehavior = explorer.dataset.behavior || "collapse";
@@ -407,6 +410,7 @@ async function handleNavOrRender(e) {
 }
 
 document.addEventListener("nav", handleNavOrRender);
+document.addEventListener("render", handleNavOrRender);
 
 document.addEventListener("prenav", () => {
   const explorer = document.querySelector(".explorer-ul");

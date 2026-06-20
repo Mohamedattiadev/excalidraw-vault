@@ -996,11 +996,16 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
     z-index: 900 !important;
   }
   .excalidraw footer.App-toolbar .App-toolbar-content {
-    display: flex !important;
+    display: inline-flex !important;
     flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
     gap: 4px !important;
+    width: max-content !important;
+    max-width: 100% !important;
     overflow-x: auto !important;
   }
+  .excalidraw footer.App-toolbar .App-toolbar-content > .ToolIcon_type_button--hide,
+  .excalidraw footer.App-toolbar .App-toolbar-content > .dropdown-menu-button--mobile { display: none !important; }
   .excalidraw footer.App-toolbar .ToolIcon__icon { width: 26px !important; height: 26px !important; }
 
   /* exc-* buttons → bottom-right, 56px from bottom like portrait phone */
