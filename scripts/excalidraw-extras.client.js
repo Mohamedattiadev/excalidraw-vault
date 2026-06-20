@@ -404,6 +404,74 @@
   sidebarMO.observe(document.body, { childList: true, subtree: true });
   document.querySelectorAll(".excalidraw-sidebar-toggle").forEach(bindToggle);
 
+  // Live drag-to-close on .excalidraw-sidebar (mobile + tablet ≤1180px).
+  // Sidebar follows finger; release past 50% width or fast flick → close, else snap back.
+  (function bindSidebarSwipe() {
+    let sb = null, startX = 0, startY = 0, lastX = 0, lastT = 0, vX = 0;
+    let tracking = false, axisLocked = false, dragging = false;
+    const DIR_LOCK_PX = 8;
+    const FLICK_VX = 0.5; // px/ms
+
+    function onStart(e) {
+      if (window.innerWidth > 1180) return;
+      const target = e.target && e.target.closest && e.target.closest(".excalidraw-sidebar");
+      if (!target) return;
+      const page = target.closest(".page[data-frame='excalidraw']");
+      if (!page || !page.classList.contains("excalidraw-sidebar-open")) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      sb = target;
+      startX = lastX = t.clientX; startY = t.clientY; lastT = e.timeStamp || performance.now();
+      vX = 0;
+      tracking = true; axisLocked = false; dragging = false;
+    }
+    function onMove(e) {
+      if (!tracking) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (!axisLocked) {
+        if (Math.abs(dx) < DIR_LOCK_PX && Math.abs(dy) < DIR_LOCK_PX) return;
+        axisLocked = true;
+        if (Math.abs(dy) > Math.abs(dx) || dx < 0) { tracking = false; return; } // vertical scroll or leftward, abandon
+        dragging = true;
+        sb.style.transition = "none";
+      }
+      if (!dragging) return;
+      const now = e.timeStamp || performance.now();
+      const dt = Math.max(1, now - lastT);
+      vX = (t.clientX - lastX) / dt;
+      lastX = t.clientX; lastT = now;
+      const offset = Math.max(0, dx);
+      sb.style.transform = `translateX(${offset}px)`;
+    }
+    function onEnd(e) {
+      if (!tracking) return;
+      tracking = false;
+      if (!dragging || !sb) { sb = null; return; }
+      const width = sb.getBoundingClientRect().width || 320;
+      const t = (e.changedTouches && e.changedTouches[0]) || null;
+      const dx = t ? (t.clientX - startX) : 0;
+      const shouldClose = dx > width / 2 || vX > FLICK_VX;
+      const page = sb.closest(".page[data-frame='excalidraw']");
+      sb.style.transition = "transform 180ms ease";
+      if (shouldClose) {
+        sb.style.transform = "";
+        if (page) page.classList.remove("excalidraw-sidebar-open");
+      } else {
+        sb.style.transform = "translateX(0px)";
+      }
+      const el = sb;
+      setTimeout(() => { el.style.transition = ""; el.style.transform = ""; }, 220);
+      sb = null; dragging = false;
+    }
+    document.addEventListener("touchstart", onStart, { capture: true, passive: true });
+    document.addEventListener("touchmove",  onMove,  { capture: true, passive: true });
+    document.addEventListener("touchend",   onEnd,   { capture: true, passive: true });
+    document.addEventListener("touchcancel", onEnd,  { capture: true, passive: true });
+  })();
+
   const ICONS = {
     theme: '<svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>',
     zoombox: '<svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="21" y1="21" x2="15.1" y2="15.1"/><rect x="7" y="7" width="7" height="7" stroke-dasharray="2 2"/></svg>',
