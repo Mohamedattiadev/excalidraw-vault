@@ -21,6 +21,16 @@
   document.addEventListener("mousedown",   handleSidebarToggle, true);
   document.addEventListener("click",       handleSidebarToggle, true);
 
+  // After hamburger tap on tablet/phone, the browser's synthesized click can land on
+  // a sidebar link beneath the toggle (the explorer's vault-title anchor), navigating away.
+  // Eat any click on sidebar anchors for 450ms after a toggle.
+  document.addEventListener("click", (e) => {
+    if (performance.now() - lastToggleAt > 450) return;
+    const a = e.target && e.target.closest && e.target.closest(".excalidraw-sidebar a");
+    if (!a) return;
+    e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+  }, true);
+
   function currentSlug() {
     // Mount script exposes the canonical build-time slug (e.g. "01-algorithms__algorithms").
     if (window.__excSlug) return window.__excSlug;
@@ -758,6 +768,23 @@
   function isMounted() {
     return !!document.querySelector('.exc-viewer-root');
   }
+  // On mobile + tablet (≤1180px) start with hand (pan) tool active instead of selection,
+  // so first finger-drag pans the canvas instead of doing a marquee select.
+  (function defaultHandToolOnTouch() {
+    if (window.innerWidth > 1180) return;
+    let tries = 0;
+    const tick = () => {
+      tries++;
+      const api = window.__excApi;
+      if (api && typeof api.setActiveTool === "function") {
+        try { api.setActiveTool({ type: "hand" }); } catch (_) {}
+        return;
+      }
+      if (tries < 40) setTimeout(tick, 150); // up to 6s wait for API
+    };
+    tick();
+  })();
+
   document.addEventListener("nav", () => {
     if (isExcalidrawPage() && !isMounted()) {
       // Avoid an infinite loop if reload itself somehow fails to render.

@@ -934,8 +934,16 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 @media (max-width: 600px) {
   .excalidraw .HintViewer { display: none !important; }
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
-  /* Hide minimap toggle button in native toolbar on phone (panel itself already hidden) */
-  .App-toolbar .exc-extra-btn[data-tool="minimap"] { display: none !important; }
+  /* Hide minimap + zoombox toggle buttons on phone (zoombox button was overflowing top toolbar to the right) */
+  .App-toolbar .exc-extra-btn[data-tool="minimap"],
+  .App-toolbar .exc-extra-btn[data-tool="zoombox"] { display: none !important; }
+
+  /* Lower exc-* buttons on phone — tablet block sets bottom:80px which is too high; phone has no zoom strip */
+  .page[data-frame="excalidraw"] .exc-pdf-export,
+  .page[data-frame="excalidraw"] .exc-reset-btn,
+  .page[data-frame="excalidraw"] .exc-reset-all-btn {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 56px) !important;
+  }
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 
   /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips.
