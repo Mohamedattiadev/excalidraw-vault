@@ -410,7 +410,7 @@
     let sb = null, startX = 0, startY = 0, lastX = 0, lastT = 0, vX = 0;
     let tracking = false, axisLocked = false, dragging = false;
     const DIR_LOCK_PX = 8;
-    const FLICK_VX = 0.5; // px/ms
+    const FLICK_VX = 1.0; // px/ms — true flick; below this treat as deliberate drag and use distance threshold
 
     function onStart(e) {
       if (window.innerWidth > 1180) return;
