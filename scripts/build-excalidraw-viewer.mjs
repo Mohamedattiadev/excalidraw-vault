@@ -938,12 +938,6 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .App-toolbar .exc-extra-btn[data-tool="minimap"],
   .App-toolbar .exc-extra-btn[data-tool="zoombox"] { display: none !important; }
 
-  /* Lower exc-* buttons on phone — tablet block sets bottom:80px which is too high; phone has no zoom strip */
-  .page[data-frame="excalidraw"] .exc-pdf-export,
-  .page[data-frame="excalidraw"] .exc-reset-btn,
-  .page[data-frame="excalidraw"] .exc-reset-all-btn {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 56px) !important;
-  }
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 
   /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips.
@@ -998,12 +992,12 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excalidraw .App-mobile-menu fieldset legend { font-size: 11px !important; padding: 0 4px !important; opacity: 0.7 !important; }
   .excalidraw .App-mobile-menu .buttonList { flex-wrap: wrap !important; gap: 4px !important; }
 
-  /* exc-* buttons: bottom-right, above ~55px native footer */
+  /* exc-* buttons: bottom-right, just above the slim native mobile footer */
   .page[data-frame="excalidraw"] .exc-pdf-export,
   .page[data-frame="excalidraw"] .exc-reset-btn,
   .page[data-frame="excalidraw"] .exc-reset-all-btn {
     top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 80px) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 56px) !important;
     width: 36px !important; height: 36px !important;
     z-index: 1100 !important;
   }
