@@ -934,9 +934,12 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 
-  /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips */
+  /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips.
+     Reserve 48px on the left so .excalidraw-sidebar-toggle (top:12px left:12px, 32px) never
+     covers the leftmost tool icon — was intermittently overlapping the selection icon. */
   .excalidraw .App-toolbar.App-toolbar--mobile {
-    max-width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 60px) !important;
+    margin-left: 44px !important;
     box-sizing: border-box !important;
     flex-wrap: wrap !important;
     row-gap: 2px !important;
