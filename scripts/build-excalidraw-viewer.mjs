@@ -869,8 +869,10 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 /* === Tablet/iPad (≤1180px) — mimic phone treatment: slim bars, popup pinned, exc-* bottom-right.
        1180 covers iPad Pro 11" landscape; phone-specific block below at ≤600. === */
 @media (max-width: 1180px) {
-  .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; }
+  .page[data-frame="excalidraw"] .excalidraw-sidebar { width: min(85vw, 320px) !important; touch-action: pan-y !important; }
   .page[data-frame="excalidraw"].excalidraw-sidebar-open .excalidraw-stage { left: 0 !important; }
+  /* Also hide minimap toggle button at tablet — minimap panel already hidden above */
+  .App-toolbar .exc-extra-btn[data-tool="minimap"] { display: none !important; }
 
   /* Hide noise */
   .excalidraw .HintViewer { display: none !important; }
@@ -932,6 +934,8 @@ html[saved-theme="dark"] .App-toolbar .exc-extra-btn[data-active="1"] { backgrou
 @media (max-width: 600px) {
   .excalidraw .HintViewer { display: none !important; }
   .excali-minimap, .excalidraw .layer-ui__wrapper__footer-left { display: none !important; }
+  /* Hide minimap toggle button in native toolbar on phone (panel itself already hidden) */
+  .App-toolbar .exc-extra-btn[data-tool="minimap"] { display: none !important; }
   .excalidraw .dropdown-menu-container { max-width: calc(100vw - 24px) !important; }
 
   /* Top mobile toolbar: keep within viewport, slim icons, allow wrap so nothing clips.
