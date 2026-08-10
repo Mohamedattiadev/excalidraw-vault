@@ -41,6 +41,6 @@ practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 
 | File                                       | Link                                                                                                                                       |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| 8.1 - Software Architecture chp (1-4), high quality | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-high-quality.pdf">Go to PDF</a> |
-| 8.1 - Software Architecture chp (1-4), mid quality  | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-mid-quality.pdf">Go to PDF</a>  |
+| 8.1 - Software Architecture chp (1-4), high quality | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-high-quality.pdf" data-pdf-title="8.1 - Software Architecture, chp (1-4), high quality">Go to PDF</a> |
+| 8.1 - Software Architecture chp (1-4), mid quality  | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-mid-quality.pdf" data-pdf-title="8.1 - Software Architecture, chp (1-4), mid quality">Go to PDF</a>  |
 | Folder                                     | <a href="https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/01-Universite/07-SoftwareArchitecture" target="_blank" rel="noopener">Open on GitHub</a>                              |

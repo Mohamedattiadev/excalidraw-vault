@@ -513,6 +513,29 @@ const SITE_URL = `https:${SITE_BASEPATH ? '//mohamedattiadev.github.io' + SITE_B
 const OG_IMAGE = `${SITE_URL}/static/icon.png`;
 const SW_REGISTER = `<script>if('serviceWorker'in navigator){addEventListener('load',()=>{navigator.serviceWorker.register('${SITE_BASEPATH}/sw.js').catch(e=>console.warn('SW reg fail',e))})}</script>`;
 
+// The build-time pass below can only reach links that exist in the HTML. The
+// explorer tree is rendered by JS from contentIndex.json, so its canvas links
+// never saw it. This covers them: mark what is there now, mark what the
+// explorer adds later, and catch the click itself in the capture phase so
+// Quartz's own router cannot swallow it first.
+const CANVAS_NEWTAB = `<script>(function(){
+var RE=/\\.excalidraw(?:[?#]|$)/;
+function mark(){document.querySelectorAll('a[href]:not([target])').forEach(function(a){
+  if(RE.test(a.getAttribute('href')||'')){a.target='_blank';a.rel='noopener';}});}
+function ready(){mark();
+  var t,o=new MutationObserver(function(){clearTimeout(t);t=setTimeout(mark,50);});
+  o.observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('nav',mark);}
+if(document.readyState!=='loading')ready();else addEventListener('DOMContentLoaded',ready);
+document.addEventListener('click',function(e){
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  var a=e.target&&e.target.closest&&e.target.closest('a[href]');
+  if(!a||!RE.test(a.getAttribute('href')||''))return;
+  e.preventDefault();e.stopPropagation();
+  window.open(a.href,'_blank','noopener');
+},true);
+})();</script>`;
+
 const allHtml = await glob(`${PUBLIC}/**/*.html`);
 console.log(`injecting author block + meta + SW into ${allHtml.length} html pages`);
 for (const fp of allHtml) {
@@ -549,6 +572,11 @@ for (const fp of allHtml) {
       $$('body').append(SW_REGISTER);
     }
 
+    // Same rule for the links the explorer renders at runtime (once)
+    if (!html.includes('excalidraw(?:[?#]|$)')) {
+      $$('body').append(CANVAS_NEWTAB);
+    }
+
     // A canvas is somewhere you sit and draw, not somewhere you pass through.
     // Opening it in a new tab keeps the index you came from where it was, so
     // going back to pick the next drawing does not mean reloading and
@@ -570,7 +598,12 @@ for (const fp of allHtml) {
       const a = $$(el);
       const file = a.attr('data-pdf');
       if (!file) return;
-      a.attr('href', `${upToRoot}pdf?file=${encodeURIComponent(file)}`);
+      // Carry the human title along. Deriving it from the slug gives
+      // "chp (1 4) high quality", because the slugifier already ate the
+      // punctuation that made it readable.
+      const title = a.attr('data-pdf-title');
+      a.attr('href', `${upToRoot}pdf?file=${encodeURIComponent(file)}` +
+                     (title ? `&t=${encodeURIComponent(title)}` : ''));
       a.attr('target', '_blank').attr('rel', 'noopener');
     });
 

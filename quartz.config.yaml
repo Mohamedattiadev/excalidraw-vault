@@ -217,7 +217,9 @@ plugins:
       includedProperties:
         - description
         - tags
-        - aliases
+        # Not aliases. They are internal routing (every page carries the old
+        # pre-move path plus its /index twin) and they were rendering a block
+        # of that above the note, which on a phone is most of the first screen.
       excludedProperties: []
       hidePropertiesView: false
       delimiters: ---
