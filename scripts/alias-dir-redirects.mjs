@@ -39,8 +39,12 @@ function walk(dir) {
     const html = fs.readFileSync(p, 'utf8');
     if (!IS_STUB.test(html)) continue;               // a real page, not a redirect
 
+    // Only an index.html means the path is already served. The directory
+    // existing is not enough: `11-dev-101/` is a real directory holding nested
+    // pages with nothing at its own root, so testing the directory skipped
+    // exactly the paths that needed the redirect most.
     const asDir = p.slice(0, -'.html'.length);
-    if (fs.existsSync(asDir)) { skipped++; continue; } // a real page already owns that path
+    if (fs.existsSync(path.join(asDir, 'index.html'))) { skipped++; continue; }
 
     fs.mkdirSync(asDir, { recursive: true });
     fs.writeFileSync(path.join(asDir, 'index.html'), deepen(html));
