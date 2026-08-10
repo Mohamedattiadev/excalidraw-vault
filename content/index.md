@@ -28,6 +28,14 @@ remember, in the order I needed it, and it skips what I already knew.
 | 09 | [[09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
 | 10 | [[10-English/index\|English]] | Exam-prep revision notes |
 
+## Courses
+
+Not notes, and not computer science. A written course, with a video.
+
+| # | Folder | What it is |
+|---|--------|-----------|
+| 11 | [[11-Dev-101/index\|Dev 101]] | [[11-Dev-101/Terminal-101/index\|Terminal 101]], the whole terminal course, 9 chapters and a video |
+
 ## How it works
 
 - The drawings are **live Excalidraw canvases**. Pan, zoom, draw on them.
@@ -60,6 +68,7 @@ open.
 - GitHub: [@Mohamedattiadev](https://github.com/Mohamedattiadev)
 - The notes: [my-study-summaries](https://github.com/Mohamedattiadev/my-study-summaries)
 - This site: [excalidraw-vault](https://github.com/Mohamedattiadev/excalidraw-vault)
+- The written courses: [dev-101](https://github.com/Mohamedattiadev/dev-101)
 
 Read it, fork it, take what u need. It is a revision deck that keeps growing,
 not a book that got finished.
