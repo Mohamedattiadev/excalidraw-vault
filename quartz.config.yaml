@@ -128,6 +128,25 @@ plugins:
       title: Index
       folderClickBehavior: link
       folderDefaultState: collapsed
+      # The explorer sorts by display name, which put Personal above Universite.
+      # This pins the two top groups in the order they are meant to read and
+      # leaves everything else on the default comparison. It is shipped to the
+      # browser as a string and rebuilt there with `new Function`, which is why
+      # it can live in YAML at all.
+      sortFn: |
+        (a, b) => {
+          const GROUPS = ["Universite", "Personal"];
+          const ga = GROUPS.indexOf(a.displayName || "");
+          const gb = GROUPS.indexOf(b.displayName || "");
+          if (ga !== -1 && gb !== -1) return ga - gb;
+          if ((!a.isFolder && !b.isFolder) || (a.isFolder && b.isFolder)) {
+            return (a.displayName || "").localeCompare(b.displayName || "", undefined, {
+              numeric: true,
+              sensitivity: "base",
+            });
+          }
+          return !a.isFolder && b.isFolder ? 1 : -1;
+        }
     layout:
       position: left
       priority: 50
