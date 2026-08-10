@@ -1,5 +1,5 @@
 ---
-title: MY STUDYING EXCALI
+title: Study Vault
 ---
 
 

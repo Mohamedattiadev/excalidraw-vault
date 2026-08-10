@@ -1,4 +1,4 @@
-# MY STUDYING EXCALI
+# Mohamed Attia — Study Vault
 
 My CS study notes, drawn instead of typed, published as a site u can actually
 draw on.

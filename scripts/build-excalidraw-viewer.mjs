@@ -229,7 +229,7 @@ console.log(`site basepath: ${SITE_BASEPATH || '(none)'}`);
 // ===== Custom 404 page (overrides Quartz's bland default) =====
 const CUSTOM_404 = `<!doctype html><html lang="en"><head>
 <meta charset="utf-8" />
-<title>404 — drawing wandered off · MY STUDYING EXCALI</title>
+<title>404 — drawing wandered off · Mohamed Attia — Study Vault</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content="noindex" />
 <link rel="icon" href="${SITE_BASEPATH}/static/icon.png" />
@@ -518,6 +518,59 @@ const SW_REGISTER = `<script>if('serviceWorker'in navigator){addEventListener('l
 // never saw it. This covers them: mark what is there now, mark what the
 // explorer adds later, and catch the click itself in the capture phase so
 // Quartz's own router cannot swallow it first.
+// One tick per heading down the right edge, the section you are in picked out.
+// Built on the client because the headings are already in the DOM and an
+// IntersectionObserver is what tracks the active one anyway.
+// Skipped where it would not earn its place: canvas pages (that edge already
+// has the lock/hand/export buttons), narrow screens, and pages with fewer than
+// three headings, where a rail is just decoration.
+const SECTION_RAIL = `<script>(function(){
+if(document.body.getAttribute('data-frame')==='excalidraw')return;
+if(document.querySelector('.page[data-frame="excalidraw"]'))return;
+function build(){
+  document.querySelectorAll('.post-rail,.rail-tip').forEach(function(n){n.remove();});
+  if(!window.matchMedia('(min-width: 1201px)').matches)return;
+  var scope=document.querySelector('article')||document.querySelector('.center')||document.body;
+  var hs=[].slice.call(scope.querySelectorAll('h2[id],h3[id]'));
+  if(hs.length<3)return;
+  var rail=document.createElement('nav');
+  rail.className='post-rail'; rail.setAttribute('aria-label','Sections');
+  var tip=document.createElement('div'); tip.className='rail-tip'; document.body.appendChild(tip);
+  var items=hs.map(function(h){
+    var b=document.createElement('button');
+    b.className='rail-item lvl-'+h.tagName.toLowerCase();
+    b.type='button';
+    var label=(h.textContent||'').trim();
+    b.setAttribute('aria-label',label);
+    b.addEventListener('click',function(){h.scrollIntoView({behavior:'smooth',block:'start'});});
+    b.addEventListener('mouseenter',function(){
+      var r=b.getBoundingClientRect(); tip.textContent=label;
+      tip.style.top=(r.top+r.height/2)+'px'; tip.style.right=(window.innerWidth-r.left+10)+'px';
+      tip.style.transform='translateY(-50%)'; tip.classList.add('on');});
+    b.addEventListener('mouseleave',function(){tip.classList.remove('on');});
+    rail.appendChild(b); return {h:h,b:b};
+  });
+  document.body.appendChild(rail);
+  var seen=new Map();
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){seen.set(e.target,e.intersectionRatio>0&&e.boundingClientRect.top<window.innerHeight*0.6);});
+    var active=-1;
+    items.forEach(function(it,i){if(seen.get(it.h))active=active<0?i:active;});
+    if(active<0){ // nothing in view: fall back to the last heading scrolled past
+      items.forEach(function(it,i){if(it.h.getBoundingClientRect().top<=120)active=i;});
+    }
+    // Sitting above the first heading still counts as being in the first
+    // section. A rail with nothing lit reads as broken rather than as "nowhere".
+    if(active<0)active=0;
+    items.forEach(function(it,i){it.b.classList.toggle('active',i===active);});
+  },{rootMargin:'-80px 0px -55% 0px',threshold:[0,1]});
+  items.forEach(function(it){io.observe(it.h);});
+}
+if(document.readyState!=='loading')build();else addEventListener('DOMContentLoaded',build);
+document.addEventListener('nav',build);
+addEventListener('resize',function(){clearTimeout(window.__railT);window.__railT=setTimeout(build,200);});
+})();</script>`;
+
 const CANVAS_NEWTAB = `<script>(function(){
 var RE=/\\.excalidraw(?:[?#]|$)/;
 function mark(){document.querySelectorAll('a[href]:not([target])').forEach(function(a){
@@ -551,11 +604,11 @@ for (const fp of allHtml) {
 
     // OG / Twitter meta (once)
     if (!$$('meta[property="og:title"]').length) {
-      const title = $$('title').first().text() || 'MY STUDYING EXCALI';
+      const title = $$('title').first().text() || 'Mohamed Attia — Study Vault';
       const desc = ($$('meta[name="description"]').attr('content') || 'Personal CS study vault — Excalidraw drawings, design patterns, OS, DB, networking notes').slice(0, 200);
       const ogTags = [
         `<meta property="og:type" content="website" />`,
-        `<meta property="og:site_name" content="MY STUDYING EXCALI" />`,
+        `<meta property="og:site_name" content="Mohamed Attia — Study Vault" />`,
         `<meta property="og:title" content="${title.replace(/"/g, '&quot;')}" />`,
         `<meta property="og:description" content="${desc.replace(/"/g, '&quot;')}" />`,
         `<meta property="og:image" content="${OG_IMAGE}" />`,
@@ -575,6 +628,11 @@ for (const fp of allHtml) {
     // Same rule for the links the explorer renders at runtime (once)
     if (!html.includes('excalidraw(?:[?#]|$)')) {
       $$('body').append(CANVAS_NEWTAB);
+    }
+
+    // Section rail, on written pages only (once)
+    if (!html.includes('post-rail')) {
+      $$('body').append(SECTION_RAIL);
     }
 
     // A canvas is somewhere you sit and draw, not somewhere you pass through.

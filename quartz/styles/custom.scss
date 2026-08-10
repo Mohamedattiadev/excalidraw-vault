@@ -313,3 +313,62 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='17' x2='12' y2='22'/><path d='M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z'/></svg>") center / contain no-repeat;
           mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='17' x2='12' y2='22'/><path d='M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z'/></svg>") center / contain no-repeat;
 }
+
+/* ===== Explorer: let depth read as depth =====
+   Every level was set at the same size, so "Universite > Algorithms >
+   Algorithms" looked like three peers rather than a path. Each step down is a
+   little smaller and a little quieter, which is enough to read the shape of
+   the tree without any lines or indent guides. */
+.explorer-ul {
+  .folder-title, .nav-file-title { font-size: 0.95rem; }
+  ul {
+    .folder-title, .nav-file-title { font-size: 0.88rem; opacity: 0.94; }
+    ul {
+      .folder-title, .nav-file-title { font-size: 0.82rem; opacity: 0.88; }
+      ul .folder-title, ul .nav-file-title { font-size: 0.78rem; opacity: 0.82; }
+    }
+  }
+  /* the active page stays fully legible at any depth */
+  .nav-file-title.active { opacity: 1; font-weight: 600; }
+}
+
+/* ===== Section rail (right edge) =====
+   Same idea as the rail on mohamedattiadev.github.io: one tick per heading,
+   h3s shorter than h2s, the section you are in picked out in the accent.
+   Hidden on canvas pages, which already own that edge, and on narrow screens. */
+.post-rail {
+  position: fixed; top: 50%; right: 14px; transform: translateY(-50%); z-index: 55;
+  display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 0.45rem 0.4rem; border-radius: 10px;
+  max-height: calc(100vh - 160px); overflow-y: auto; line-height: 1;
+  background: color-mix(in srgb, var(--light) 72%, transparent);
+  border: 1px solid var(--lightgray);
+  backdrop-filter: blur(6px);
+  scrollbar-width: none;
+}
+.post-rail::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.rail-item {
+  position: relative; display: flex; align-items: center;
+  width: 44px; height: 8px; padding: 0; border: 0; background: none;
+  cursor: pointer; flex: none; line-height: 1;
+}
+.rail-item::before {
+  content: ""; display: block; height: 2px; width: 28px;
+  background: var(--darkgray); opacity: 0.5; border-radius: 2px;
+  transform-origin: left center;
+  transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+}
+.rail-item.lvl-h3::before { width: 18px; }
+.rail-item:hover::before { transform: scaleX(1.6); opacity: 1; background: var(--dark); }
+.rail-item.lvl-h3:hover::before { transform: scaleX(2.4); }
+.rail-item.active::before { transform: scaleX(1.6); opacity: 1; background: var(--secondary); }
+.rail-item.lvl-h3.active::before { transform: scaleX(2.4); }
+.rail-tip {
+  position: fixed; z-index: 56; pointer-events: none;
+  font-size: 0.74rem; letter-spacing: 0.02em; color: var(--dark);
+  background: var(--light); border: 1px solid var(--secondary); border-radius: 6px;
+  padding: 0.25rem 0.5rem; white-space: nowrap; opacity: 0; transition: opacity 0.12s ease;
+}
+.rail-tip.on { opacity: 1; }
+@media (max-width: 1200px) { .post-rail, .rail-tip { display: none !important; } }
+.page[data-frame="excalidraw"] .post-rail { display: none !important; }
