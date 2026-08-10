@@ -79,13 +79,28 @@ scripts/
 ```bash
 fnm use 22         # node >= 22
 npm ci
-npx quartz plugin install
+node scripts/install-plugins.mjs   # not `npx quartz plugin install`, see below
 node scripts/build-vendor.mjs
 npx quartz build
 node scripts/build-excalidraw-viewer.mjs
 node scripts/optimize-images.mjs        # optional, and slow
 node scripts/serve-quartz.mjs 8080      # http://localhost:8080
 ```
+
+Do not run `npx quartz plugin install` on its own. Two of the plugins are
+committed here with local patches in their `dist/`, and a plain install
+overwrites both. It does not tell u either: it prints "failed to update", exits
+0, and the break only turns up later as
+
+```
+SyntaxError: does not provide an export named 'parseExcalidraw'
+```
+
+when the scene extractor imports the plugin that just got clobbered.
+`scripts/install-plugins.mjs` snapshots those two, installs, and puts them back,
+then checks the patch actually survived. CI runs the same script.
+
+If u already hit it: `git checkout -- .quartz`.
 
 ## Pulling in new drawings
 

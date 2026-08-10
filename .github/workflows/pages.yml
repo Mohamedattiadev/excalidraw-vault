@@ -31,28 +31,10 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Seed git HEAD inside patched plugins (so install-plugins skips re-clone)
-        run: |
-          for d in .quartz/plugins/explorer .quartz/plugins/obsidian-plugin-excalidraw; do
-            if [ -d "$d" ] && [ ! -d "$d/.git" ]; then
-              ( cd "$d" && git init -q && git config user.email ci@local && git config user.name ci && git add -A && git commit -q -m "snapshot" --allow-empty )
-            fi
-          done
-
-      - name: Snapshot patched plugins (defensive)
-        run: |
-          mkdir -p /tmp/plugin-patch
-          cp -a .quartz/plugins/explorer /tmp/plugin-patch/
-          cp -a .quartz/plugins/obsidian-plugin-excalidraw /tmp/plugin-patch/
-
-      - name: Install Quartz plugins
-        run: npx quartz plugin install
-
-      - name: Restore patched plugins (overlay)
-        run: |
-          rm -rf .quartz/plugins/explorer .quartz/plugins/obsidian-plugin-excalidraw
-          cp -a /tmp/plugin-patch/explorer .quartz/plugins/
-          cp -a /tmp/plugin-patch/obsidian-plugin-excalidraw .quartz/plugins/
+      # Snapshots the two patched plugins, installs, puts them back. Same script
+      # the README tells you to run locally, so the two cannot drift apart.
+      - name: Install Quartz plugins (patches preserved)
+        run: node scripts/install-plugins.mjs
 
       - name: Quartz build
         run: npx quartz build

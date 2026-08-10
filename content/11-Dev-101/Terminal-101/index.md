@@ -101,7 +101,7 @@ Every chapter has the same 3 parts, always in this order:
 
 **[[11-Dev-101/Terminal-101/watch\|Watch it here]]**, about 24 minutes. If u want the player with the
 cheat sheet open beside it instead, that page is
-[on the dev-101 site](https://mohamedattiadev.github.io/dev-101/Terminal-101/watch.html).
+[on the dev-101 site](https://mohamedattiadev.github.io/dev-101/Terminal-101/video/watch.html).
 
 Watch it after the chapters, or alongside them. It is a summary and not a
 replacement: it shows u what happens, and these chapters are where the why is.
