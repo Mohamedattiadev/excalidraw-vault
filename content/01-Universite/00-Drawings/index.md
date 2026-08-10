@@ -2,6 +2,7 @@
 title: Drawings
 aliases:
   - "00-Drawings"
+  - "00-Drawings/index"
 ---
 
 

@@ -2,6 +2,7 @@
 title: "Chapter 1 — Command Line Basics — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/01-command-line-basics/solutions"
+  - "11-Dev-101/Terminal-101/01-command-line-basics/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

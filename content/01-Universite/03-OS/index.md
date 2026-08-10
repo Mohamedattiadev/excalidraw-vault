@@ -2,6 +2,7 @@
 title: Operating Systems
 aliases:
   - "03-OS"
+  - "03-OS/index"
 ---
 
 

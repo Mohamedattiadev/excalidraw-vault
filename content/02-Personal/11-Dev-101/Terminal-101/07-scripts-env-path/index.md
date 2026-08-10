@@ -2,6 +2,7 @@
 title: "Chapter 7 — Scripts, Environment Variables and PATH"
 aliases:
   - "11-Dev-101/Terminal-101/07-scripts-env-path"
+  - "11-Dev-101/Terminal-101/07-scripts-env-path/index"
 ---
 
 **Time to study:** ~75 min

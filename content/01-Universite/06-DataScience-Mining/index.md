@@ -2,6 +2,7 @@
 title: Data Science & Mining
 aliases:
   - "06-DataScience-Mining"
+  - "06-DataScience-Mining/index"
 ---
 
 

@@ -2,6 +2,7 @@
 title: "Chapter 5 — Permissions and sudo"
 aliases:
   - "11-Dev-101/Terminal-101/05-permissions-sudo"
+  - "11-Dev-101/Terminal-101/05-permissions-sudo/index"
 ---
 
 **Time to study:** ~75 min

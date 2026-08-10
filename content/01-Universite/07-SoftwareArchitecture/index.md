@@ -2,6 +2,7 @@
 title: Software Architecture
 aliases:
   - "07-SoftwareArchitecture"
+  - "07-SoftwareArchitecture/index"
 ---
 
 

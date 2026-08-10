@@ -2,6 +2,7 @@
 title: "Chapter 4 — Searching: grep and find — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/04-search-grep-find/solutions"
+  - "11-Dev-101/Terminal-101/04-search-grep-find/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

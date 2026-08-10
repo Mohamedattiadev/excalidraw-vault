@@ -2,6 +2,7 @@
 title: "Chapter 2 — The Linux File System"
 aliases:
   - "11-Dev-101/Terminal-101/02-the-linux-file-system"
+  - "11-Dev-101/Terminal-101/02-the-linux-file-system/index"
 ---
 
 **Time to study:** ~45 min

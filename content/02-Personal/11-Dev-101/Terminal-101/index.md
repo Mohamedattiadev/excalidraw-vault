@@ -2,6 +2,7 @@
 title: "Terminal 101"
 aliases:
   - "11-Dev-101/Terminal-101"
+  - "11-Dev-101/Terminal-101/index"
 ---
 
 Notes I wrote while I was learning the terminal, turned into a course.

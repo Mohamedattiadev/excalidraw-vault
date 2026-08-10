@@ -2,6 +2,7 @@
 title: "Chapter 7 — Scripts, Environment Variables and PATH — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/07-scripts-env-path/solutions"
+  - "11-Dev-101/Terminal-101/07-scripts-env-path/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

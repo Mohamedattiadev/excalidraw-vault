@@ -2,6 +2,7 @@
 title: "Chapter 1 — Command Line Basics"
 aliases:
   - "11-Dev-101/Terminal-101/01-command-line-basics"
+  - "11-Dev-101/Terminal-101/01-command-line-basics/index"
 ---
 
 **Time to study:** ~45 min

@@ -2,6 +2,7 @@
 title: "Chapter 5 — Permissions and sudo — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/05-permissions-sudo/solutions"
+  - "11-Dev-101/Terminal-101/05-permissions-sudo/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

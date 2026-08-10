@@ -87,11 +87,6 @@ jobs:
       - name: Optimize images (webp + downscale)
         run: node scripts/optimize-images.mjs
 
-      # Must run after everything that emits HTML. The alias plugin only writes
-      # `03-os.html`, so `/03-os/` with a trailing slash 404s without this.
-      - name: Trailing-slash alias redirects
-        run: node scripts/alias-dir-redirects.mjs
-
       - name: Set base URL for project Pages
         run: |
           # Project pages serve at /<repo>/ — patch <base> + asset paths if needed.

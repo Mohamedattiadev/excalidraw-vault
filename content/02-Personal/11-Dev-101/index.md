@@ -2,6 +2,7 @@
 title: "Dev 101"
 aliases:
   - "11-Dev-101"
+  - "11-Dev-101/index"
 ---
 
 Everything I learn about building things, written down as a course while I am

@@ -2,6 +2,7 @@
 title: Databases
 aliases:
   - "04-Databases"
+  - "04-Databases/index"
 ---
 
 

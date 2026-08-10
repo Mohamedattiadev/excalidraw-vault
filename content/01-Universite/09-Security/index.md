@@ -2,6 +2,7 @@
 title: Security
 aliases:
   - "09-Security"
+  - "09-Security/index"
 ---
 
 

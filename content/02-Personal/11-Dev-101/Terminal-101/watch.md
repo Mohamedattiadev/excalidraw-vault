@@ -2,6 +2,7 @@
 title: "Terminal 101 · the video"
 aliases:
   - "11-Dev-101/Terminal-101/watch"
+  - "11-Dev-101/Terminal-101/watch/index"
 ---
 
 About 24 minutes. It is a summary of the course, not a replacement for it: it

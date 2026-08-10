@@ -2,6 +2,7 @@
 title: Design Patterns
 aliases:
   - "02-DesignPatterns"
+  - "02-DesignPatterns/index"
 ---
 
 

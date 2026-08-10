@@ -2,6 +2,7 @@
 title: Algorithms
 aliases:
   - "01-Algorithms"
+  - "01-Algorithms/index"
 ---
 
 

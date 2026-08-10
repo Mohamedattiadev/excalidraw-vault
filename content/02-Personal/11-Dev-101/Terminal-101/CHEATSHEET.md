@@ -2,6 +2,7 @@
 title: "Terminal 101 Cheat Sheet"
 aliases:
   - "11-Dev-101/Terminal-101/CHEATSHEET"
+  - "11-Dev-101/Terminal-101/CHEATSHEET/index"
 ---
 
 Every command in the course, on one page. This is the page to open in 6 months when u forget something.

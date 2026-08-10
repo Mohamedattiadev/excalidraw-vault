@@ -2,6 +2,7 @@
 title: Networking
 aliases:
   - "05-Networking"
+  - "05-Networking/index"
 ---
 
 

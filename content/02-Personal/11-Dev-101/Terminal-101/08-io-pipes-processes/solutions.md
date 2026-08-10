@@ -2,6 +2,7 @@
 title: "Chapter 8 — Input, Output, Pipes and Processes — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/08-io-pipes-processes/solutions"
+  - "11-Dev-101/Terminal-101/08-io-pipes-processes/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

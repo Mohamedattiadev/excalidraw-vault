@@ -2,6 +2,7 @@
 title: "Chapter 3 — Files and Navigation — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/03-files-and-navigation/solutions"
+  - "11-Dev-101/Terminal-101/03-files-and-navigation/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

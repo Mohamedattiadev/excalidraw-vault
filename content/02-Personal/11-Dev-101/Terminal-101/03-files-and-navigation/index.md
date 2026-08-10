@@ -2,6 +2,7 @@
 title: "Chapter 3 — Files and Navigation"
 aliases:
   - "11-Dev-101/Terminal-101/03-files-and-navigation"
+  - "11-Dev-101/Terminal-101/03-files-and-navigation/index"
 ---
 
 **Time to study:** ~90 min

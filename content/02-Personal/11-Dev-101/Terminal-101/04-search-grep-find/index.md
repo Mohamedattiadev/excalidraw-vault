@@ -2,6 +2,7 @@
 title: "Chapter 4 — Searching: grep and find"
 aliases:
   - "11-Dev-101/Terminal-101/04-search-grep-find"
+  - "11-Dev-101/Terminal-101/04-search-grep-find/index"
 ---
 
 **Time to study:** ~60 min

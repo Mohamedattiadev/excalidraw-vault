@@ -2,6 +2,7 @@
 title: "Chapter 6 — Text Editors — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/06-text-editors/solutions"
+  - "11-Dev-101/Terminal-101/06-text-editors/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

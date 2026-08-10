@@ -2,6 +2,7 @@
 title: English
 aliases:
   - "10-English"
+  - "10-English/index"
 ---
 
 

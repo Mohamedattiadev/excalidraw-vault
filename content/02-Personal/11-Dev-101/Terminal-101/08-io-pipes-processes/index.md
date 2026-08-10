@@ -2,6 +2,7 @@
 title: "Chapter 8 — Input, Output, Pipes and Processes"
 aliases:
   - "11-Dev-101/Terminal-101/08-io-pipes-processes"
+  - "11-Dev-101/Terminal-101/08-io-pipes-processes/index"
 ---
 
 **Time to study:** ~105 min

@@ -2,6 +2,7 @@
 title: "Chapter 9 — Bash Scripting Basics"
 aliases:
   - "11-Dev-101/Terminal-101/09-bash-scripting"
+  - "11-Dev-101/Terminal-101/09-bash-scripting/index"
 ---
 
 **Time to study:** ~120 min

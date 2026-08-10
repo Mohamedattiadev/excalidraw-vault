@@ -2,6 +2,7 @@
 title: Scientific Computing
 aliases:
   - "08-ScientificComputing"
+  - "08-ScientificComputing/index"
 ---
 
 

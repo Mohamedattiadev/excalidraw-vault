@@ -2,6 +2,7 @@
 title: "Chapter 2 — The Linux File System — Solutions"
 aliases:
   - "11-Dev-101/Terminal-101/02-the-linux-file-system/solutions"
+  - "11-Dev-101/Terminal-101/02-the-linux-file-system/solutions/index"
 ---
 
 do the assignment first. reading the answer is not the same as doing it,

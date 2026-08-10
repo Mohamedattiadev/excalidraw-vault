@@ -2,6 +2,7 @@
 title: "Chapter 6 — Text Editors"
 aliases:
   - "11-Dev-101/Terminal-101/06-text-editors"
+  - "11-Dev-101/Terminal-101/06-text-editors/index"
 ---
 
 **Time to study:** ~60 min
