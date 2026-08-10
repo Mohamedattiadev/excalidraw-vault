@@ -3,7 +3,11 @@ title: Data Science & Mining
 ---
 
 
-Two canvases: data science workflow and data mining concepts.
+Two canvases here, because they were two courses.
+
+Data Science is the pandas side: what a row and a column are, then summarizing,
+plotting, distances and text. Data Mining is the theory side: proximity
+measures, preprocessing, and classification.
 
 ## Data Science
 

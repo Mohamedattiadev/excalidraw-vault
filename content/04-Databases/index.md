@@ -3,7 +3,11 @@ title: Databases
 ---
 
 
-Database concepts, design, SQL, transactions, and indexing.
+The database course, from what a DBMS even is up to how an index is stored on
+disk.
+
+Normalization and transactions are the two parts that come back in every exam,
+so they have the most on them.
 
 ## Intro and model
 
@@ -80,7 +84,7 @@ Database concepts, design, SQL, transactions, and indexing.
 
 ## Resources
 
-Links pulled from the canvas. One row per video.
+The links I actually used, pulled straight off the canvas. One row per video.
 
 | Topic              | Resource                                              |
 | ------------------ | ----------------------------------------------------- |

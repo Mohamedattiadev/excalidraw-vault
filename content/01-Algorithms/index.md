@@ -3,7 +3,11 @@ title: Algorithms
 ---
 
 
-Notes on the algorithms covered in class.
+Everything from the algorithms course, on one canvas. The order is the order
+it was taught in, so it goes from Big O up to the graph algorithms.
+
+Most of these only made sense to me once I drew the steps out, so the canvas
+is worth more here than the table below.
 
 ## Topics
 
@@ -21,7 +25,7 @@ Notes on the algorithms covered in class.
 
 ## Resources
 
-Links pulled from the canvas. One row per video.
+The links I actually used, pulled straight off the canvas. One row per video.
 
 | Topic                        | Resource                                                                 |
 | ---------------------------- | ------------------------------------------------------------------------ |

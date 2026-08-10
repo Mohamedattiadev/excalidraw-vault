@@ -3,7 +3,11 @@ title: English
 ---
 
 
-Exam-prep revision split into days, plus older notes.
+Not CS. This is my English exam revision, split into days so it was actually
+doable, plus the old notes from 2022 that I kept.
+
+The tenses are done with short stories instead of tables, because a rule I read
+does not stick and a story does.
 
 ## Topics
 
@@ -17,7 +21,7 @@ Exam-prep revision split into days, plus older notes.
 
 ## Resources
 
-Links pulled from the canvas. One row per link.
+The links I actually used, pulled straight off the canvas.
 
 | Topic                | Resource                                                                                          |
 | -------------------- | ------------------------------------------------------------------------------------------------- |

@@ -22,6 +22,8 @@ const CONTENT = path.resolve('content');
 const SKIP_DIRS = new Set([
   '_cache', '_system', 'Collab', '.obsidian', '.git', '.trash',
   '9999 - Excalidraw', '999-Templates', '00-Index',
+  // Authored here, not in the vault. The sync must never generate into it or prune it.
+  '11-Dev-101',
 ]);
 const PROTECTED_RE = /(^|\/)(index\.md|README\.md)$/i;          // we author these
 const SUBJECT_DIR_RE = /^\d{1,2}[-._ ]/;                         // 01-Algo, 02-DesignPatterns, …
@@ -213,6 +215,7 @@ async function pruneStale(canonicalSet, vaultLabelsBySubject) {
   const ents = await fs.readdir(CONTENT, { withFileTypes: true });
   for (const e of ents) {
     if (!e.isDirectory() || !SUBJECT_DIR_RE.test(e.name)) continue;
+    if (SKIP_DIRS.has(e.name)) continue;
     const subDir = path.join(CONTENT, e.name);
     const inner = await fs.readdir(subDir, { withFileTypes: true });
     const vaultLabels = (vaultLabelsBySubject.get(e.name) || []).map((s) => s.toLowerCase());

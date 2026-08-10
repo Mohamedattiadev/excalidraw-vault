@@ -3,7 +3,11 @@ title: Scientific Computing
 ---
 
 
-Matrix methods, probability, interpolation, and optimization.
+Numerical methods: eigenvectors and SVD, then PCA, interpolation, Fourier, and
+the probability side (MLE and Bayesian update).
+
+The interpolation videos below are in Turkish, since that is the lecture
+language for this course.
 
 ## Topics
 
@@ -19,7 +23,7 @@ Matrix methods, probability, interpolation, and optimization.
 
 ## Resources
 
-Links pulled from the canvas. One row per video.
+The links I actually used, pulled straight off the canvas. One row per video.
 
 | Topic                       | Resource                                                                                                       |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------- |

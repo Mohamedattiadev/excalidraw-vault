@@ -1,59 +1,80 @@
-# MY STUDYING EXCALI — site
+# MY STUDYING EXCALI
 
-Personal CS study vault published as an interactive site.
+My CS study notes, drawn instead of typed, published as a site u can actually
+draw on.
 
 **Live:** https://mohamedattiadev.github.io/excalidraw-vault/
-**Canonical vault (source notes):** https://github.com/Mohamedattiadev/my-study-summaries
+**The notes themselves:** https://github.com/Mohamedattiadev/my-study-summaries
 
-This repo is the **publishing pipeline** (Quartz v5 + patched Excalidraw plugin + scene extractor). The notes themselves live in the canonical vault above.
+This repo is not the notes. It is the machine that publishes them: Quartz v5, a
+patched Excalidraw plugin, and a scene extractor that turns each drawing into a
+real canvas on the page. The drawings live in the vault repo above.
 
-## Features
+---
 
-- **Native Excalidraw canvas** on every drawing page — pan, zoom, draw, edit
-- **Per-canvas localStorage edits** — your changes saved to your browser only; vault source stays clean
-- **Snapshot cache (IndexedDB)** — second visit to any canvas paints instantly behind the mount spinner
-- **High-quality PDF export** (top-right button, jsPDF + Excalidraw exportToCanvas)
-- **Reset button** with confirm modal — wipe local edits for a single canvas, restore original
-- **Service Worker** for offline + instant repeat-visit loads
-- **Static sidebar tree** — no JS race conditions, native `<details>` collapse
-- **Purple Obsidian-Excalidraw theme** in light + dark
-- **Self-hosted Excalidraw bundle** (esbuild) with esm.sh + skypack fallbacks
-- **Image optimization** at build — every embed re-encoded to WebP@75, max 900px (~75% size reduction)
-- **Progress overlay** during mount (0% → 100% with stage labels)
-- **Open Graph + Twitter Card** meta on every page
-- **Visitor counter** (hits.sh, badge on homepage)
+## What it does
+
+Every drawing page mounts a real Excalidraw canvas, not a picture of one. So u
+can pan it, zoom it, and draw on top of it while u revise.
+
+- **Ur edits are saved per canvas, in ur browser only** (`localStorage`). The
+  vault stays clean, and nothing u draw is sent anywhere.
+- **Second visit paints instantly.** A snapshot of the canvas is kept in
+  IndexedDB and shown while the live one mounts behind it.
+- **PDF export**, top right button, exports the canvas u are looking at
+  including ur own edits.
+- **Reset**, with a confirm box, wipes ur edits on that one canvas and gives u
+  the original back.
+- **A Service Worker** caches the assets, so repeat visits are near instant and
+  it still opens offline.
+- **The sidebar tree is static HTML**, plain `<details>` folders. No JS deciding
+  what is open, so it cannot race and it cannot collapse on u.
+- **Images are re-encoded at build time** to WebP at quality 75 and capped at
+  900px, which takes about 75% off the page weight.
+- Purple Obsidian-Excalidraw theme in light and dark, a progress overlay while
+  the canvas mounts, Open Graph and Twitter Card meta on every page, and a
+  visitor counter on the homepage.
+
+The Excalidraw bundle is self hosted, built here with esbuild, with esm.sh and
+skypack only as fallbacks. That is on purpose: a study page should not stop
+working because a CDN did.
+
+---
 
 ## Layout
 
 ```
-content/                  — copy of the vault used by build
-  index.md                — homepage
-  404.md                  — custom not-found page
+content/                  the copy of the vault the build reads
+  index.md                homepage
+  404.md                  custom not-found page
   robots.txt
   01-Algorithms/
-    index.md              — subject overview (auto-generated if missing)
+    index.md              subject overview, generated if it is missing
     Algorithms.excalidraw.md
   02-DesignPatterns/
   03-OS/
   04-Databases/
-  …
-  90-Assets/              — pasted images referenced by drawings
+  ...
+  11-Dev-101/             the dev-101 course, as markdown
+  90-Assets/              images the drawings point at
 
 scripts/
-  sync-from-vault.mjs     — zero-touch pull from canonical vault repo
-  build-vendor.mjs        — esbuild bundles Excalidraw + React → public/vendor/
-  build-excalidraw-viewer.mjs  — scene extractor + HTML rewriter + author/SW/OG injection
-  optimize-images.mjs     — sharp downscale to WebP
-  excalidraw-extras.client.js  — theme/zoombox/minimap/PDF/reset extras
-  sw.js                   — Service Worker
+  sync-from-vault.mjs             pulls the canonical vault into content/
+  build-vendor.mjs                esbuild: Excalidraw + React into public/vendor/
+  build-excalidraw-viewer.mjs     scene extractor, HTML rewriter, author/SW/OG injection
+  optimize-images.mjs             sharp, downscale to WebP
+  excalidraw-extras.client.js     theme, zoombox, minimap, PDF, reset
+  sw.js                           the Service Worker
 
 .quartz/plugins/{explorer,obsidian-plugin-excalidraw}/dist/
-  patched plugin dists committed (other plugins re-installed in CI)
+  the two patched plugin builds are committed. CI reinstalls the rest.
 
-.github/workflows/pages.yml  — GitHub Actions deploy
+.github/workflows/pages.yml       the GitHub Actions deploy
 ```
 
-## Develop locally
+---
+
+## Running it locally
 
 ```bash
 fnm use 22         # node >= 22
@@ -62,23 +83,24 @@ npx quartz plugin install
 node scripts/build-vendor.mjs
 npx quartz build
 node scripts/build-excalidraw-viewer.mjs
-node scripts/optimize-images.mjs        # optional, slow
+node scripts/optimize-images.mjs        # optional, and slow
 node scripts/serve-quartz.mjs 8080      # http://localhost:8080
 ```
 
-## Sync from vault
+## Pulling in new drawings
 
-After editing drawings in the canonical vault repo:
+After editing drawings in the vault repo:
 
 ```bash
 node scripts/sync-from-vault.mjs --prune --push
 ```
 
-Auto-renames vault filenames to clean slugs, drops stale assets, commits + pushes → CI deploys.
+It renames vault filenames to clean slugs, drops assets nothing points at any
+more, then commits and pushes, and CI deploys.
 
-## Deploy
+## Deploying
 
-Push to `v5` → GitHub Actions runs `pages.yml` → builds + publishes to GitHub Pages.
+Push to `v5`. Actions runs `pages.yml`, builds, and publishes to GitHub Pages.
 
 ---
 

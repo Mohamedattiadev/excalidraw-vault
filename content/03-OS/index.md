@@ -3,7 +3,11 @@ title: Operating Systems
 ---
 
 
-OS notes by chapter, plus the xv6 workflow.
+The OS course, chapter by chapter, plus a separate canvas for how xv6 actually
+boots and runs.
+
+Memory, virtual memory, the file system and virtual machines got their own
+sections here, because each one is a whole chapter on its own.
 
 ## Chapters
 
@@ -70,13 +74,13 @@ OS notes by chapter, plus the xv6 workflow.
 
 ## Resources
 
-Links pulled from the canvas. One row per link.
+The links I actually used, pulled straight off the canvas.
 
 | Topic                    | Resource                                                                                              |
 | ------------------------ | ----------------------------------------------------------------------------------------------------- |
 | Silberschatz OS Concepts | [Go to link](https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf) |
 | CPU Scheduling           | [Go to link](https://www.youtube.com/watch?v=-Izsh82Ykmg)                                              |
-| OS intro                 | [Go to link](https://www.youtube.com/watch?v=IrEpPlrIXOQ)                                              |
+| OS intro                 | [Go to link](https://www.youtube.com/watch?v=vBURTt97EkA)                                              |
 | Deadlock Detection       | [Go to link](https://www.youtube.com/watch?v=tb843MRs_0Q)                                              |
 | First / Best / Worst Fit | [Go to link](https://www.youtube.com/watch?v=N3rG_1CEQkQ)                                              |
 | Disk Scheduling          | [Go to link](https://www.youtube.com/watch?v=yrO5fvXlESE&t=8s)                                         |
