@@ -63,6 +63,7 @@ scripts/
   build-vendor.mjs                esbuild: Excalidraw + React into public/vendor/
   build-excalidraw-viewer.mjs     scene extractor, HTML rewriter, author/SW/OG injection
   optimize-images.mjs             sharp, downscale to WebP
+  alias-dir-redirects.mjs         trailing-slash redirects for renamed pages
   excalidraw-extras.client.js     theme, zoombox, minimap, PDF, reset
   sw.js                           the Service Worker
 
@@ -84,8 +85,14 @@ node scripts/build-vendor.mjs
 npx quartz build
 node scripts/build-excalidraw-viewer.mjs
 node scripts/optimize-images.mjs        # optional, and slow
+node scripts/alias-dir-redirects.mjs    # so /old-path/ redirects, not just /old-path (run last)
 node scripts/serve-quartz.mjs 8080      # http://localhost:8080
 ```
+
+`alias-dir-redirects.mjs` goes last and leaves directories Quartz did not
+emit, so `rm -rf public` before u build again or the next build stops on
+`ENOTEMPTY`. CI never hits this: it checks out fresh and uploads straight
+after.
 
 Do not run `npx quartz plugin install` on its own. Two of the plugins are
 committed here with local patches in their `dist/`, and a plain install
