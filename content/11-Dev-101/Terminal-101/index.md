@@ -2,8 +2,6 @@
 title: "Terminal 101"
 ---
 
-# Terminal 101
-
 Notes I wrote while I was learning the terminal, turned into a course.
 
 There are three reasons it exists. The first is to remind myself later, because

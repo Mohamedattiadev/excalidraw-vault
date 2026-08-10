@@ -2,8 +2,6 @@
 title: "Chapter 1 — Command Line Basics"
 ---
 
-# Chapter 1 — Command Line Basics
-
 **Time to study:** ~45 min
 **You will learn:** `echo`, the difference between CLI and GUI, the terminal words everyone mixes up, how to make variables, the two kinds of quotes, and the `Tab` key that makes all of it faster.
 

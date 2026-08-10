@@ -2,8 +2,6 @@
 title: "Terminal 101 Cheat Sheet"
 ---
 
-# Terminal 101 Cheat Sheet
-
 Every command in the course, on one page. This is the page to open in 6 months when u forget something.
 
 If a line here does not make sense, the chapter link next to it is where it was explained.

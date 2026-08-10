@@ -2,8 +2,6 @@
 title: "Chapter 3 — Files and Navigation"
 ---
 
-# Chapter 3 — Files and Navigation
-
 **Time to study:** ~90 min
 **You will learn:** how to move around the tree and how to create, copy, move, delete and read files, plus the `*` wildcard that makes all of them faster.
 

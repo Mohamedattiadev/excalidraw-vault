@@ -2,8 +2,6 @@
 title: "Chapter 2 — The Linux File System"
 ---
 
-# Chapter 2 — The Linux File System
-
 **Time to study:** ~45 min
 **You will learn:** what a file system is, and what every folder in the real linux tree is actually for.
 

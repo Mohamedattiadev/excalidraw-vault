@@ -2,8 +2,6 @@
 title: "Chapter 7 — Scripts, Environment Variables and PATH"
 ---
 
-# Chapter 7 — Scripts, Environment Variables and PATH
-
 **Time to study:** ~75 min
 **You will learn:** the difference between compiled and interpreted languages, how to run a bash script, `export`, the `.bashrc` file, aliases, and the `PATH` variable.
 

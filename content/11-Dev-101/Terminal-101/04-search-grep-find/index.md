@@ -2,8 +2,6 @@
 title: "Chapter 4 — Searching: grep and find"
 ---
 
-# Chapter 4 — Searching: grep and find
-
 **Time to study:** ~60 min
 **You will learn:** how to search for text inside files with `grep`, and how to search for files themselves with `find`.
 

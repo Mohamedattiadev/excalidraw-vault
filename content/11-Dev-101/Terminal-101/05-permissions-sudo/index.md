@@ -2,8 +2,6 @@
 title: "Chapter 5 — Permissions and sudo"
 ---
 
-# Chapter 5 — Permissions and sudo
-
 **Time to study:** ~75 min
 **You will learn:** what root and `sudo` are, how to read the permission string, and how to change permissions and owners.
 

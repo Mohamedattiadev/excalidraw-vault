@@ -2,8 +2,6 @@
 title: "Chapter 6 — Text Editors — Solutions"
 ---
 
-# Chapter 6 — Text Editors — Solutions
-
 do the assignment first. reading the answer is not the same as doing it,
 and u will feel like u learned it when u didn't.
 

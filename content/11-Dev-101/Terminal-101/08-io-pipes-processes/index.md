@@ -2,8 +2,6 @@
 title: "Chapter 8 — Input, Output, Pipes and Processes"
 ---
 
-# Chapter 8 — Input, Output, Pipes and Processes
-
 **Time to study:** ~105 min
 **You will learn:** exit codes, redirecting output and errors, the `|` pipe, chaining with `&&`, running things in the background, how to kill a stuck program, and package managers.
 

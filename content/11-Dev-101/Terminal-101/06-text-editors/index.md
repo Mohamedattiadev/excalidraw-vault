@@ -2,8 +2,6 @@
 title: "Chapter 6 — Text Editors"
 ---
 
-# Chapter 6 — Text Editors
-
 **Time to study:** ~60 min
 **You will learn:** `nano` for when u just want to edit a file, and `vim` for when u want to be fast, including the modes idea that makes vim make sense.
 

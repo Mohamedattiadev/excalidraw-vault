@@ -2,8 +2,6 @@
 title: "Chapter 4 — Searching: grep and find — Solutions"
 ---
 
-# Chapter 4 — Searching: grep and find — Solutions
-
 do the assignment first. reading the answer is not the same as doing it,
 and u will feel like u learned it when u didn't.
 

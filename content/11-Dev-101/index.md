@@ -2,8 +2,6 @@
 title: "Dev 101"
 ---
 
-# dev-101
-
 Everything I learn about building things, written down as a course while I am
 learning it.
 

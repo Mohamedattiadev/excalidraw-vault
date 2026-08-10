@@ -2,8 +2,6 @@
 title: "Terminal 101 · the video"
 ---
 
-# Terminal 101, the whole course as one video
-
 About 24 minutes. It is a summary of the course, not a replacement for it: it
 shows u what happens, and the [[11-Dev-101/Terminal-101/index\|chapters]] are where the why is.
 

@@ -2,8 +2,6 @@
 title: "Chapter 9 — Bash Scripting Basics — Solutions"
 ---
 
-# Chapter 9 — Bash Scripting Basics — Solutions
-
 do the assignment first. reading the answer is not the same as doing it,
 and u will feel like u learned it when u didn't.
 

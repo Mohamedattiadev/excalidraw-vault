@@ -2,8 +2,6 @@
 title: "Chapter 9 — Bash Scripting Basics"
 ---
 
-# Chapter 9 — Bash Scripting Basics
-
 **Time to study:** ~120 min
 **You will learn:** how to turn the commands u already know into a real program, with arguments, conditions, loops and functions.
 
