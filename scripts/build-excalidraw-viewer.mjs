@@ -597,6 +597,9 @@ document.addEventListener('click',function(e){
 },true);
 })();</script>`;
 
+// file path -> human title, gathered from every "Go to PDF" link on the site.
+const PDF_INDEX = new Map();
+
 const allHtml = await glob(`${PUBLIC}/**/*.html`);
 console.log(`injecting author block + meta + SW into ${allHtml.length} html pages`);
 for (const fp of allHtml) {
@@ -686,6 +689,11 @@ for (const fp of allHtml) {
       const a = $$(el);
       const file = a.attr('data-pdf');
       if (!file) return;
+      // Collected so the viewer can list them when opened with no ?file=,
+      // instead of being a dead end.
+      if (!PDF_INDEX.has(file)) {
+        PDF_INDEX.set(file, a.attr('data-pdf-title') || file.split('/').pop());
+      }
       // Carry the human title along. Deriving it from the slug gives
       // "chp (1 4) high quality", because the slugifier already ate the
       // punctuation that made it readable.
@@ -700,6 +708,28 @@ for (const fp of allHtml) {
 }
 
 // Quartz now emits these as plain .html (no .excalidraw.html suffix). Glob all .html and filter by marker string.
+// Hand the viewer the list of PDFs the site links to. Opened with no ?file= it
+// then lists them rather than saying "nothing asked for" and stopping, which is
+// what a bare /pdf used to be: a page with no way forward.
+{
+  const list = [...PDF_INDEX.entries()].map(([file, title]) => ({ file, title }))
+    .sort((a, b) => a.title.localeCompare(b.title));
+  const tag = `<script id="pdf-index" type="application/json">${
+    JSON.stringify(list).replace(/</g, '\\u003c')}</script>`;
+  const pages = await glob(`${PUBLIC}/**/pdf.html`);
+  for (const fp of pages) {
+    try {
+      let html = await fs.readFile(fp, 'utf8');
+      if (html.includes('id="pdf-index"')) continue;
+      // Into <head>: the page's own script reads this while the body is still
+      // parsing, so appending at the end of <body> put it there too late.
+      html = html.replace('</head>', `${tag}</head>`);
+      await fs.writeFile(fp, html);
+    } catch {}
+  }
+  console.log(`pdf viewer: indexed ${list.length} pdf(s) for the no-argument view`);
+}
+
 const htmlCandidates = await glob(`${PUBLIC}/**/*.html`);
 const htmlFiles = [];
 for (const fp of htmlCandidates) {
