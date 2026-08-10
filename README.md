@@ -47,15 +47,18 @@ working because a CDN did.
 content/                  the copy of the vault the build reads
   index.md                homepage
   404.md                  custom not-found page
+  pdf.md                  frames a PDF from this site, opened with ?file=
   robots.txt
-  01-Algorithms/
-    index.md              subject overview, generated if it is missing
-    Algorithms.excalidraw.md
-  02-DesignPatterns/
-  03-OS/
-  04-Databases/
-  ...
-  11-Dev-101/             the dev-101 course, as markdown
+  01-Universite/          the graded subjects
+    00-Drawings/          every canvas in one table
+    01-Algorithms/
+      index.md            subject overview, generated if it is missing
+      Algorithms.excalidraw.md
+    02-DesignPatterns/
+    ...
+  02-Personal/            not graded, authored here or synced by exception
+    10-English/           exam revision, still synced from the vault
+    11-Dev-101/           the dev-101 course, as markdown
   90-Assets/              images the drawings point at
 
 scripts/

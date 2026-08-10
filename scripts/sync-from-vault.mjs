@@ -39,7 +39,14 @@ const SUBJECT_DIR_RE = /^\d{1,2}[-._ ]/;                         // 01-Algo, 02-
 // both holding the same canvases.
 const SUBJECT_GROUP = '01-Universite';
 const SUBJECTS_ROOT = path.join(CONTENT, SUBJECT_GROUP);
-const groupedSubject = (subjectDir) => path.join(SUBJECT_GROUP, subjectDir);
+// A vault subject that does not live under the default group. English is still
+// authored in the vault, but on the site it sits under Personal: it is revision
+// I did for myself, not a graded subject. Without this the sync would keep
+// recreating 01-Universite/10-English next to the real one and publish the same
+// canvas twice.
+const SUBJECT_DEST = { '10-English': path.join('02-Personal', '10-English') };
+const groupedSubject = (subjectDir) =>
+  SUBJECT_DEST[subjectDir] || path.join(SUBJECT_GROUP, subjectDir);
 // Asset folders look like subject folders (numeric prefix) but should NOT get an auto-generated index.md.
 const ASSET_LIKE_NAMES = new Set(['90-Assets', '99-Assets', '999-Templates']);
 

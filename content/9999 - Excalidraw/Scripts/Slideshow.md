@@ -2,7 +2,7 @@
 
 # About the slideshow script
 The script will convert your drawing into a slideshow presentation.
-![Slideshow 3.0](https://www.youtube.com/JwgtCrIVeEU)
+![Slideshow 3.0](https://www.youtube.com/watch?v=JwgtCrIVeEU)
 
 ![](https://raw.githubusercontent.com/zsviczian/obsidian-excalidraw-plugin/master/images/scripts-slideshow-2.jpg)
 ## Presentation options

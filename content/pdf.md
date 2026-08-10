@@ -1,5 +1,8 @@
 ---
 title: PDF
+# A viewer, not a note. Keep it out of search, the explorer and
+# backlinks; it is only ever reached from a "Go to PDF" link.
+unlisted: true
 ---
 
 <div id="pdfhead" style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
