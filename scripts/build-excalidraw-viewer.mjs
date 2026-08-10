@@ -1369,23 +1369,35 @@ async function mount() {
     if (labelEl) labelEl.textContent = 'Failed to load drawing — refresh to retry';
     return;
   }
-  setProgress(18, 'Decoding images…');
-
   const bp = getBasepath();
-  // Inline images into scene.files before mount (Excalidraw needs dataURL in initialFiles to render).
-  // Parallel fetch w/ blob URLs — fast + no base64 conversion.
-  if (scene.files) {
-    const entries = Object.entries(scene.files).filter(([, f]) =>
-      f && typeof f.dataURL === 'string' && !f.dataURL.startsWith('data:') && !f.dataURL.startsWith('blob:'),
-    );
+  // Images are NOT fetched before mounting. This scene has 200 of them and on a
+  // phone that was ~10s of blank screen, the whole wait, while the shapes, text
+  // and arrows were sitting right there ready to draw. They are streamed in
+  // after the canvas is up instead, via addFiles, so the drawing is on screen
+  // in about two seconds and fills in.
+  const deferredImages = scene.files
+    ? Object.entries(scene.files).filter(([, f]) =>
+        f && typeof f.dataURL === 'string' && !f.dataURL.startsWith('data:') && !f.dataURL.startsWith('blob:'),
+      )
+    : [];
+  const deferredKeys = new Set(deferredImages.map(([k]) => k));
+
+  async function streamImagesIn(api) {
+    if (!api || !api.addFiles || !deferredImages.length) return;
     const CONCURRENCY = 12;
-    let cursor = 0;
-    let done = 0;
-    const total = entries.length || 1;
+    // Hand them over in batches: one addFiles per image would re-render the
+    // scene 200 times, one at the very end would defeat the point.
+    const BATCH = 8;
+    let cursor = 0, done = 0;
+    let batch = [];
+    const flush = () => {
+      if (!batch.length) return;
+      const chunk = batch; batch = [];
+      try { api.addFiles(chunk); } catch (err) { console.warn('addFiles failed', err); }
+    };
     await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
-      while (cursor < entries.length) {
-        const idx = cursor++;
-        const [, f] = entries[idx];
+      while (cursor < deferredImages.length) {
+        const [key, f] = deferredImages[cursor++];
         const url = f.dataURL.startsWith('/') ? (bp + f.dataURL) : f.dataURL;
         try {
           const res = await fetch(url);
@@ -1393,16 +1405,22 @@ async function mount() {
           const blob = await res.blob();
           f.dataURL = URL.createObjectURL(blob);
           if (!f.mimeType) f.mimeType = blob.type;
+          batch.push({
+            id: key,
+            dataURL: f.dataURL,
+            mimeType: f.mimeType || blob.type || 'image/png',
+            created: Number(f.created) || Date.now(),
+          });
+          if (batch.length >= BATCH) flush();
         } catch (err) {
           console.warn('image load failed', url, err);
         }
         done++;
-        // 18% → 88% during image loads
-        setProgress(18 + Math.floor((done / total) * 70));
       }
     }));
+    flush();
   }
-  setProgress(92, 'Mounting canvas…');
+  setProgress(60, 'Mounting canvas…');
   function loadDeferredImages() { /* no-op (kept for compat) */ }
 
   const LOCAL_KEY = 'exc-scene:' + SCENE_SLUG;
@@ -1419,7 +1437,14 @@ async function mount() {
     } catch {}
   }
   let initialElements = (local && Array.isArray(local.elements) && local.elements.length) ? local.elements : scene.elements;
-  const initialFiles = { ...(scene.files || {}), ...((local && local.files) || {}) };
+  // Anything still pointing at /_files/... is handed over by streamImagesIn once
+  // the canvas is up. Passing the bare path here would have Excalidraw treat it
+  // as the image data itself.
+  const initialFiles = {};
+  for (const [k, v] of Object.entries(scene.files || {})) {
+    if (!deferredKeys.has(k)) initialFiles[k] = v;
+  }
+  Object.assign(initialFiles, (local && local.files) || {});
   // Convert every embeddable / iframe element into a plain rectangle that still carries .link.
   // Excalidraw tries to iframe these otherwise; most YouTube + general pages refuse with X-Frame-Options=sameorigin,
   // spamming the console. A rectangle with a link is still clickable (opens in new tab), no iframe load.
@@ -1441,9 +1466,16 @@ async function mount() {
 
   let mounted = false;
   let apiRef = null;
+  let streaming = false;
   const onAPI = (api) => {
     apiRef = api;
     window.__excApi = api;
+    // Excalidraw can hand the API over more than once; only stream the once.
+    if (!streaming) {
+      streaming = true;
+      // Let the first paint land before competing with it for the network.
+      setTimeout(() => { streamImagesIn(api); }, 120);
+    }
     if (!mounted) {
       setTimeout(() => {
         try {
