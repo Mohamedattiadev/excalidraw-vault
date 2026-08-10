@@ -3,7 +3,11 @@ title: Operating Systems
 ---
 
 
-OS notes by chapter, plus the xv6 workflow.
+The OS course, chapter by chapter, plus a separate canvas for how xv6 actually
+boots and runs.
+
+Memory, virtual memory, the file system and virtual machines got their own
+sections here, because each one is a whole chapter on its own.
 
 ## Chapters
 
@@ -70,7 +74,7 @@ OS notes by chapter, plus the xv6 workflow.
 
 ## Resources
 
-Links pulled from the canvas. One row per link.
+The links I actually used, pulled straight off the canvas.
 
 | Topic                    | Resource                                                                                              |
 | ------------------------ | ----------------------------------------------------------------------------------------------------- |

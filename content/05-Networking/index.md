@@ -3,7 +3,11 @@ title: Networking
 ---
 
 
-Computer networking notes by chapter, plus the summary.
+Networking, chapter by chapter, following Kurose. It starts at what the
+Internet is and ends at how a packet finds its way.
+
+Chapter 3 is the long one. Reliable transfer is built up in small steps (rdt
+1.0, then 2.0, then 2.1) and each step exists because the one before it broke.
 
 ## Ch 1: Intro
 

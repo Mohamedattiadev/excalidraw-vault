@@ -3,7 +3,11 @@ title: Design Patterns
 ---
 
 
-GoF patterns plus principles, anti-patterns, and code smells.
+The GoF patterns, grouped the usual way, plus the principles underneath them
+and the smells u get when u ignore them.
+
+The patterns are easy to name and hard to tell apart, so there is a
+comparison row for the ones that look the same (Strategy and Command).
 
 ## Patterns
 
@@ -35,7 +39,7 @@ GoF patterns plus principles, anti-patterns, and code smells.
 
 ## Resources
 
-Links pulled from the canvas. One row per video.
+The links I actually used, pulled straight off the canvas. One row per video.
 
 | Topic                  | Resource                                              |
 | ---------------------- | ----------------------------------------------------- |

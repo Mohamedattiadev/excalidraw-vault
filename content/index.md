@@ -3,9 +3,15 @@ title: MY STUDYING EXCALI
 ---
 
 
-Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from coursework. Optimized for revision and visual memory, not exhaustive textbook coverage.
+These are my CS notes from university, drawn instead of typed. I revise better
+from a picture than from a paragraph, so this is what the pages look like.
 
-> Click any folder below to open its topics. Each page mounts a fully editable native Excalidraw canvas. Use the sidebar (top-left hamburger) on a canvas page to jump between drawings.
+It is not a textbook and it does not try to be. It covers what I needed to
+remember, in the order I needed it, and it skips what I already knew.
+
+> Click a folder below to open its topics. Every drawing page is a real
+> Excalidraw canvas, so u can draw on it. On a canvas page, the hamburger at
+> the top left jumps u between drawings.
 
 ## Subjects
 
@@ -24,33 +30,39 @@ Personal CS study vault — visual notes, diagrams, and Excalidraw drawings from
 
 ## How it works
 
-- Drawings are native **interactive Excalidraw canvases** — pan, zoom, draw, edit
-- Your edits save **per-canvas to your browser only** (`localStorage`). The vault source stays clean and shared
-- **Snapshot cache** (IndexedDB) — second visit to any canvas paints instantly while live canvas mounts behind it
-- **PDF export** button (top-right) — high-quality export of the current canvas including your edits
-- **Reset** button — wipe your local edits on a single canvas and restore the original
-- **Service Worker** caches assets — repeat visits are near-instant, works offline
+- The drawings are **live Excalidraw canvases**. Pan, zoom, draw on them.
+- What u draw is saved **in ur browser only** (`localStorage`), per canvas. The
+  vault source stays clean, so ur notes and mine never mix.
+- The second time u open a canvas it paints straight away. A snapshot is kept in
+  IndexedDB and shown while the real canvas mounts behind it.
+- **PDF export** is the button at the top right. It exports what u are looking
+  at, ur edits included.
+- **Reset** wipes ur edits on that one canvas and puts the original back.
+- A Service Worker caches the assets, so coming back is fast and it opens with
+  no connection.
 
 ## Tips
 
-- Click the **hamburger** (top-left) on any canvas page to jump between drawings
-- Theme toggle, zoom-to-box, and minimap live in the top toolbar
-- Footer-left has Excalidraw's native zoom + undo controls
-- Mobile: sidebar slides in as a panel
+- The **hamburger** at the top left of any canvas page jumps between drawings.
+- Theme toggle, zoom-to-box and the minimap are in the top toolbar.
+- Excalidraw's own zoom and undo sit in the bottom left.
+- On a phone the sidebar slides in as a panel.
 
-Source vault and structure: **https://github.com/Mohamedattiadev/my-study-summaries**
+The drawings themselves live here: **https://github.com/Mohamedattiadev/my-study-summaries**
 
 ---
 
 ## About
 
-Built by **Mohamed Attia** — CS undergrad, sharing his study notes openly.
+Written by **Mohamed Attia**, CS undergrad, putting his study notes out in the
+open.
 
 - GitHub: [@Mohamedattiadev](https://github.com/Mohamedattiadev)
-- Canonical vault: [my-study-summaries](https://github.com/Mohamedattiadev/my-study-summaries)
-- Pipeline source: [excalidraw-vault](https://github.com/Mohamedattiadev/excalidraw-vault)
+- The notes: [my-study-summaries](https://github.com/Mohamedattiadev/my-study-summaries)
+- This site: [excalidraw-vault](https://github.com/Mohamedattiadev/excalidraw-vault)
 
-Free to read, fork, and learn from. Not a textbook — a living visual revision deck.
+Read it, fork it, take what u need. It is a revision deck that keeps growing,
+not a book that got finished.
 
 <p align="center">
   <img src="https://hits.sh/mohamedattiadev.github.io/excalidraw-vault.svg?style=for-the-badge&label=visitors&color=7b5cd6&labelColor=2a1f47" alt="visitors" />

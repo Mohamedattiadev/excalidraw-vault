@@ -3,7 +3,11 @@ title: Software Architecture
 ---
 
 
-Architecture styles, patterns, design methods, and evaluation.
+Styles, patterns, and the methods for picking between them. Split by phase,
+because that is how the course was split.
+
+Phase 1 is the catalog of styles. Phase 2 is the part that actually matters in
+practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 
 ## Phase 1 (Lec 1-5, midterm)
 
@@ -34,6 +38,6 @@ Architecture styles, patterns, design methods, and evaluation.
 
 | File                                       | Link                                                                                                                                       |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| 8.1 - Software Architecture chp (1-4) — High quality | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-High%20quality.pdf) |
-| 8.1 - Software Architecture chp (1-4) — Mid quality  | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-Mid%20quality.pdf)  |
+| 8.1 - Software Architecture chp (1-4), high quality | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-High%20quality.pdf) |
+| 8.1 - Software Architecture chp (1-4), mid quality  | [Go to PDF](https://github.com/Mohamedattiadev/excalidraw-vault/blob/v5/content/07-SoftwareArchitecture/8.1%20-%20Software%20Architecture%20-%20chp%20(1-4)-Mid%20quality.pdf)  |
 | Folder                                     | [Open on GitHub](https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/07-SoftwareArchitecture)                              |
