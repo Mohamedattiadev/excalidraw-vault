@@ -44,13 +44,13 @@ for (const name of PATCHED) {
     console.warn(`[plugins] ${name} is not checked out, skipping`);
     continue;
   }
-  // Snapshot before seeding git, so the restore also drops the seeded .git and
-  // leaves the working tree exactly as it was.
-  fs.cpSync(dir, path.join(snapshot, name), { recursive: true });
-  saved.push(name);
 
-  // A git HEAD inside the plugin makes the installer treat it as already
-  // present and skip the re-clone. Belt and braces: we restore either way.
+  // Seed a git HEAD BEFORE snapshotting, so the snapshot carries the .git too.
+  // This is load-bearing and the order matters. A plugin dir with a git repo in
+  // it is one the fetcher refuses to overwrite ("failed to update"), and it is
+  // not only `plugin install` that re-fetches: `npx quartz build` does it again
+  // later. Restoring a dir without .git therefore looks fine here and gets
+  // clobbered two steps afterwards, which is exactly how the deploy broke once.
   if (!fs.existsSync(path.join(dir, '.git'))) {
     for (const args of [['init', '-q'], ['config', 'user.email', 'ci@local'],
                         ['config', 'user.name', 'ci'], ['add', '-A'],
@@ -58,6 +58,9 @@ for (const name of PATCHED) {
       run('git', args, { cwd: dir });
     }
   }
+
+  fs.cpSync(dir, path.join(snapshot, name), { recursive: true });
+  saved.push(name);
 }
 console.log(`[plugins] snapshotted ${saved.join(', ')} to ${snapshot}`);
 
@@ -72,6 +75,13 @@ for (const name of saved) {
 fs.rmSync(snapshot, { recursive: true, force: true });
 
 let failed = false;
+for (const name of saved) {
+  // Without this the patch survives the install and dies during `quartz build`.
+  if (!fs.existsSync(path.join(PLUGINS, name, '.git'))) {
+    console.error(`[plugins] ${name} has no .git, a later build would overwrite it`);
+    failed = true;
+  }
+}
 for (const [name, [file, symbol]] of Object.entries(CANARY)) {
   if (!saved.includes(name)) continue;
   const p = path.join(PLUGINS, name, file);
