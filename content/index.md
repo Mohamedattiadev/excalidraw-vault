@@ -17,18 +17,18 @@ remember, in the order I needed it, and it skips what I already knew.
 
 | # | Folder | Focus |
 |---|--------|-------|
-| 01 | [[01-Algorithms/index\|Algorithms]] | Complexity, sorting, dynamic programming, knapsack |
-| 02 | [[02-DesignPatterns/index\|Design Patterns]] | Creational, structural, behavioral OOP patterns |
-| 03 | [[03-OS/index\|Operating Systems]] | xv6 internals, processes, memory, scheduling |
-| 04 | [[04-Databases/index\|Databases]] | Relational model, SQL, transactions, indexing |
-| 05 | [[05-Networking/index\|Networking]] | OSI/TCP-IP, protocols, sockets, routing |
-| 06 | [[06-DataScience-Mining/index\|Data Science & Mining]] | Data prep, mining algorithms, classification |
-| 07 | [[07-SoftwareArchitecture/index\|Software Architecture]] | Patterns, attributes, evaluation methods |
-| 08 | [[08-ScientificComputing/index\|Scientific Computing]] | Numerical methods, linear algebra, error analysis |
-| 09 | [[09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
-| 10 | [[10-English/index\|English]] | Exam-prep revision notes |
+| 01 | [[01-Universite/01-Algorithms/index\|Algorithms]] | Complexity, sorting, dynamic programming, knapsack |
+| 02 | [[01-Universite/02-DesignPatterns/index\|Design Patterns]] | Creational, structural, behavioral OOP patterns |
+| 03 | [[01-Universite/03-OS/index\|Operating Systems]] | xv6 internals, processes, memory, scheduling |
+| 04 | [[01-Universite/04-Databases/index\|Databases]] | Relational model, SQL, transactions, indexing |
+| 05 | [[01-Universite/05-Networking/index\|Networking]] | OSI/TCP-IP, protocols, sockets, routing |
+| 06 | [[01-Universite/06-DataScience-Mining/index\|Data Science & Mining]] | Data prep, mining algorithms, classification |
+| 07 | [[01-Universite/07-SoftwareArchitecture/index\|Software Architecture]] | Patterns, attributes, evaluation methods |
+| 08 | [[01-Universite/08-ScientificComputing/index\|Scientific Computing]] | Numerical methods, linear algebra, error analysis |
+| 09 | [[01-Universite/09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
+| 10 | [[01-Universite/10-English/index\|English]] | Exam-prep revision notes |
 
-Want the canvases and nothing else? [[00-Drawings/index|Drawings]] lists all 12
+Want the canvases and nothing else? [[01-Universite/00-Drawings/index|Drawings]] lists all 12
 of them in one table.
 
 ## Courses
@@ -37,7 +37,7 @@ Not notes, and not computer science. A written course, with a video.
 
 | # | Folder | What it is |
 |---|--------|-----------|
-| 11 | [[11-Dev-101/index\|Dev 101]] | [[11-Dev-101/Terminal-101/index\|Terminal 101]], the whole terminal course, 9 chapters and a video |
+| 11 | [[02-Personal/11-Dev-101/index\|Dev 101]] | [[02-Personal/11-Dev-101/Terminal-101/index\|Terminal 101]], the whole terminal course, 9 chapters and a video |
 
 ## How it works
 

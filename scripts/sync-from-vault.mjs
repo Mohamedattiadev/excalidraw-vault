@@ -22,11 +22,24 @@ const CONTENT = path.resolve('content');
 const SKIP_DIRS = new Set([
   '_cache', '_system', 'Collab', '.obsidian', '.git', '.trash',
   '9999 - Excalidraw', '999-Templates', '00-Index',
-  // Authored here, not in the vault. The sync must never generate into it or prune it.
-  '11-Dev-101',
+  // Authored here, not in the vault. The sync must never generate into these or
+  // prune them. Matching is by directory name at whatever depth the walk is at,
+  // so 02-Personal covers the top level after the Universite/Personal split and
+  // 11-Dev-101 still covers the course folder itself.
+  '02-Personal', '11-Dev-101',
 ]);
 const PROTECTED_RE = /(^|\/)(index\.md|README\.md)$/i;          // we author these
 const SUBJECT_DIR_RE = /^\d{1,2}[-._ ]/;                         // 01-Algo, 02-DesignPatterns, …
+
+// The vault is flat (01-Algorithms, 02-DesignPatterns, …) but the site groups the
+// university subjects under one parent so the sidebar has a Universite and a
+// Personal header. The sync has to write inside that parent: pointed at content/
+// directly it recreates the flat folders next to the grouped ones, which is how
+// you end up with content/01-Algorithms AND content/01-Universite/01-Algorithms
+// both holding the same canvases.
+const SUBJECT_GROUP = '01-Universite';
+const SUBJECTS_ROOT = path.join(CONTENT, SUBJECT_GROUP);
+const groupedSubject = (subjectDir) => path.join(SUBJECT_GROUP, subjectDir);
 // Asset folders look like subject folders (numeric prefix) but should NOT get an auto-generated index.md.
 const ASSET_LIKE_NAMES = new Set(['90-Assets', '99-Assets', '999-Templates']);
 
@@ -107,7 +120,7 @@ function initialsOf(label) {
   return label.split(/\s+/).filter(Boolean).map((w) => w[0]).join('').toLowerCase();
 }
 function findExistingTarget(subjectDir, vaultFilename) {
-  const dir = path.join(CONTENT, subjectDir);
+  const dir = path.join(CONTENT, groupedSubject(subjectDir));
   if (!existsSync(dir)) return null;
   const vaultLabel = prettifyLabel(vaultFilename).toLowerCase();
   const vaultInitials = initialsOf(vaultLabel);
@@ -145,7 +158,7 @@ async function syncExcalidrawFiles() {
 
   const claimed = new Set();
   for (const [subjectDir, list] of bySubject) {
-    const dstDir = path.join(CONTENT, subjectDir);
+    const dstDir = path.join(CONTENT, groupedSubject(subjectDir));
     await fs.mkdir(dstDir, { recursive: true });
 
     // Existing canonical files in this subject
@@ -195,16 +208,19 @@ async function copyDirRaw(srcDir, dstDir) {
 }
 
 async function ensureSubjectIndexes() {
-  // For every top-level subject folder, make sure index.md exists. If missing, generate a placeholder.
-  const ents = await fs.readdir(CONTENT, { withFileTypes: true });
+  // For every subject folder inside the group, make sure index.md exists. If missing, generate a placeholder.
+  if (!existsSync(SUBJECTS_ROOT)) return;
+  const ents = await fs.readdir(SUBJECTS_ROOT, { withFileTypes: true });
   for (const e of ents) {
     if (!e.isDirectory()) continue;
     if (!SUBJECT_DIR_RE.test(e.name)) continue;
     if (SKIP_DIRS.has(e.name) || ASSET_LIKE_NAMES.has(e.name)) continue;
-    const idx = path.join(CONTENT, e.name, 'index.md');
+    const idx = path.join(SUBJECTS_ROOT, e.name, 'index.md');
     if (existsSync(idx)) continue;
     const title = prettifyLabel(e.name);
-    const body = `---\ntitle: ${title}\n---\n\n# ${title}\n\nDrawings in this folder are listed in the sidebar.\n`;
+    // No `# title` in the body: Quartz renders the frontmatter title as the page
+    // heading, so a body h1 prints the title twice and gives the page two h1s.
+    const body = `---\ntitle: ${title}\n---\n\nDrawings in this folder are listed in the sidebar.\n`;
     await fs.writeFile(idx, body);
     console.log(`[sync] generated placeholder index for ${e.name}`);
   }
@@ -212,11 +228,12 @@ async function ensureSubjectIndexes() {
 
 async function pruneStale(canonicalSet, vaultLabelsBySubject) {
   // Only delete content files that no vault file in the same subject could plausibly claim.
-  const ents = await fs.readdir(CONTENT, { withFileTypes: true });
+  if (!existsSync(SUBJECTS_ROOT)) return;
+  const ents = await fs.readdir(SUBJECTS_ROOT, { withFileTypes: true });
   for (const e of ents) {
     if (!e.isDirectory() || !SUBJECT_DIR_RE.test(e.name)) continue;
     if (SKIP_DIRS.has(e.name)) continue;
-    const subDir = path.join(CONTENT, e.name);
+    const subDir = path.join(SUBJECTS_ROOT, e.name);
     const inner = await fs.readdir(subDir, { withFileTypes: true });
     const vaultLabels = (vaultLabelsBySubject.get(e.name) || []).map((s) => s.toLowerCase());
     for (const f of inner) {
