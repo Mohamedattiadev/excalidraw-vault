@@ -9,6 +9,11 @@ boots and runs.
 Memory, virtual memory, the file system and virtual machines got their own
 sections here, because each one is a whole chapter on its own.
 
+## Drawings
+
+- [[xv6-Workflow.excalidraw|xv6 Workflow]]
+- [[Operating-Systems.excalidraw|OS (main canvas)]]
+
 ## Chapters
 
 | Ch      | Topics                                                                                       |
@@ -85,8 +90,3 @@ The links I actually used, pulled straight off the canvas.
 | First / Best / Worst Fit | [Go to link](https://www.youtube.com/watch?v=N3rG_1CEQkQ)                                              |
 | Disk Scheduling          | [Go to link](https://www.youtube.com/watch?v=yrO5fvXlESE&t=8s)                                         |
 | Page Replacement         | [Go to link](https://www.youtube.com/watch?v=cjWnEtnKVGM)                                              |
-
-## Drawings
-
-- [[xv6-Workflow.excalidraw|xv6 Workflow]]
-- [[Operating-Systems.excalidraw|OS (main canvas)]]

@@ -9,6 +9,11 @@ Data Science is the pandas side: what a row and a column are, then summarizing,
 plotting, distances and text. Data Mining is the theory side: proximity
 measures, preprocessing, and classification.
 
+## Drawings
+
+- [[Data-Science.excalidraw|Data Science]]
+- [[Data-Mining.excalidraw|Data Mining]]
+
 ## Data Science
 
 | Topic                          | Items                                                                                  |
@@ -35,8 +40,3 @@ measures, preprocessing, and classification.
 | Preprocessing   | Data cleaning + cleaning process, integration, transformation (normalization, discretization), reduction |
 | Variables       | Discrete vs continuous                                                                          |
 | Part 2 (Ch 6-7) | Classification rule matching (conflicts, no-match), precision and recall (formulas), likelihood  |
-
-## Drawings
-
-- [[Data-Science.excalidraw|Data Science]]
-- [[Data-Mining.excalidraw|Data Mining]]

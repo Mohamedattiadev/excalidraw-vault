@@ -9,6 +9,10 @@ and the smells u get when u ignore them.
 The patterns are easy to name and hard to tell apart, so there is a
 comparison row for the ones that look the same (Strategy and Command).
 
+## Drawings
+
+- [[Design-Patterns.excalidraw|Design Pattern (main canvas)]]
+
 ## Patterns
 
 | Group       | Patterns                                                                                  |
@@ -44,7 +48,3 @@ The links I actually used, pulled straight off the canvas. One row per video.
 | Topic                  | Resource                                              |
 | ---------------------- | ----------------------------------------------------- |
 | Chain of Responsibility| [Go to link](https://www.youtube.com/watch?v=FafNcoBvVQo) |
-
-## Drawings
-
-- [[Design-Patterns.excalidraw|Design Pattern (main canvas)]]

@@ -28,6 +28,9 @@ remember, in the order I needed it, and it skips what I already knew.
 | 09 | [[09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
 | 10 | [[10-English/index\|English]] | Exam-prep revision notes |
 
+Want the canvases and nothing else? [[00-Drawings/index|Drawings]] lists all 12
+of them in one table.
+
 ## Courses
 
 Not notes, and not computer science. A written course, with a video.

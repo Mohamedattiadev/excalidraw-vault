@@ -9,6 +9,10 @@ Internet is and ends at how a packet finds its way.
 Chapter 3 is the long one. Reliable transfer is built up in small steps (rdt
 1.0, then 2.0, then 2.1) and each step exists because the one before it broke.
 
+## Drawings
+
+- [[Computer-Networking.excalidraw|Computer Networking (main canvas)]]
+
 ## Ch 1: Intro
 
 | Topic                | Items                                                                                       |
@@ -54,7 +58,3 @@ Chapter 3 is the long one. Reliable transfer is built up in small steps (rdt
 | -------------------- | ------------------------------------------------------------------------------------------- |
 | Network layer (Ch 4) | Forwarding (local action), routing (global action)                                            |
 | Ch 6                 | Summary                                                                                      |
-
-## Drawings
-
-- [[Computer-Networking.excalidraw|Computer Networking (main canvas)]]

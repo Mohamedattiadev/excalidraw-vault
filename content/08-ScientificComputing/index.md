@@ -9,6 +9,10 @@ the probability side (MLE and Bayesian update).
 The interpolation videos below are in Turkish, since that is the lecture
 language for this course.
 
+## Drawings
+
+- [[Scientific-Computing.excalidraw|Scientific Computing (main canvas)]]
+
 ## Topics
 
 | Topic                              | Items                                                                            |
@@ -32,7 +36,3 @@ The links I actually used, pulled straight off the canvas. One row per video.
 | Sayısal Analiz: Kübik       | [Go to link](https://www.youtube.com/watch?v=u4PV5hfuyxU&list=PLcNWqzWzYG2sip3WAzTnsSkyy5VRDFDIO&index=17)     |
 | Sayısal Analiz: Kübik       | [Go to link](https://www.youtube.com/watch?v=lKo9ND8_1Z8&list=PLcNWqzWzYG2sip3WAzTnsSkyy5VRDFDIO&index=15)     |
 | Sayısal Analiz: Kübik       | [Go to link](https://www.youtube.com/watch?v=p39NWFkq0X4&list=PLcNWqzWzYG2sip3WAzTnsSkyy5VRDFDIO&index=16)     |
-
-## Drawings
-
-- [[Scientific-Computing.excalidraw|Scientific Computing (main canvas)]]

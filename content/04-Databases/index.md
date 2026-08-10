@@ -9,6 +9,10 @@ disk.
 Normalization and transactions are the two parts that come back in every exam,
 so they have the most on them.
 
+## Drawings
+
+- [[Databases.excalidraw|DB (main canvas)]]
+
 ## Intro and model
 
 | Topic                | Items                                                                                       |
@@ -92,7 +96,3 @@ The links I actually used, pulled straight off the canvas. One row per video.
 | B Trees            | [Go to link](https://www.youtube.com/watch?v=aZjYr87r1b8) |
 | Database Indexes   | [Go to link](https://www.youtube.com/watch?v=1ZhBULsbZGw) |
 | B-trees in detail  | [Go to link](https://www.youtube.com/watch?v=pN4C8cLVc7I) |
-
-## Drawings
-
-- [[Databases.excalidraw|DB (main canvas)]]

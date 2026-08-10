@@ -9,6 +9,10 @@ it was taught in, so it goes from Big O up to the graph algorithms.
 Most of these only made sense to me once I drew the steps out, so the canvas
 is worth more here than the table below.
 
+## Drawings
+
+- [[Algorithms.excalidraw|Algo (main canvas)]]
+
 ## Topics
 
 | Topic                  | Items                                                                                |
@@ -54,7 +58,3 @@ The links I actually used, pulled straight off the canvas. One row per video.
 | Bellman Ford Algorithm       | [Go to link](https://www.youtube.com/watch?v=FtN3BYH2Zes)                |
 | All Pairs Shortest           | [Go to link](https://www.youtube.com/watch?v=oNI0rf2P9gE&t=603s)         |
 | Prims and Kruskals           | [Go to link](https://youtu.be/4ZlRH0eK-qQ)                               |
-
-## Drawings
-
-- [[Algorithms.excalidraw|Algo (main canvas)]]

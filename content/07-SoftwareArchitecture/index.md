@@ -9,6 +9,10 @@ because that is how the course was split.
 Phase 1 is the catalog of styles. Phase 2 is the part that actually matters in
 practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 
+## Drawings
+
+- [[Software-Architecture.excalidraw|Software Architecture (Ch 5+)]]
+
 ## Phase 1 (Lec 1-5, midterm)
 
 | Topic              | Items                                              |
@@ -29,10 +33,6 @@ practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 | ADR         | Architecture Decision Records                                                         |
 | C4          | C4 diagrams + case study (EduFlex system: real-time event bus, presentation layer, external services) |
 | Real cases  | Worked-out examples, advantages and disadvantages                                      |
-
-## Drawings
-
-- [[Software-Architecture.excalidraw|Software Architecture (Ch 5+)]]
 
 ## PDFs
 
