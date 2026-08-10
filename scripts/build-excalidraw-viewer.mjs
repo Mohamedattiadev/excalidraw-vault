@@ -511,6 +511,14 @@ const AUTHOR_BLOCK_HTML = `
 
 const SITE_URL = `https:${SITE_BASEPATH ? '//mohamedattiadev.github.io' + SITE_BASEPATH : '//mohamedattiadev.github.io'}`;
 const OG_IMAGE = `${SITE_URL}/static/icon.png`;
+// Derived from the file itself, so the share URL changes exactly when the
+// picture does and a cached card is replaced instead of kept.
+const OG_VERSION = await (async () => {
+  try {
+    const buf = await fs.readFile(path.resolve('quartz/static/og-image.png'));
+    return crypto.createHash('sha1').update(buf).digest('hex').slice(0, 8);
+  } catch { return '1'; }
+})();
 const SW_REGISTER = `<script>if('serviceWorker'in navigator){addEventListener('load',()=>{navigator.serviceWorker.register('${SITE_BASEPATH}/sw.js').catch(e=>console.warn('SW reg fail',e))})}</script>`;
 
 // The build-time pass below can only reach links that exist in the HTML. The
@@ -618,6 +626,28 @@ for (const fp of allHtml) {
         `<meta name="twitter:image" content="${OG_IMAGE}" />`,
       ].join('\\n');
       $$('head').append(ogTags);
+    }
+
+    // Repair the share card tags whoever emitted them.
+    //  - type came out as "image/.png", which is not a media type. A scraper is
+    //    entitled to drop an image it is told is of an invalid type.
+    //  - width and height were missing. Without them WhatsApp and Facebook have
+    //    to fetch and measure before they can lay the card out, and often fall
+    //    back to the small square thumbnail instead of the wide one.
+    //  - the URL carries a version, so a re-scrape fetches the new bytes rather
+    //    than serving whatever it already had cached at that address.
+    const ogImg = `${SITE_URL}/static/og-image.png?v=${OG_VERSION}`;
+    $$('meta[property="og:image"], meta[property="og:image:url"], meta[name="twitter:image"]')
+      .attr('content', ogImg);
+    $$('meta[property="og:image:type"]').attr('content', 'image/png');
+    if (!$$('meta[property="og:image:width"]').length) {
+      $$('head').append(
+        `<meta property="og:image:width" content="1200" />` +
+        `<meta property="og:image:height" content="630" />`,
+      );
+    }
+    if (!$$('meta[name="twitter:card"]').length) {
+      $$('head').append(`<meta name="twitter:card" content="summary_large_image" />`);
     }
 
     // Service Worker register (once)
