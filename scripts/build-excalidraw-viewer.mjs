@@ -549,6 +549,31 @@ for (const fp of allHtml) {
       $$('body').append(SW_REGISTER);
     }
 
+    // A canvas is somewhere you sit and draw, not somewhere you pass through.
+    // Opening it in a new tab keeps the index you came from where it was, so
+    // going back to pick the next drawing does not mean reloading and
+    // re-finding your place. Applies wherever the link appears: subject pages,
+    // the Drawings table, the sidebar tree.
+    $$('a[href*=".excalidraw"]').each((_, el) => {
+      const a = $$(el);
+      if (a.attr('target')) return;
+      a.attr('target', '_blank').attr('rel', 'noopener');
+    });
+
+    // PDF links open the viewer page in a new tab. The href is built here and
+    // not in the markdown because crawl-links treats a relative href as an
+    // internal link and slugifies it, which turns `pdf?file=x` into `pdffile=x`.
+    // An anchor with no href is left alone, so the markdown carries data-pdf
+    // (a site-root-relative path) and the real link is assembled after render.
+    const upToRoot = '../'.repeat(path.relative(PUBLIC, fp).split(path.sep).length - 1) || './';
+    $$('a[data-pdf]').each((_, el) => {
+      const a = $$(el);
+      const file = a.attr('data-pdf');
+      if (!file) return;
+      a.attr('href', `${upToRoot}pdf?file=${encodeURIComponent(file)}`);
+      a.attr('target', '_blank').attr('rel', 'noopener');
+    });
+
     await fs.writeFile(fp, $$.html());
   } catch {}
 }

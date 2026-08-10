@@ -17,6 +17,5 @@ exams on, drawn instead of typed.
 | 07 | [[01-Universite/07-SoftwareArchitecture/index\|Software Architecture]] | Patterns, attributes, evaluation methods |
 | 08 | [[01-Universite/08-ScientificComputing/index\|Scientific Computing]] | Numerical methods, linear algebra, error analysis |
 | 09 | [[01-Universite/09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
-| 10 | [[01-Universite/10-English/index\|English]] | Exam-prep revision notes |
 
 Every canvas from these subjects in one table: [[01-Universite/00-Drawings/index|Drawings]].

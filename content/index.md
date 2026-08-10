@@ -26,17 +26,17 @@ remember, in the order I needed it, and it skips what I already knew.
 | 07 | [[01-Universite/07-SoftwareArchitecture/index\|Software Architecture]] | Patterns, attributes, evaluation methods |
 | 08 | [[01-Universite/08-ScientificComputing/index\|Scientific Computing]] | Numerical methods, linear algebra, error analysis |
 | 09 | [[01-Universite/09-Security/index\|Security]] | Cryptography, attacks, defenses, OWASP |
-| 10 | [[01-Universite/10-English/index\|English]] | Exam-prep revision notes |
 
 Want the canvases and nothing else? [[01-Universite/00-Drawings/index|Drawings]] lists all 12
 of them in one table.
 
-## Courses
+## Personal
 
-Not notes, and not computer science. A written course, with a video.
+Not university, and not graded. The things I am teaching myself.
 
 | # | Folder | What it is |
 |---|--------|-----------|
+| 10 | [[02-Personal/10-English/index\|English]] | Exam-prep revision, tenses, grammar, the old 2022 notes |
 | 11 | [[02-Personal/11-Dev-101/index\|Dev 101]] | [[02-Personal/11-Dev-101/Terminal-101/index\|Terminal 101]], the whole terminal course, 9 chapters and a video |
 
 ## How it works

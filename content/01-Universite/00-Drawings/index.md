@@ -26,6 +26,6 @@ edits are saved in ur own browser only, the vault source stays clean.
 | [[01-Universite/07-SoftwareArchitecture/index\|Software Architecture]] | [[01-Universite/07-SoftwareArchitecture/Software-Architecture.excalidraw\|Software Architecture (Ch 5+)]] |
 | [[01-Universite/08-ScientificComputing/index\|Scientific Computing]] | [[01-Universite/08-ScientificComputing/Scientific-Computing.excalidraw\|Scientific Computing (main canvas)]] |
 | [[01-Universite/09-Security/index\|Security]] | [[01-Universite/09-Security/Security.excalidraw\|Security (main canvas)]] |
-| [[01-Universite/10-English/index\|English]] | [[01-Universite/10-English/Prep-Eng.excalidraw\|Prep Eng (revision canvas)]] |
+| [[02-Personal/10-English/index\|English]] | [[02-Personal/10-English/Prep-Eng.excalidraw\|Prep Eng (revision canvas)]] |
 
 12 canvases across 10 subjects.
