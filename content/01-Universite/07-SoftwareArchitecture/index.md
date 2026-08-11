@@ -39,8 +39,15 @@ practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 
 ## PDFs
 
-| File                                       | Link                                                                                                                                       |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| 8.1 - Software Architecture chp (1-4), high quality | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-high-quality.pdf" data-pdf-title="8.1 - Software Architecture, chp (1-4), high quality">Go to PDF</a> |
-| 8.1 - Software Architecture chp (1-4), mid quality  | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-mid-quality.pdf" data-pdf-title="8.1 - Software Architecture, chp (1-4), mid quality">Go to PDF</a>  |
+The notes were exported as one sheet 40 inches wide and 84 inches tall, which
+is why a browser opened it at 9% zoom and nothing could be read. The first row
+is that same sheet cut back into 18 pages at their original size, so it opens
+at 100% and is legible. The originals are still below if u want the single
+sheet.
+
+| File | Link |
+| ---- | ---- |
+| **Software Architecture, chp (1-4)**, 18 pages, readable | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-readable.pdf" data-pdf-title="Software Architecture, chp (1-4), 18 pages">Go to PDF</a> |
+| The original sheet, mid quality (one 40x84in page) | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-mid-quality.pdf" data-pdf-title="Software Architecture, chp (1-4), original sheet, mid quality">Go to PDF</a> |
+| The original sheet, high quality (75 MB) | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-high-quality.pdf" data-pdf-title="Software Architecture, chp (1-4), original sheet, high quality">Go to PDF</a> |
 | Folder                                     | <a href="https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/01-Universite/07-SoftwareArchitecture" target="_blank" rel="noopener">Open on GitHub</a>                              |
