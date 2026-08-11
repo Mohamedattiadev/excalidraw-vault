@@ -600,6 +600,45 @@ document.addEventListener('click',function(e){
 // file path -> human title, gathered from every "Go to PDF" link on the site.
 const PDF_INDEX = new Map();
 
+// The viewer's own bytes decide the query string, so a deploy invalidates the
+// service worker's copy (it serves stale-while-revalidate for .js and .css)
+// instead of running last week's viewer against this week's page.
+const pdfStamp = async (rel) => {
+  try {
+    const buf = await fs.readFile(path.resolve('scripts', rel));
+    return crypto.createHash('sha1').update(buf).digest('hex').slice(0, 8);
+  } catch { return String(Date.now()); }
+};
+const PDF_JS_V = await pdfStamp('pdf-viewer.client.js');
+const PDF_CSS_V = await pdfStamp('pdf-viewer.client.css');
+
+// Starts the PDF viewer whenever a page carrying #pdfapp is on screen: on a hard
+// load, and on every SPA navigation.
+//
+// It has to sit on every page, marked data-persist, because of two rules that
+// meet badly here. Quartz's router patches <body> with micromorph, which never
+// executes a <script> it inserts, then swaps the non-persistent <head> nodes —
+// and those come from a DOMParser document, where scripts are born "already
+// started" and so never run either. A script arriving with the /pdf page
+// therefore cannot run at all on a soft nav, which is exactly why this page came
+// up empty when reached from a link. A persistent script, loaded once on
+// whatever page the reader entered by, is still running when /pdf arrives; the
+// dynamic import is the part that has to be a call, since a module is evaluated
+// once per tab no matter how many times it is imported.
+const PDF_BOOT = (upToRoot) => `<script id="pdfv-boot" data-persist>(function(){
+// Resolved now, while the document URL is still the page this snippet shipped
+// with: after a soft nav the address bar says /pdf and a relative path would
+// resolve from somewhere else.
+var SRC = new URL('${upToRoot}vendor/pdf-viewer.js?v=${PDF_JS_V}', document.baseURI).href;
+function boot(){
+  if (!document.getElementById('pdfapp')) return;
+  import(SRC).then(function(m){ m.initPdfViewer(); })
+             .catch(function(e){ console.error('pdf viewer', e); });
+}
+if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot); else boot();
+document.addEventListener('nav', boot);
+})();</script>`;
+
 const allHtml = await glob(`${PUBLIC}/**/*.html`);
 console.log(`injecting author block + meta + SW into ${allHtml.length} html pages`);
 for (const fp of allHtml) {
@@ -685,6 +724,12 @@ for (const fp of allHtml) {
     // An anchor with no href is left alone, so the markdown carries data-pdf
     // (a site-root-relative path) and the real link is assembled after render.
     const upToRoot = '../'.repeat(path.relative(PUBLIC, fp).split(path.sep).length - 1) || './';
+
+    // Viewer boot (once). See PDF_BOOT for why it goes on every page.
+    if (!html.includes('id="pdfv-boot"')) {
+      $$('head').append(PDF_BOOT(upToRoot));
+    }
+
     $$('a[data-pdf]').each((_, el) => {
       const a = $$(el);
       const file = a.attr('data-pdf');
@@ -721,9 +766,17 @@ for (const fp of allHtml) {
     try {
       let html = await fs.readFile(fp, 'utf8');
       if (html.includes('id="pdf-index"')) continue;
-      // Into <head>: the page's own script reads this while the body is still
-      // parsing, so appending at the end of <body> put it there too late.
-      html = html.replace('</head>', `${tag}</head>`);
+      const upToRoot = '../'.repeat(path.relative(PUBLIC, fp).split(path.sep).length - 1) || './';
+      // Only the viewer page carries these. Into <head>, all three of them: the
+      // index is read before the body has finished parsing, a stylesheet applies
+      // however the page was reached (unlike a script, a <link> works when it is
+      // merely inserted), and the preload has the module on its way while the
+      // rest of the page is still parsing.
+      const head =
+        `<link rel="stylesheet" href="${upToRoot}vendor/pdf-viewer.css?v=${PDF_CSS_V}" />` +
+        `<link rel="modulepreload" href="${upToRoot}vendor/pdf-viewer.js?v=${PDF_JS_V}" />` +
+        tag;
+      html = html.replace('</head>', `${head}</head>`);
       await fs.writeFile(fp, html);
     } catch {}
   }

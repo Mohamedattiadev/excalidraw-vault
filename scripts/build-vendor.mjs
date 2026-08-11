@@ -45,4 +45,25 @@ try {
   console.log('[vendor] fonts copied');
 } catch (err) { console.warn('[vendor] fonts copy failed', err.message); }
 
+// pdf.js, for the /pdf page. Copied rather than pulled from a CDN so the viewer
+// keeps working offline (the service worker caches same-origin assets) and does
+// not break the day a CDN changes a path. The worker is a separate file because
+// pdf.js parses documents off the main thread.
+try {
+  const PDFJS = path.resolve('node_modules/pdfjs-dist');
+  const dst = path.join(OUT, 'pdfjs');
+  await fs.mkdir(dst, { recursive: true });
+  for (const f of ['build/pdf.min.mjs', 'build/pdf.worker.min.mjs']) {
+    await fs.copyFile(path.join(PDFJS, f), path.join(dst, path.basename(f)));
+  }
+  // Fonts the spec says a viewer must supply itself, and the CJK encoding
+  // tables. Without them such a document renders with wrong metrics or not at
+  // all, and pdf.js only fetches the few files a document actually asks for.
+  await copyDir(path.join(PDFJS, 'standard_fonts'), path.join(dst, 'standard_fonts'));
+  await copyDir(path.join(PDFJS, 'cmaps'), path.join(dst, 'cmaps'));
+  await fs.copyFile(path.resolve('scripts/pdf-viewer.client.js'), path.join(OUT, 'pdf-viewer.js'));
+  await fs.copyFile(path.resolve('scripts/pdf-viewer.client.css'), path.join(OUT, 'pdf-viewer.css'));
+  console.log('[vendor] pdf.js + viewer copied');
+} catch (err) { console.warn('[vendor] pdf.js copy failed', err.message); }
+
 console.log('[vendor] done');
