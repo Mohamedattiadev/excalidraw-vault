@@ -156,6 +156,12 @@ async function mount(root, url, name) {
   try {
     doc = await pdfjs.getDocument({
       url: url.href,
+      // Fetch the byte ranges the pages on screen need, and stop there. Left on,
+      // pdf.js keeps pulling the rest of the file in the background, which on a
+      // 16 MB set of notes is minutes of a phone's data for pages nobody opened.
+      // GitHub Pages answers Range requests; where a host does not, pdf.js falls
+      // back to the whole file on its own.
+      disableAutoFetch: true,
       // Both directories ship next to the worker. Without them a document that
       // leans on a standard font renders with the wrong metrics, or not at all.
       standardFontDataUrl: here("./pdfjs/standard_fonts/"),
