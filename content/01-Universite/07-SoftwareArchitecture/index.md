@@ -40,14 +40,15 @@ practice: ADD to design one, ATAM and SAAM to judge it, ADRs to write down why.
 ## PDFs
 
 The notes were exported as one sheet 40 inches wide and 84 inches tall, which
-is why a browser opened it at 9% zoom and nothing could be read. The first row
-is that same sheet cut back into 18 pages at their original size, so it opens
-at 100% and is legible. The originals are still below if u want the single
-sheet.
+is why a browser used to open it at 9% zoom with nothing readable on it. This
+is that sheet cut back into 18 pages at their original size, so it opens at
+100% and reads the way it was drawn.
+
+The two original single-sheet exports are gone from the repo. Between them they
+were 91 MB, they were the reason it would not open, and this file is the same
+notes at 15 MB.
 
 | File | Link |
 | ---- | ---- |
-| **Software Architecture, chp (1-4)**, 18 pages, readable | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-readable.pdf" data-pdf-title="Software Architecture, chp (1-4), 18 pages">Go to PDF</a> |
-| The original sheet, mid quality (one 40x84in page) | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-mid-quality.pdf" data-pdf-title="Software Architecture, chp (1-4), original sheet, mid quality">Go to PDF</a> |
-| The original sheet, high quality (75 MB) | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-high-quality.pdf" data-pdf-title="Software Architecture, chp (1-4), original sheet, high quality">Go to PDF</a> |
+| **Software Architecture, chp (1-4)**, 18 pages | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-readable.pdf" data-pdf-title="Software Architecture, chp (1-4), 18 pages">Go to PDF</a> |
 | Folder                                     | <a href="https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/01-Universite/07-SoftwareArchitecture" target="_blank" rel="noopener">Open on GitHub</a>                              |
