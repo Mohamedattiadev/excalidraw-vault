@@ -40,6 +40,9 @@ const ICON = {
   fitWidth: svg('<path d="M3 8v8M21 8v8M7 12h10M7 12l3-3M7 12l3 3M17 12l-3-3M17 12l-3 3"/>'),
   fitPage: svg('<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>'),
   rotate: svg('<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v5h-5"/>'),
+  cols: svg(
+    '<rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9.5" y="4" width="5" height="16" rx="1"/><rect x="16" y="4" width="5" height="16" rx="1"/>',
+  ),
   full: svg(
     '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/>',
   ),
@@ -88,7 +91,9 @@ function showList(root) {
   for (const d of data) {
     const li = document.createElement("li")
     const a = document.createElement("a")
-    a.href = `${basepath()}/pdf?file=${encodeURIComponent(d.file)}&t=${encodeURIComponent(d.title)}`
+    a.href =
+      `${basepath()}/pdf?file=${encodeURIComponent(d.file)}&t=${encodeURIComponent(d.title)}` +
+      (d.cols ? `&cols=${encodeURIComponent(d.cols)}` : "")
     a.textContent = d.title
     li.appendChild(a)
     ul.appendChild(li)
@@ -124,6 +129,7 @@ function buildChrome(root, name, href) {
         <button type="button" data-act="fitw" title="Fit width" aria-label="Fit width">${ICON.fitWidth}</button>
         <button type="button" data-act="fitp" title="Fit page (0)" aria-label="Fit page">${ICON.fitPage}</button>
         <button type="button" data-act="rot" title="Rotate" aria-label="Rotate">${ICON.rotate}</button>
+        <button type="button" data-act="cols" title="Columns — lay the pages out side by side" aria-label="Columns">${ICON.cols}<span class="pdfv-cols">1</span></button>
       </div>
       <div class="pdfv-group">
         <button type="button" data-act="full" title="Fullscreen (f)" aria-label="Fullscreen">${ICON.full}</button>
@@ -141,13 +147,15 @@ function buildChrome(root, name, href) {
     pageInput: root.querySelector(".pdfv-page"),
     count: root.querySelector(".pdfv-count"),
     zoomLabel: root.querySelector(".pdfv-zoom"),
+    colsLabel: root.querySelector(".pdfv-cols"),
+    colsBtn: root.querySelector('[data-act="cols"]'),
     note: root.querySelector(".pdfv-note"),
     prev: root.querySelector('[data-act="prev"]'),
     next: root.querySelector('[data-act="next"]'),
   }
 }
 
-async function mount(root, url, name) {
+async function mount(root, url, name, wantCols) {
   root.className = "pdfv"
   const ui = buildChrome(root, name, url.href)
   ui.note.textContent = "Loading…"
@@ -182,6 +190,14 @@ async function mount(root, url, name) {
   let rotation = 0
   let current = 1
   let fitMode = "width" // width | page | null, so a resize keeps the chosen fit
+  // Some of these documents are not a sequence of pages at all: they are one
+  // big sheet that was cut into tiles, numbered down each column. Stacked in
+  // file order every horizontal continuation breaks — page 7 belongs to the
+  // right of page 1, not below page 6 — so the tiles are put back on their
+  // lattice, and the reader scrolls the sheet instead of the cut.
+  // On a phone the whole sheet across is an overview and nothing more, so a
+  // narrow screen starts in one column and the button offers the sheet.
+  let cols = window.innerWidth >= 700 ? Math.min(8, Math.max(1, wantCols || 1)) : 1
 
   // One entry per page: the placeholder that reserves layout space, the canvas
   // once drawn, and what it was drawn at so a zoom knows it is stale.
@@ -219,10 +235,28 @@ async function mount(root, url, name) {
   function layout() {
     for (const it of items) {
       const { w, h } = cssSize(it)
-      it.el.style.width = `${Math.round(w)}px`
-      it.el.style.height = `${Math.round(h)}px`
+      // Fractional, not rounded: tiles that were flush on the original sheet
+      // would otherwise show a hairline seam wherever the rounding disagreed.
+      it.el.style.width = `${w}px`
+      it.el.style.height = `${h}px`
     }
     ui.zoomLabel.textContent = `${Math.round(zoom * 100)}%`
+  }
+
+  // The lattice is filled column by column because that is the order the sheet
+  // was cut in. Placing each tile explicitly keeps the pages in document order
+  // in the DOM, which is what page numbers, tabbing and find-in-page follow.
+  function applyCols() {
+    const grid = cols > 1
+    const rows = Math.ceil(items.length / cols)
+    ui.pages.classList.toggle("pdfv-sheet", grid)
+    ui.pages.style.gridTemplateColumns = grid ? `repeat(${cols}, max-content)` : ""
+    items.forEach((it, i) => {
+      it.el.style.gridColumn = grid ? String(Math.floor(i / rows) + 1) : ""
+      it.el.style.gridRow = grid ? String((i % rows) + 1) : ""
+    })
+    ui.colsLabel.textContent = String(cols)
+    ui.colsBtn.setAttribute("aria-pressed", grid ? "true" : "false")
   }
 
   function viewportWidth() {
@@ -237,7 +271,8 @@ async function mount(root, url, name) {
 
   function fitWidth() {
     const it = items[current - 1] || items[0]
-    const w = (swapped() ? it.size.h : it.size.w) * PDF_TO_CSS
+    // Side by side, "width" means the width of the sheet, not of one tile.
+    const w = (swapped() ? it.size.h : it.size.w) * PDF_TO_CSS * cols
     setZoom(viewportWidth() / w, { keep: true })
     fitMode = "width"
   }
@@ -410,9 +445,12 @@ async function mount(root, url, name) {
     const near = []
     for (const it of items) {
       const r = it.el.getBoundingClientRect()
-      const dist = r.bottom < rect.top ? rect.top - r.bottom : Math.max(0, r.top - rect.bottom)
-      it.visible = r.bottom > rect.top - rect.height && r.top < rect.bottom + rect.height
-      near.push({ it, dist })
+      // Distance to the viewport in both axes, because side by side the next
+      // tile to draw is as often to the right as it is below.
+      const dy = Math.max(0, rect.top - r.bottom, r.top - rect.bottom)
+      const dx = Math.max(0, rect.left - r.right, r.left - rect.right)
+      it.visible = dy < rect.height && dx < rect.width
+      near.push({ it, dist: Math.hypot(dx, dy) })
     }
     near.sort((a, b) => a.dist - b.dist)
     // Only what is on screen or one screen away is worth drawing. Rendering runs
@@ -424,13 +462,19 @@ async function mount(root, url, name) {
     })
     pump()
 
-    // The page counter follows whatever is crossing the top third.
-    const mark = rect.top + rect.height / 3
-    let n = items.length
+    // The counter names the tile nearest the top left corner of the view, which
+    // in one column is simply the page you are reading, and side by side is the
+    // one you would start a row at.
+    let n = current
+    let bestScore = Infinity
     for (const it of items) {
-      if (it.el.getBoundingClientRect().top > mark) {
-        n = Math.max(1, it.n - 1)
-        break
+      const r = it.el.getBoundingClientRect()
+      if (r.bottom <= rect.top || r.top >= rect.bottom) continue
+      if (r.right <= rect.left || r.left >= rect.right) continue
+      const score = Math.abs(r.top - rect.top) + Math.abs(r.left - rect.left) / 2
+      if (score < bestScore) {
+        bestScore = score
+        n = it.n
       }
     }
     if (n !== current) {
@@ -445,6 +489,8 @@ async function mount(root, url, name) {
     const target = items[Math.min(items.length, Math.max(1, n)) - 1]
     if (!target) return
     ui.scroll.scrollTop = Math.max(0, target.el.offsetTop - 8)
+    // Side by side a page can be off to the right as easily as below.
+    ui.scroll.scrollLeft = Math.max(0, target.el.offsetLeft - 8)
     schedule()
   }
 
@@ -473,6 +519,17 @@ async function mount(root, url, name) {
           invalidate()
         }
         return
+      case "cols": {
+        // Between one column and however many the sheet was cut into. A reader
+        // who wants a single page at a time can have it, and come back.
+        const sheet = Math.min(8, Math.max(2, wantCols || 2))
+        cols = cols === 1 ? sheet : 1
+        applyCols()
+        if (fitMode === "page") fitPage()
+        else fitWidth()
+        goto(current)
+        return
+      }
       case "full":
         if (document.fullscreenElement) document.exitFullscreen()
         else root.requestFullscreen?.().catch(() => {})
@@ -581,6 +638,7 @@ async function mount(root, url, name) {
   }
   document.addEventListener("nav", teardown)
 
+  applyCols()
   layout()
   fitWidth()
   schedule()
@@ -601,7 +659,11 @@ export function initPdfViewer() {
 
   const name = prettyName(url, q.get("t"))
   document.title = name
-  mount(root, url, name).catch((err) => {
+  // How many tiles wide the sheet this file was cut from was. Carried on the
+  // link, because the cut throws the geometry away: once every page is its own
+  // page, nothing in the file says they were ever a lattice.
+  const cols = Math.max(1, Math.min(8, parseInt(q.get("cols"), 10) || 1))
+  mount(root, url, name, cols).catch((err) => {
     console.error(err)
     root.innerHTML = `<p class="pdfv-note">The viewer failed to start. <a href="${url.href}" target="_blank" rel="noopener">Open the PDF directly</a>.</p>`
   })

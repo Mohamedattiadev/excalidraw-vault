@@ -736,15 +736,23 @@ for (const fp of allHtml) {
       if (!file) return;
       // Collected so the viewer can list them when opened with no ?file=,
       // instead of being a dead end.
+      // data-pdf-cols says the file is tiles of one sheet that many columns
+      // wide, cut down each column. The viewer puts them back on that lattice;
+      // without it the tiles stack and every horizontal continuation breaks.
+      const cols = a.attr('data-pdf-cols');
       if (!PDF_INDEX.has(file)) {
-        PDF_INDEX.set(file, a.attr('data-pdf-title') || file.split('/').pop());
+        PDF_INDEX.set(file, {
+          title: a.attr('data-pdf-title') || file.split('/').pop(),
+          cols: cols ? Number(cols) : undefined,
+        });
       }
       // Carry the human title along. Deriving it from the slug gives
       // "chp (1 4) high quality", because the slugifier already ate the
       // punctuation that made it readable.
       const title = a.attr('data-pdf-title');
       a.attr('href', `${upToRoot}pdf?file=${encodeURIComponent(file)}` +
-                     (title ? `&t=${encodeURIComponent(title)}` : ''));
+                     (title ? `&t=${encodeURIComponent(title)}` : '') +
+                     (cols ? `&cols=${encodeURIComponent(cols)}` : ''));
       a.attr('target', '_blank').attr('rel', 'noopener');
     });
 
@@ -757,7 +765,7 @@ for (const fp of allHtml) {
 // then lists them rather than saying "nothing asked for" and stopping, which is
 // what a bare /pdf used to be: a page with no way forward.
 {
-  const list = [...PDF_INDEX.entries()].map(([file, title]) => ({ file, title }))
+  const list = [...PDF_INDEX.entries()].map(([file, meta]) => ({ file, ...meta }))
     .sort((a, b) => a.title.localeCompare(b.title));
   const tag = `<script id="pdf-index" type="application/json">${
     JSON.stringify(list).replace(/</g, '\\u003c')}</script>`;

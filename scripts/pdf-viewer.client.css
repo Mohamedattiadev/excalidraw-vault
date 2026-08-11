@@ -139,6 +139,21 @@ body[data-slug="pdf"] .right.sidebar {
   min-width: min-content;
 }
 
+/* Tiles of one big sheet: no gaps and no shadows between them, so a line of
+   handwriting that crossed the cut reads across it. The shadow moves to the
+   sheet as a whole. */
+.pdfv-pages.pdfv-sheet {
+  display: grid;
+  gap: 0;
+  align-items: start;
+  justify-content: center;
+  width: max-content;
+}
+
+.pdfv-pages.pdfv-sheet .pdfv-pg {
+  box-shadow: none;
+}
+
 .pdfv-pg {
   position: relative;
   flex: none;

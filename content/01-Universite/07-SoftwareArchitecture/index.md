@@ -50,5 +50,5 @@ notes at 15 MB.
 
 | File | Link |
 | ---- | ---- |
-| **Software Architecture, chp (1-4)**, 18 pages | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-readable.pdf" data-pdf-title="Software Architecture, chp (1-4), 18 pages">Go to PDF</a> |
+| **Software Architecture, chp (1-4)**, 18 pages | <a data-pdf="01-universite/07-softwarearchitecture/8.1---software-architecture---chp-(1-4)-readable.pdf" data-pdf-title="Software Architecture, chp (1-4), 18 pages" data-pdf-cols="3">Go to PDF</a> |
 | Folder                                     | <a href="https://github.com/Mohamedattiadev/excalidraw-vault/tree/v5/content/01-Universite/07-SoftwareArchitecture" target="_blank" rel="noopener">Open on GitHub</a>                              |
