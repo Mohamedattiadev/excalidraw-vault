@@ -147,6 +147,27 @@ plugins:
           }
           return !a.isFolder && b.isFolder ? 1 : -1;
         }
+      # A page title has to stand on its own in the tab, in search and in a
+      # backlink, so the Terminal 101 pages carry their full name. The tree
+      # already shows the folder they sit in, so the same name there is said
+      # twice and wraps onto three lines. This trims the part the tree has
+      # already told u, and only inside that course.
+      mapFn: |
+        (node) => {
+          const slug = node.slug || "";
+          if (!slug.includes("/terminal-101/")) return;
+          if (slug.endsWith("/solutions")) {
+            node.displayName = "Solutions";
+            return;
+          }
+          const chapter = (node.displayName || "").match(/^Chapter (\d+) \u2014 (.+)$/);
+          if (chapter) {
+            node.displayName = chapter[1] + " \u00b7 " + chapter[2];
+            return;
+          }
+          const rest = (node.displayName || "").replace(/^Terminal 101\s*[\u00b7\u2014-]?\s*/, "");
+          if (rest) node.displayName = rest[0].toUpperCase() + rest.slice(1);
+        }
     layout:
       position: left
       priority: 50
