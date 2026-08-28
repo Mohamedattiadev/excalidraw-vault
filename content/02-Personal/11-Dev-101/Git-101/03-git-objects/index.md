@@ -142,8 +142,8 @@ git cat-file -p 70d5c6e
 
 ```
 tree 58c31878a99ff474aba5a0ad3cc751285003acc7
-author mohamedattiadev <mohamedattia.dev@gmail.com> 1787918299 +0300
-committer mohamedattiadev <mohamedattia.dev@gmail.com> 1787918299 +0300
+author mohamedattiadev <youremail@example.com> 1787918299 +0300
+committer mohamedattiadev <youremail@example.com> 1787918299 +0300
 
 add Readme.md
 ```
@@ -221,8 +221,8 @@ git cat-file -p 79e91e0
 ```
 tree 66e850b547ac29f8501686db13a47a4e1d0cc5c3
 parent 70d5c6eb6ac6e35f223eae7b01abce5021d4df12
-author mohamedattiadev <mohamedattia.dev@gmail.com> 1787918299 +0300
-committer mohamedattiadev <mohamedattia.dev@gmail.com> 1787918299 +0300
+author mohamedattiadev <youremail@example.com> 1787918299 +0300
+committer mohamedattiadev <youremail@example.com> 1787918299 +0300
 
 2nd commit
 ```
@@ -285,7 +285,7 @@ git log
 
 ```
 commit 79e91e04f6fb4309c982a0107af75cd239dfd261 (HEAD -> master)
-Author: mohamedattiadev <mohamedattia.dev@gmail.com>
+Author: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 14:58:19 2026 +0300
 
     2nd commit

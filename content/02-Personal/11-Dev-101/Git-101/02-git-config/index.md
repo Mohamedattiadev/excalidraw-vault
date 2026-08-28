@@ -32,7 +32,7 @@ cat ~/.gitconfig
 ```
 [user]
 	name = mohamedattiadev
-	email = mohamedattia.dev@gmail.com
+	email = youremail@example.com
 ```
 
 > that is all the command did. there is no database and no magic, it wrote 3 lines into a text file. u could have opened it with `nano` and typed them urself.
@@ -97,7 +97,7 @@ fatal: --local can only be used inside a git repository
 ```
 [user]                             <- section
 	name = mohamedattiadev         <- key = value
-	email = mohamedattia.dev@gmail.com
+	email = youremail@example.com
 ```
 
 1. **section**: the thing in the square brackets. `[user]`, `[core]`, `[alias]`.
@@ -224,7 +224,7 @@ cat ~/.gitconfig
 ```
 [user]
 	name = mohamedattiadev
-	email = mohamedattia.dev@gmail.com
+	email = youremail@example.com
 [init]
 	defaultBranch = main
 [alias]
@@ -250,7 +250,7 @@ git config user.email
 ```
 
 ```
-mohamedattia.dev@gmail.com
+youremail@example.com
 ```
 
 4. this is a chapter u read once and then only come back to when something is set wrong. that is normal. u are learning **where** the setting lives, not memorising a list of them.

@@ -390,7 +390,7 @@ Bisecting: 0 revisions left to test after this (roughly 1 step)
 ```
 2c0db802862fab33fd4f83db8d9928f0d47981fa is the first 'bad' commit
 commit 2c0db802862fab33fd4f83db8d9928f0d47981fa
-Author: mohamedattiadev <mohamedattia.dev@gmail.com>
+Author: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:00:06 2026 +0300
 
     refactor the tax line

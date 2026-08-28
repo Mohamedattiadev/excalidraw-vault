@@ -71,7 +71,7 @@ output of 5, the annotated one:
 
 ```
 tag v1.1.0
-Tagger: mohamedattiadev <mohamedattia.dev@gmail.com>
+Tagger: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:00:22 2026 +0300
 
 the first feature release

@@ -80,7 +80,7 @@ git show v1.0.0
 
 ```
 commit 953afcdcfb34e620893b95002ac4b3c1679704dd
-Author: mohamedattiadev <mohamedattia.dev@gmail.com>
+Author: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:00:06 2026 +0300
 
     commit 10
@@ -107,13 +107,13 @@ git show v1.1.0
 
 ```
 tag v1.1.0
-Tagger: mohamedattiadev <mohamedattia.dev@gmail.com>
+Tagger: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:00:22 2026 +0300
 
 first feature release
 
 commit 953afcdcfb34e620893b95002ac4b3c1679704dd
-Author: mohamedattiadev <mohamedattia.dev@gmail.com>
+Author: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:00:06 2026 +0300
 ```
 

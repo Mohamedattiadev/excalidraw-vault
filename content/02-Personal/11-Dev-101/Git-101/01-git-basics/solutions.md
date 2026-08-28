@@ -65,7 +65,7 @@ output of 10:
 
 ```
 commit 8c1f0a2e3d5b7a9c4f6e8d0b2a4c6e8f0a2c4e6d (HEAD -> main)
-Author: mohamedattiadev <mohamedattia.dev@gmail.com>
+Author: mohamedattiadev <youremail@example.com>
 Date:   Fri Aug 28 15:12:03 2026 +0300
 
     add a second line to notes.md
