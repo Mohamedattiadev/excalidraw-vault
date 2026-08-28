@@ -148,25 +148,32 @@ plugins:
           return !a.isFolder && b.isFolder ? 1 : -1;
         }
       # A page title has to stand on its own in the tab, in search and in a
-      # backlink, so the Terminal 101 pages carry their full name. The tree
-      # already shows the folder they sit in, so the same name there is said
-      # twice and wraps onto three lines. This trims the part the tree has
-      # already told u, and only inside that course.
+      # backlink, so the dev-101 course pages carry their full name: every
+      # course has nine or ten pages called Solutions, and "the video" says
+      # nothing by itself. The tree already shows the folder they sit in, so
+      # the same name there is said twice and wraps onto three lines. This
+      # trims the part the tree has already told u, for any course under
+      # 11-Dev-101, and leaves the course folder itself alone.
       mapFn: |
         (node) => {
-          const slug = node.slug || "";
-          if (!slug.includes("/terminal-101/")) return;
-          if (slug.endsWith("/solutions")) {
+          const parts = (node.slug || "").match(/\/11-dev-101\/([^/]+)\/(.+)$/);
+          if (!parts) return;
+          const rest = parts[2];
+          if (rest === "index") return;
+          if (rest.endsWith("/solutions")) {
             node.displayName = "Solutions";
             return;
           }
-          const chapter = (node.displayName || "").match(/^Chapter (\d+) \u2014 (.+)$/);
+          const name = node.displayName || "";
+          const chapter = name.match(/^Chapter (\d+) \u2014 (.+)$/);
           if (chapter) {
             node.displayName = chapter[1] + " \u00b7 " + chapter[2];
             return;
           }
-          const rest = (node.displayName || "").replace(/^Terminal 101\s*[\u00b7\u2014-]?\s*/, "");
-          if (rest) node.displayName = rest[0].toUpperCase() + rest.slice(1);
+          const short = name.replace(/^[A-Za-z][\w &-]*? 101\s*[\u00b7\u2014-]?\s*/, "");
+          if (short && short !== name) {
+            node.displayName = short[0].toUpperCase() + short.slice(1);
+          }
         }
     layout:
       position: left
