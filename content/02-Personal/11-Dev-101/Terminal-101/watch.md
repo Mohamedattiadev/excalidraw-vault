@@ -5,7 +5,7 @@ aliases:
   - "11-Dev-101/Terminal-101/watch/index"
 ---
 
-About 24 minutes. It is a summary of the course, not a replacement for it: it
+25 minutes, and no narration. It is a summary of the course, not a replacement for it: it
 shows u what happens, and the [[02-Personal/11-Dev-101/Terminal-101/index\|chapters]] are where the why is.
 
 Every command in it was run on a real machine, and the output u see is what

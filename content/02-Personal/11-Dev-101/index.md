@@ -25,8 +25,8 @@ None of it is AI generated. I wrote every line by hand while I was learning it.
 
 | course | status | time | video | what it covers |
 |---|---|---|---|---|
-| [[02-Personal/11-Dev-101/Terminal-101/index\|Terminal 101]] | **finished** | ~11h 15min | [[02-Personal/11-Dev-101/Terminal-101/watch\|watch, 24 min]] | the shell, the linux file tree, permissions, editors, scripts, pipes, processes, bash scripting |
-| [[02-Personal/11-Dev-101/Git-101/index\|Git 101]] | **finished** | ~11h 55min | [[02-Personal/11-Dev-101/Git-101/watch\|watch, 29 min]] | what git stores, commits, branches, merges, rebase, remotes, undoing things, pull requests, tags |
+| [[02-Personal/11-Dev-101/Terminal-101/index\|Terminal 101]] | **finished** | ~11h 15min | [[02-Personal/11-Dev-101/Terminal-101/watch\|watch, 25 min]] | the shell, the linux file tree, permissions, editors, scripts, pipes, processes, bash scripting |
+| [[02-Personal/11-Dev-101/Git-101/index\|Git 101]] | **finished** | ~11h 55min | [[02-Personal/11-Dev-101/Git-101/watch\|watch, 30 min]] | what git stores, commits, branches, merges, rebase, remotes, undoing things, pull requests, tags |
 | HTML & CSS | planned | - | *when the course is* | structure and styling of a page |
 | JavaScript | planned | - | *when the course is* | the language, the DOM, async |
 | React | planned | - | *when the course is* | components, state, hooks |

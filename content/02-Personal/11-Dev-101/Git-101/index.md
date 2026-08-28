@@ -5,7 +5,7 @@ aliases:
   - "11-Dev-101/Git-101/index"
 ---
 
-Notes I wrote while I was going back over git, turned into a course.
+Notes I wrote while going back over git, turned into a course.
 
 There are three reasons it exists. The first is to remind myself later, because
 I forget things, and a page in my own words brings it back faster than a search
@@ -15,7 +15,9 @@ u do not understand and being scared of the ones u do not know. The third is
 that once it was written well enough for me to come back to, it was already
 good enough for someone else to start from.
 
-I wrote every line of it by hand while learning it. None of it is AI generated.
+Writing a thing out by hand is what makes it stay, so I wrote every line of
+this myself and none of it is AI generated. The page is the side effect, the
+remembering is the point.
 
 So if something was ever unclear to me, it gets its own explanation here
 instead of one line saying "this is obvious".
@@ -131,8 +133,8 @@ Every chapter has the same 3 parts, always in this order:
 
 ## The video
 
-**[[02-Personal/11-Dev-101/Git-101/watch\|Watch it here]]**, about 29 minutes. If u want the player with the
-cheat sheet open beside it instead, that page is
+**[[02-Personal/11-Dev-101/Git-101/watch\|Watch it here]]**, 30 minutes, no narration. If u want the player
+with the cheat sheet sitting beside it instead, that page is
 [on the dev-101 site](https://mohamedattiadev.github.io/dev-101/Git-101/video/watch.html).
 
 Watch it after the chapters, or alongside them. It is a summary and not a
