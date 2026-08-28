@@ -105,7 +105,7 @@ Hi Mohamedattiadev! You've successfully authenticated, but GitHub does not provi
 ```
    Local Repo                    Remote Repo
    ┌──────────────┐              ┌──────────────┐
-   │  Readme.md   │───push──────▶│  Readme.md   │
+   │  Readme.md   │───push──────►│  Readme.md   │
    │  (committed) │              │  (remote)    │
    └──────────────┘              │    GITHUB    │
                                  └──────────────┘

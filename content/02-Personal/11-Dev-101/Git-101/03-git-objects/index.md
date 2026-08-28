@@ -171,7 +171,7 @@ Hello World
 > and there is ur file. u just walked the whole chain by hand:
 
 ```
-commit 70d5c6e ──▶ tree 58c3187 ──▶ blob 557db03 ──▶ "Hello World"
+commit 70d5c6e ──► tree 58c3187 ──► blob 557db03 ──► "Hello World"
 ```
 
 > isn't that really cool?

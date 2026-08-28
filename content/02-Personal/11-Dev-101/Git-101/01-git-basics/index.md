@@ -182,7 +182,7 @@ Changes to be committed:
 ```
    Working Directory              Staging Area
    ┌──────────────┐              ┌──────────────┐
-   │  Readme.md   │───git add───▶│  Readme.md   │
+   │  Readme.md   │───git add───►│  Readme.md   │
    │  (untracked) │              │  (staged)    │
    └──────────────┘              └──────────────┘
 ```
@@ -245,7 +245,7 @@ git commit -m "add Readme.md"
 ```
    Staging Area                  Local Repository
    ┌──────────────┐              ┌──────────────┐
-   │  Readme.md   │───commit────▶│  Readme.md   │
+   │  Readme.md   │───commit────►│  Readme.md   │
    │  (staged)    │              │  (committed) │
    └──────────────┘              └──────────────┘
 ```

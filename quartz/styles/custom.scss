@@ -372,3 +372,29 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
 .rail-tip.on { opacity: 1; }
 @media (max-width: 1200px) { .post-rail, .rail-tip { display: none !important; } }
 .page[data-frame="excalidraw"] .post-rail { display: none !important; }
+
+/* ---------------------------------------------------------------------------
+   ASCII diagrams in plain code fences.
+
+   The courses draw boxes with U+2500 boxdrawing glyphs. Those glyphs are
+   built to touch the top and bottom of their own em box, so a run of them
+   down a column only reads as one unbroken line when the line box is the
+   same height as the em. Code here sits at 0.85rem inside the 1.6rem body
+   line, so every vertical picked up ~0.75rem of daylight and the boxes fell
+   apart into loose dashes.
+
+   Scoped to fences with no language: a labelled fence is real code, where
+   the looser leading is worth keeping, and it comes out of the highlighter
+   carrying data-language. A bare fence is a diagram or captured output,
+   where the columns have to line up and nothing needs the extra air.
+--------------------------------------------------------------------------- */
+pre:not([data-language]) > code {
+  line-height: 1.05;
+  /* Fall back through fonts that actually carry the boxdrawing block, so a
+     missing glyph never lands on a font with a different advance width and
+     shears the columns sideways. */
+  font-family:
+    "IBM Plex Mono", ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Menlo,
+    Consolas, "Cascadia Mono", monospace;
+  font-variant-ligatures: none;
+}
