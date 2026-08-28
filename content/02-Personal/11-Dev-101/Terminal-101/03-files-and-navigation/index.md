@@ -229,7 +229,23 @@ cat README.md
 ```
 # Terminal 101
 
-a course about the terminal, written while i was learning it.
+a course about the terminal, written while going back over it.
+
+## Chapters
+
+1. Command Line Basics
+2. The File System
+3. Search
+4. Permissions
+5. Scripts and PATH
+6. Input, Output and Processes
+7. Text Editors
+
+## How to study
+
+read the chapter, then do the assignment at the end of it.
+before u move to the next chapter, make sure u can do the
+assignment without looking at the solution.
 ```
 
 ---
@@ -243,7 +259,23 @@ less README.md
 ```
 # Terminal 101
 
-a course about the terminal, written while i was learning it.
+a course about the terminal, written while going back over it.
+
+## Chapters
+
+1. Command Line Basics
+2. The File System
+3. Search
+4. Permissions
+5. Scripts and PATH
+6. Input, Output and Processes
+7. Text Editors
+
+## How to study
+
+read the chapter, then do the assignment at the end of it.
+before u move to the next chapter, make sure u can do the
+assignment without looking at the solution.
 :
 ```
 
@@ -261,7 +293,7 @@ head README.md
 ```
 # Terminal 101
 
-a course about the terminal, written while i was learning it.
+a course about the terminal, written while going back over it.
 
 ## Chapters
 
@@ -276,6 +308,7 @@ tail README.md
 ```
 
 ```
+4. Permissions
 5. Scripts and PATH
 6. Input, Output and Processes
 7. Text Editors
@@ -287,6 +320,8 @@ before u move to the next chapter, make sure u can do the
 assignment without looking at the solution.
 ```
 
+- note: this file is 19 lines, and 10 + 10 is more than 19, so the two outputs overlap in the middle. that is why `4. Permissions` is the last line of `head` and the first line of `tail`. on a file longer than 20 lines they would not touch at all.
+
 > we can also add the `-n` flag which means how many lines will be printed.
 
 ```bash
@@ -296,7 +331,7 @@ head -n 3 README.md
 ```
 # Terminal 101
 
-a course about the terminal, written while i was learning it.
+a course about the terminal, written while going back over it.
 ```
 
 ```bash

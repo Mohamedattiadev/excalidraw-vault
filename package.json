@@ -17,6 +17,7 @@
     "dev": "node scripts/dev.mjs",
     "watch:scenes": "node scripts/watch-vault.mjs",
     "check": "tsc --noEmit && npx prettier . --check",
+    "check-parity": "node scripts/check-parity.mjs",
     "format": "npx prettier . --write",
     "test": "tsx --test",
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
