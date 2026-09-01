@@ -27,7 +27,7 @@ None of it is AI generated. I wrote every line by hand while I was learning it.
 |---|---|---|---|---|
 | [[02-Personal/11-Dev-101/Terminal-101/index\|Terminal 101]] | **finished** | ~11h 15min | [[02-Personal/11-Dev-101/Terminal-101/watch\|watch, 25 min]] | the shell, the linux file tree, permissions, editors, scripts, pipes, processes, bash scripting |
 | [[02-Personal/11-Dev-101/Git-101/index\|Git 101]] | **finished** | ~11h 55min | [[02-Personal/11-Dev-101/Git-101/watch\|watch, 30 min]] | what git stores, commits, branches, merges, rebase, remotes, undoing things, pull requests, tags |
-| HTML & CSS | planned | - | *when the course is* | structure and styling of a page |
+| [[02-Personal/11-Dev-101/HTML-CSS-101/index\|HTML & CSS 101]] | **finished** | ~13h 35min | [[02-Personal/11-Dev-101/HTML-CSS-101/watch\|watch, 12 min]] | elements and attributes, selectors, colours and units, the box model, grid, flexbox, position, responsive design, and a youtube clone |
 | JavaScript | planned | - | *when the course is* | the language, the DOM, async |
 | React | planned | - | *when the course is* | components, state, hooks |
 | DevOps | planned | - | *when the course is* | docker, CI, deployment |
@@ -37,6 +37,16 @@ None of it is AI generated. I wrote every line by hand while I was learning it.
 > for it, not before.
 
 A course video is a summary of that course, not a replacement for it.
+
+HTML & CSS 101 also has pages that run rather than pages u read, because it is
+the one subject where a browser can just show u the thing:
+[a playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/)
+with the code on the left and the page on the right,
+[every assignment in the course running](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/),
+and
+[the finished YouTube clone](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html).
+They live on the course's own site, because a static notes page cannot run a
+media query at u.
 
 ---
 

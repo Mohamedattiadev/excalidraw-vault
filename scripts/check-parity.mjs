@@ -31,12 +31,16 @@ const bold = (s) => `\x1b[1m${s}\x1b[0m`
 // Strip exactly what the port is allowed to change, and nothing else. What is left
 // has to match character for character, so a changed word or address cannot hide
 // behind the link rewriting.
+//
+// The link label is allowed to contain a newline, because a wrapped paragraph can
+// put one there. It is not allowed to contain a `]`, which is what stops a label
+// swallowing half the page when a bracket is used for something else.
 function normalise(text) {
   return text
     .replace(/^---\n[\s\S]*?\n---\n/, '') // frontmatter the port adds
     .replace(/^# .*\n/, '') // H1 the port moves into the title
     .replace(/\[\[[^\]|]+\\\|([^\]]*)\]\]/g, '<link>$1') // wikilink -> its label
-    .replace(/\[([^\]\n]*)\]\((?!http)[^)\s]+\)/g, '<link>$1') // relative md link -> its label
+    .replace(/\[([^\]]*)\]\((?!http)[^)\s]+\)/g, '<link>$1') // relative md link -> its label
 }
 
 // A chapter is a numbered folder holding a README in the course repo.
