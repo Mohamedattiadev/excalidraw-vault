@@ -8,6 +8,9 @@ aliases:
 **Time to study:** ~60 min
 **You will learn:** the `class` attribute, which is the most used thing in all of css, plus how to style hover and click, and how to open devtools and stop guessing.
 
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-states)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/)
+
 [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|← Chapter 3]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/05-the-page-shell/index\|next: Chapter 5 →]]
 
 ---
@@ -252,10 +255,11 @@ transition: background-color 0.15s, color 0.15s;
 
 ```
 box-shadow: 3px 4px 5px black;
-            ^^^                right
-                ^^^            down
-                    ^^^        blur
-                        ^^^^^  colour
+            └┬┘ └┬┘ └┬┘ └─┬─┘
+             │   │   │    └── colour
+             │   │   └─────── blur
+             │   └─────────── down
+             └─────────────── right
 ```
 
 - solid `black` is what u type first, and it looks like a sticker. every shadow on a real site is a faint `rgba` black. that is what [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|chapter 3]] spent time on the alpha value for.
@@ -316,7 +320,7 @@ what to use it for, in the order u will need it:
 
 > or see it finished: [the assignment is running here](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/), as a real
 > page u can scroll, hover and drag narrower. the **edit it** button on it
-> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/).
+> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-states).
 
 ---
 

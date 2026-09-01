@@ -8,6 +8,9 @@ aliases:
 **Time to study:** ~90 min
 **You will learn:** the other way to put things in a row, how to make one element eat the leftover space, and why everything reverses the moment u switch to a column.
 
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=09-justify)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/09-flexbox/)
+
 [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|← Chapter 8]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/10-position/index\|next: Chapter 10 →]]
 
 ---
@@ -299,7 +302,7 @@ grid      a repeating structure, sizes decided by u.
 
 > or see it finished: [the assignment is running here](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/09-flexbox/), as a real
 > page u can scroll, hover and drag narrower. the **edit it** button on it
-> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/).
+> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=09-justify).
 
 ---
 

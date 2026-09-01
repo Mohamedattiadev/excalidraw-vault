@@ -46,22 +46,56 @@ tag and property in the course on one page.
 
 ## Interactive HTML & CSS
 
-This is the one course where a page can show u the thing instead of a picture of
-the thing, so it does. All 3 of these run in the browser, on the
-[dev-101](https://github.com/Mohamedattiadev/dev-101) pages site. Nothing to
-install, nothing to sign into, no build step.
+Html and css is the one subject where the browser can just show u the thing, so
+this course does that as well as describing it. Everything below runs in a tab,
+on the [dev-101](https://github.com/Mohamedattiadev/dev-101) pages site. Nothing
+to install, nothing to sign into, no build step.
 
-### [The playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/)
+[![Open the playground](https://img.shields.io/badge/▶_open_the_playground-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/)
+[![Every assignment running](https://img.shields.io/badge/every_assignment,_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/)
+[![The YouTube clone](https://img.shields.io/badge/the_youtube_clone-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
 
-Code on the left, the page it makes on the right, redrawing while u type. There
-is an example in the list for every chapter, so u can open chapter 8, change
-`1fr 1fr 1fr` to `1fr 2fr`, and see the columns move before u have finished
-reading the sentence that explains it.
+### The playground
+
+Code on the left, the page it makes on the right, redrawing while u type.
+
+**Every lecture has its own one**, and it does not open on a blank file: it opens
+on that lecture's topic with **every value applied at once**, labelled, so u can
+see them against each other instead of one at a time. The chapter on
+`justify-content` opens on all six values sitting in a column. The chapter on
+`object-fit` opens on the same picture in five identical boxes. Next to each line
+is a comment listing the other values u can put there, so trying one is a two
+second edit and not a trip to the docs.
 
 Drag the divider in the middle to make the page narrower. That is how u check a
 media query without a second window, and it is the fastest way into chapter 11.
 
-### [Every assignment, running](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/)
+| chapter | play with the lecture | and when u have done it |
+|---|---|---|
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/01-html-basics/index\|HTML Basics]]** | [tags, nesting and whitespace](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-tags) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/) |
+|  | [attributes](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-attributes) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/02-css-basics/index\|CSS Basics]]** | [the shape of a rule](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=02-rule) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/02-css-basics/) |
+|  | [every border style, and border-radius](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=02-borders) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|Colors and Sizes]]** | [every way to write a colour](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=03-colours) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/03-colors-and-sizes/) |
+|  | [px, %, em, rem, vw](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=03-units) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|Classes and States]]** | [hover, active, focus](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-states) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/) |
+|  | [box-shadow and transition](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-shadow) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/05-the-page-shell/index\|The Page Shell]]** | [object-fit, every value](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=05-objectfit) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/05-the-page-shell/) |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/06-text-and-inputs/index\|Text and Inputs]]** | [every text property](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=06-text) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/06-text-and-inputs/) |
+|  | [inputs, placeholder and labels](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=06-inputs) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|Display and the Box Model]]** | [display, every value](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=07-display) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/07-display-and-the-box-model/) |
+|  | [margin, padding, border, box-sizing](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=07-boxmodel) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|CSS Grid]]** | [grid-template-columns](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=08-columns) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/08-css-grid/) |
+|  | [gaps, justify-content, align-items](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=08-align) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|Flexbox]]** | [justify-content, every value](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=09-justify) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/09-flexbox/) |
+|  | [align-items, and what flips in a column](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=09-align) |  |
+|  | [flex, grow and shrink](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=09-flex) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/10-position/index\|Position]]** | [static, relative, absolute, fixed, sticky](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=10-position) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/10-position/) |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|Responsive Design]]** | [media queries](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=11-media) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/11-responsive-design/) |
+|  | [inheritance and specificity](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=11-specificity) |  |
+| **[[02-Personal/11-Dev-101/HTML-CSS-101/12-the-youtube-clone/index\|The YouTube Clone]]** | [one video card](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=12-card) | [the assignment](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html) |
+
+### Every assignment, running
 
 The finished assignment from every chapter, as a page u can scroll, hover and
 resize, with the code it is running printed underneath it and an **edit it**
@@ -71,22 +105,7 @@ button that drops the same code into the playground.
 and for the parts a screenshot genuinely cannot show u: a hover, a 150ms fade, a
 fixed bar staying still while the page scrolls under it.
 
-| # | the finished assignment | the thing to look at |
-|---|---|---|
-| 1 | [HTML Basics](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/) | three identical sentences, and a link with no `href` |
-| 2 | [CSS Basics](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/02-css-basics/) | three buttons, one rule |
-| 3 | [Colors and Sizes](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/03-colors-and-sizes/) | `10em` is 200px and `10rem` is 160px |
-| 4 | [Classes and States](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/) | hover it, hold it, and `opacity` against `rgba` |
-| 5 | [The Page Shell](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/05-the-page-shell/) | `object-fit`, and a broken `src` next to a working one |
-| 6 | [Text and Inputs](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/06-text-and-inputs/) | centred text in a box that did not move |
-| 7 | [Display and the Box Model](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/07-display-and-the-box-model/) | padding is coloured, margin is not |
-| 8 | [CSS Grid](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/08-css-grid/) | equal heights u never wrote, and a row that wraps |
-| 9 | [Flexbox](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/09-flexbox/) | a 60px square that is 44px until u stop it |
-| 10 | [Position](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/10-position/) | scroll it: the bar stays, the page moves |
-| 11 | [Responsive Design](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/11-responsive-design/) | the same grid twice, one with its media queries in the wrong place |
-| 12 | [The YouTube Clone](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/12-the-youtube-clone/) | all of it at once |
-
-### [The YouTube clone](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
+### The YouTube clone
 
 The page chapter 12 builds, served properly instead of sitting on my laptop.
 Narrow ur window and watch the grid go from 4 across to 3 to 2. Then hit

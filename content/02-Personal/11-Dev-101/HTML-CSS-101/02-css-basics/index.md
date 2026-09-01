@@ -8,6 +8,9 @@ aliases:
 **Time to study:** ~55 min
 **You will learn:** how to write a css rule, the handful of properties that do most of the work, and why a css typo is the quietest bug u will ever have.
 
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=02-rule)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/02-css-basics/)
+
 [[02-Personal/11-Dev-101/HTML-CSS-101/01-html-basics/index\|← Chapter 1]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|next: Chapter 3 →]]
 
 ---
@@ -60,11 +63,17 @@ here is what each bit is called:
 
 ```
 button {
-^^^^^^                selector: what to style. here, every <button>
+└─┬──┘
+  └── selector: what to style. here, every <button>
+
     background-color: red;
-    ^^^^^^^^^^^^^^^^  ^^^     property: what to change / value: what to change it to
+    └──────┬───────┘  └┬┘
+           │           └── value: what to change it to
+           └────────────── property: what to change
+
     color: white;
-    ^^^^^^^^^^^^^            all together, one of these lines is a declaration
+    └────┬─────┘
+         └── the property and the value together are one declaration
 }
 ```
 
@@ -306,7 +315,7 @@ css make text not selectable
 
 > or see it finished: [the assignment is running here](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/02-css-basics/), as a real
 > page u can scroll, hover and drag narrower. the **edit it** button on it
-> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/).
+> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=02-rule).
 
 ---
 

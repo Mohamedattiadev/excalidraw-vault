@@ -8,6 +8,9 @@ aliases:
 **Time to study:** ~35 min
 **You will learn:** the 4 ways to write a colour and what the numbers in them mean, plus the 4 units u measure things in and which one to reach for.
 
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=03-colours)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/03-colors-and-sizes/)
+
 [[02-Personal/11-Dev-101/HTML-CSS-101/02-css-basics/index\|← Chapter 2]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|next: Chapter 4 →]]
 
 ---
@@ -86,9 +89,9 @@ base 16 means each character has 16 possible values instead of 10:
 
 ```
 #0096FF
- ^^      red   = 00 = 0
-   ^^    green = 96 = (9 * 16) + 6 = 150
-     ^^  blue  = FF = (15 * 16) + 15 = 255
+ │ │ └── blue  = FF = (15 * 16) + 15 = 255
+ │ └──── green = 96 = (9 * 16) + 6 = 150
+ └────── red   = 00 = 0
 ```
 
 - so `#0096FF` is `rgb(0, 150, 255)` in 7 characters instead of 18. that is the whole reason it exists.
@@ -237,7 +240,7 @@ p {
 
 > or see it finished: [the assignment is running here](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/03-colors-and-sizes/), as a real
 > page u can scroll, hover and drag narrower. the **edit it** button on it
-> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/).
+> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=03-colours).
 
 ---
 

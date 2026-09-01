@@ -8,6 +8,9 @@ aliases:
 **Time to study:** ~40 min
 **You will learn:** what a web page actually is, how to write ur first elements, and the 3 rules of html syntax that stop u writing broken pages later.
 
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-tags)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/)
+
 [[02-Personal/11-Dev-101/HTML-CSS-101/index\|← back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/02-css-basics/index\|next: Chapter 2 →]]
 
 ---
@@ -65,10 +68,10 @@ open that file in ur browser (double click it, or drag it into a browser window)
 
 ```
 <p>paragraph of text</p>
-^^^                 ^^^^
-opening tag         closing tag
-   ^^^^^^^^^^^^^^^^^
-   the content
+└┬┘└───────┬───────┘└┬─┘
+ │         │         └── closing tag
+ │         └──────────── the content
+ └────────────────────── opening tag
 ```
 
 - the only difference between the two tags is the `/`. that slash is the whole "this one ends it".
@@ -153,9 +156,12 @@ here is the shape of it:
 
 ```
 <a href="https://youtube.com" target="_blank">
- ^  ^^^^  ^^^^^^^^^^^^^^^^^^  ^^^^^^  ^^^^^^
- |  name         value          name   value
-tag name
+ ┬ └┬─┘ └─────────┬─────────┘ └─┬──┘ └──┬───┘
+ │  │             │             │       └── value
+ │  │             │             └────────── name
+ │  │             └──────────────────────── value
+ │  └────────────────────────────────────── name
+ └───────────────────────────────────────── tag name
 ```
 
 > `target="_blank"` is a second attribute, and it opens the link in a new tab. put both links on a page and compare them:
@@ -210,7 +216,7 @@ tag name
 
 > or see it finished: [the assignment is running here](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/), as a real
 > page u can scroll, hover and drag narrower. the **edit it** button on it
-> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/).
+> opens the same code in [the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-tags).
 
 ---
 
