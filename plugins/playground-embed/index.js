@@ -44,6 +44,89 @@ const DEFAULTS = {
 
 const PLAYGROUND_PATH = "/dev-101/HTML-CSS-101/interactive/"
 
+/* Runs on every page, once. A playground link opens the playground over the
+ * page instead of in a tab, so the reader does not lose the chapter they were
+ * reading in order to try the thing it just described.
+ *
+ * Delegated from `document` on purpose. This site is a single page app: the
+ * body is swapped out on every navigation, so a listener bound to a link would
+ * be gone the moment the reader moved. `document` survives, and the guard makes
+ * the script safe to run again when quartz re-executes it after a navigation.
+ *
+ * Modified clicks are left alone throughout -- ctrl, cmd, shift, middle button
+ * are the reader saying "give me a tab", and taking that away is rude.
+ */
+const CLIENT = `
+(() => {
+  if (window.__playgroundModal) return
+  window.__playgroundModal = true
+
+  const PATH = ${JSON.stringify(PLAYGROUND_PATH)}
+  let box = null
+  let lastFocus = null
+
+  const isPlayground = (a) => {
+    try { return new URL(a.href, location.href).pathname === PATH } catch { return false }
+  }
+
+  function close() {
+    if (!box) return
+    box.remove()
+    box = null
+    document.documentElement.style.removeProperty("overflow")
+    if (lastFocus && lastFocus.isConnected) lastFocus.focus()
+  }
+
+  function open(url) {
+    close()
+    lastFocus = document.activeElement
+
+    box = document.createElement("div")
+    box.className = "pg-modal"
+    box.setAttribute("role", "dialog")
+    box.setAttribute("aria-modal", "true")
+    box.setAttribute("aria-label", "the playground")
+    box.innerHTML =
+      '<div class="pg-modal-backdrop"></div>' +
+      '<div class="pg-modal-box">' +
+        '<div class="pg-modal-bar">' +
+          '<span class="pg-modal-title">the playground</span>' +
+          '<a class="pg-modal-tab" target="_blank" rel="noopener noreferrer">open in a new tab \\u2197</a>' +
+          '<button class="pg-modal-close" type="button" aria-label="close the playground">\\u2715</button>' +
+        '</div>' +
+        '<iframe class="pg-modal-frame" title="the HTML and CSS playground"></iframe>' +
+      '</div>'
+
+    box.querySelector(".pg-modal-tab").href = url.href
+    box.querySelector(".pg-modal-frame").src = url.pathname + url.search
+    box.querySelector(".pg-modal-close").addEventListener("click", close)
+    box.querySelector(".pg-modal-backdrop").addEventListener("click", close)
+
+    // The page behind must not scroll while this is over it.
+    document.documentElement.style.overflow = "hidden"
+    document.body.appendChild(box)
+    box.querySelector(".pg-modal-close").focus()
+  }
+
+  document.addEventListener("click", (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    const a = e.target.closest && e.target.closest("a[href]")
+    // target=_blank is the card's own "open it in its own tab", and the reader
+    // asking for a tab should get a tab.
+    if (!a || a.target === "_blank" || !isPlayground(a)) return
+    e.preventDefault()
+    open(new URL(a.href, location.href))
+  })
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && box) { e.preventDefault(); close() }
+  })
+
+  // A navigation while it is open would leave it floating over the new page.
+  document.addEventListener("nav", close)
+})()
+`
+
 const el = (tagName, properties, children = []) => ({
   type: "element",
   tagName,
@@ -102,17 +185,64 @@ function findPlaygroundSlot(tree, host) {
   return walk(tree, [])
 }
 
+/* Every text link to the playground, tagged so the stylesheet can make it look
+ * like something u press.
+ *
+ * These were the plainest thing on the page -- one more coloured word in a
+ * paragraph of coloured words -- and the parts of a chapter now end in one, so
+ * they have to read as an action. Links wrapping an image are the badges at the
+ * top and are left alone; they already look like buttons because they are
+ * pictures of buttons.
+ *
+ * Only ever adds a class. The href is untouched, so the link still works
+ * exactly as written if the script never runs. */
+function markPlaygroundLinks(tree, host) {
+  const prefix = host + PLAYGROUND_PATH
+  const hasImage = (node) =>
+    node.type === "element" && node.tagName === "img" ? true : (node.children ?? []).some(hasImage)
+
+  const walk = (node) => {
+    if (node.type === "element" && node.tagName === "a") {
+      const href = node.properties?.href
+      if (typeof href === "string" && href.startsWith(prefix) && !hasImage(node)) {
+        const existing = node.properties.className
+        const classes = Array.isArray(existing) ? existing : existing ? [existing] : []
+        if (!classes.includes("playground-link")) classes.push("playground-link")
+        node.properties.className = classes
+      }
+    }
+    for (const child of node.children ?? []) walk(child)
+  }
+
+  walk(tree)
+}
+
 const PlaygroundEmbed = (userOpts) => {
   const opts = { ...DEFAULTS, ...userOpts }
   const slugPattern = new RegExp(opts.slugPattern)
 
   return {
     name: "PlaygroundEmbed",
+
+    externalResources() {
+      // afterDOMReady, and not spaPreserve: it guards itself, so running again
+      // after a navigation is free, and the listener it left on document is
+      // still there either way.
+      return { js: [{ loadTime: "afterDOMReady", contentType: "inline", script: CLIENT }] }
+    },
+
     htmlPlugins() {
       return [
         () => (tree, file) => {
           const slug = file.data?.slug
-          if (typeof slug !== "string" || !slugPattern.test(slug)) return
+          if (typeof slug !== "string") return
+
+          // Every page can link to the playground -- the course index does, and
+          // so does the video page -- so the links are dressed everywhere. Only
+          // a chapter page gets a whole playground embedded in it.
+          markPlaygroundLinks(tree, opts.host)
+
+          if (!slugPattern.test(slug)) return
 
           const slot = findPlaygroundSlot(tree, opts.host)
           if (!slot) {

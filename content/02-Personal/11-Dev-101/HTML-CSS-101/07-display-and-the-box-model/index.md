@@ -68,6 +68,8 @@ body { background-color: rgb(215, 235, 255); }
 - **padding gets the element's background colour, margin does not.** the yellow runs up to the red ring and outside it is blue. that is how u tell them apart on screen when something is wrong.
 - these two answer nearly every "how do i move this a bit" question u will have.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-1)**
+
 ---
 
 ## 2. `margin`, space on the outside
@@ -101,6 +103,8 @@ body { background-color: rgb(215, 235, 255); }
 
 - the pink box has climbed 40px onto the yellow one. a real tool, and also how u accidentally hide things under other things.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-2)**
+
 ---
 
 ## 3. `padding`, space on the inside
@@ -117,6 +121,8 @@ body { background-color: rgb(215, 235, 255); }
 - padding makes the element **bigger**. the coloured area grew, because padding is inside the background.
 - **negative padding does not exist.** silently ignored, chapter 2 style. to pull something in, use a negative margin.
 - the rule of thumb: **padding for space inside a button or a card, margin for space between two of them.**
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-3)**
 
 ---
 
@@ -137,6 +143,8 @@ border: 1px solid red;
 - there is a per side version: `border-bottom: 1px solid #e5e7eb` draws a line under a header without boxing it in. ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) uses that on `.header-container`.
 - a border **adds to the size**, like padding. a 100px box with a 5px border each side takes 110px. note 4 is the switch that turns that off.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-4)**
+
 ---
 
 ## 5. the 1, 2 and 4 value shorthands
@@ -155,6 +163,8 @@ padding: 5px 10px 30px 60px;    /* top, right, bottom, left. clockwise from the 
 - a 3 value version exists and nobody writes it on purpose.
 - `margin` works the same way.
 - **`margin: 0 auto` centres a block element** in its container, which is what `text-align: center` in [[02-Personal/11-Dev-101/HTML-CSS-101/06-text-and-inputs/index\|chapter 6]] could not do. it only works on an element that has a width.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-5)**
 
 ---
 
@@ -183,6 +193,8 @@ p {
 - this is the first thing in nearly every real stylesheet, including the first 6 lines of ur own `Youtube.html`.
 - then u space deliberately: `margin-bottom: 16px` on a title, `4px` on the line under it. that is a decision. the browser's 16px everywhere is not.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-6)**
+
 ---
 
 ## 7. `display: block`
@@ -203,6 +215,8 @@ div {
 - `width` and `height` work on it.
 - so **block is how u stack things vertically**, and it needs no css, because it is already the default.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-7)**
+
 ---
 
 ## 8. `display: inline-block`
@@ -221,6 +235,8 @@ div {
 - it **takes only the room it needs**, and the next one sits beside it.
 - `width`, `height`, `margin` and `padding` all work. that is the "block" half of the name.
 - so **inline-block puts things side by side** with only what u know so far. [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|chapters 8]] and [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|9]] are the two better ways.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-8)**
 
 ---
 
@@ -248,6 +264,8 @@ block          takes the whole line.        width and height work.
 inline-block   takes only what it needs.    width and height work.
 inline         flows inside a line of text. width and height are IGNORED.
 ```
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-9)**
 
 ---
 
@@ -288,6 +306,8 @@ inline         flows inside a line of text. width and height are IGNORED.
 - divs go inside divs, as deep as u need. the second panel has one holding its two number buttons.
 - div is block, span is inline. that is the only real difference between them.
 - the two panels line up along their **bottoms**, not their tops. that is inline-block sitting on the text baseline. `vertical-align: top` is the fix, in note 1.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-10)**
 
 ---
 
@@ -339,6 +359,8 @@ vertical layout                 horizontal layout
 - so when a layout looks impossible, do not ask "which property does this". ask **"is this row horizontal or vertical, and what is inside each cell"**, and draw it on paper.
 - `inline-block` is the worst of the 3 ways to do the horizontal half, and the only one u know yet. [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|chapter 8]] and [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|chapter 9]] are the others.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-11)**
+
 ---
 
 ## 12. inline styles
@@ -357,6 +379,8 @@ vertical layout                 horizontal layout
 - no selector, because there is nothing to select. it applies to that one element.
 - **it beats every rule in ur stylesheet.** one day u will change a colour in `styles.css`, see nothing happen, and it will be a `style="..."` u forgot about.
 - so do not build pages with it. know it because u will read other people's html, because devtools writes it when u drag things, and because it is handy for a 10 second test.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=07-12)**
 
 ---
 

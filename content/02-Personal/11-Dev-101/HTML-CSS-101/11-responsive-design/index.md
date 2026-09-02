@@ -70,6 +70,8 @@ aliases:
 - **it goes after the rule it overwrites.** put it above and it does nothing.
 - ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) does exactly this: 3 columns normally, 4 above 1050px, 2 below 750px.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-2)**
+
 ---
 
 ## 3. the ranges, and the .02 gap
@@ -94,6 +96,8 @@ aliases:
 - `.02` is small enough that no real window lands in the gap.
 - if u only use `max-width` and let them overwrite each other, u need none of this. that is what section 2 does, and it is simpler.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-3)**
+
 ---
 
 ## 4. selectors with a comma
@@ -111,6 +115,8 @@ aliases:
 
 - the plain div is untouched, because it is not in the list. classes and element names mix freely.
 - **a missing comma changes the meaning completely** instead of breaking. `.title .subtitle` is section 5 and means something else entirely. a real bug, and silent.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-4)**
 
 ---
 
@@ -143,6 +149,8 @@ aliases:
 - it combines with states: **`.card:hover .tooltip`** is "the tooltip, but only while the mouse is on the card". that is a tooltip with no javascript. no screenshot, same as every hover here.
 - ur `Youtube.html` uses it twice.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-5)**
+
 ---
 
 ## 6. inheritance
@@ -164,6 +172,8 @@ body {
 - **box properties do not:** `background-color`, `width`, `border`, `padding`, `margin`. imagine if `border` inherited.
 - so setting the font once on `<body>` really is all u need for the whole page.
 - **look at the button.** still Arial, still black. form controls do not inherit, because the operating system draws them. `font-family: inherit` opts them back in, and yes, u have to remember that forever.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-6)**
 
 ---
 
@@ -204,6 +214,8 @@ inline style        style="..."    strongest
 - **`!important` beats everything.** u will meet it in other people's code, and every one u write makes the next problem harder. know it, do not reach for it.
 - ids beat classes, which is why [[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|chapter 4]] told u not to style with ids.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-7)**
+
 ---
 
 ## 8. semantic elements
@@ -222,6 +234,8 @@ inline style        style="..."    strongest
 - so why bother: **they tell other software what part of the page it is looking at.** a screen reader can offer "skip to main content". a search engine knows the `<nav>` is navigation. reader mode knows what to keep.
 - it costs nothing. u were writing a `<div>` anyway, so write `<header>` when it is a header.
 - use the semantic one when the name is honestly true, `<div>` when it is just a box. a `<section>` that is not a section helps nobody.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-8)**
 
 ---
 
@@ -259,6 +273,8 @@ inline style        style="..."    strongest
 
 - the second is **wider than its box**. that is the trade: the text will not wrap, so something has to give. use it for a menu label or a date, never for a paragraph.
 - ur [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) has it on `.side-button`, so "YouTube Music" stays on one line in a 70px sidebar.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=11-10)**
 
 ---
 

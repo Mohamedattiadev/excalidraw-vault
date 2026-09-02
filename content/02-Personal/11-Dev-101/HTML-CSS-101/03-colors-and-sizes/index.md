@@ -35,6 +35,8 @@ button {
 - fine for testing, almost never what u ship. ur red and a designer's red are different reds, and only one of them has a name.
 - so u use them for 10 minutes while a layout comes together, then replace them with the next two.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-1)**
+
 ---
 
 ## 2. `rgb`, mixing 3 numbers
@@ -61,6 +63,8 @@ rgb(255, 0, 0);       /* only red, red */
 - black is no light and white is all of it, which is backwards from mixing paint and catches everyone once.
 - why 255 and not 100: each number is one byte, and a byte holds 256 values.
 - nobody works these out in their head. u pick a colour in a picker and copy what it gives u.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-2)**
 
 ---
 
@@ -99,6 +103,8 @@ base 16 means each character has 16 possible values instead of 10:
 - hex is not case sensitive.
 - **hex cannot be see-through.** that is the next one.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-3)**
+
 ---
 
 ## 4. `rgba`, and see-through colours
@@ -133,6 +139,8 @@ p {
 - reach for this for a shadow, a dim overlay, or a hover that darkens slightly. a faint black at `0.05` looks right over **any** background, where a specific grey only looks right over one.
 - ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) uses `rgba(96, 97, 97, 0.05)` behind the videos for exactly that reason.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-4)**
+
 ---
 
 ## 5. `px`, the pixel
@@ -153,6 +161,8 @@ p {
 - a 4K screen is 3840px wide and a phone is about 400px. that gap is the whole reason [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|chapter 11]] exists.
 - `px` is **fixed** and does not care how big the window is. that is why it is easy, and why a page built only in `px` breaks on a phone.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-5)**
+
 ---
 
 ## 6. `%`, a share of the container
@@ -172,6 +182,8 @@ p {
 - that window is 600px and the bar came out 292px, not 300px. the missing 8px is the default margin around `<body>`, so the container is 584px and half is 292. [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]] switches that margin off, and it is the first line of css in most real pages.
 - percentages resize with the window, which is why a `%` width is usually a better default than a `px` one.
 - `50%` of **what** is the thing to keep straight. it is the parent element, not the screen.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-6)**
 
 ---
 
@@ -204,6 +216,8 @@ p {
 - the `r` is for root. that is the only difference, and it is worth saying out loud a few times.
 - why bother: if someone has set a bigger default text size, everything in `rem` grows with them and everything in `px` does not. that is a real accessibility argument.
 - use `px` while u are learning, because u can see what u typed. move to `rem` once the layout has stopped fighting u.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=03-7)**
 
 ---
 

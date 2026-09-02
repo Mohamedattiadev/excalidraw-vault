@@ -41,6 +41,8 @@ css is how u overrule it. one way to write css is the `<style>` element, and tha
 
 - css can live in 3 places: a `<style>` element, a separate `.css` file ([[02-Personal/11-Dev-101/HTML-CSS-101/05-the-page-shell/index\|chapter 5]]), or inline on one element ([[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]]). real work uses the separate file.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-1)**
+
 ---
 
 ## 2. the shape of a rule
@@ -81,6 +83,8 @@ button {
 - each declaration is `property: value;`. colon in the middle, semicolon on the end.
 - the indenting is for u. the whole rule on one line works just as well.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-2)**
+
 ---
 
 ## 3. one rule, every button
@@ -103,6 +107,8 @@ button {
 
 - one rule, 3 buttons, and it will style the 30th one too.
 - usually that is what u want. sometimes it is a disaster, because now u cannot make one of them different. [[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|chapter 4]] is the fix, and it is the most used thing in css.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-3)**
 
 ---
 
@@ -127,6 +133,8 @@ button {
 - `px` means pixels, so `36px` is 36 dots tall.
 - the other units get [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|chapter 3]].
 - careful with fixed widths. `105px` means 105px whatever is inside, so a longer word spills out. real layouts set fewer sizes than u expect and let the content decide.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-4)**
 
 ---
 
@@ -179,6 +187,8 @@ button {
 - **`border-style` is the one that matters.** a colour and a width with no style gives u nothing, because the default style is `none`. that is a quiet twenty minutes if u do not know it.
 - the shorthand `border: 1px solid red` writes all 3 at once. it is in [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]] with the box model.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-5)**
+
 ---
 
 ## 6. `border-radius` and `cursor`
@@ -209,6 +219,8 @@ button {
 - the button is 36px tall, so 18px (half) is where the ends go fully round. more than half changes nothing.
 - `cursor: pointer` is the little hand u get over a link. it does not show in a screenshot, and it is the difference between something that feels clickable and something that does not. put it on anything clickable.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-6)**
+
 ---
 
 ## 7. what a typo does
@@ -238,6 +250,8 @@ button {
 - css spells it the american way: `color`, `center`, `gray`. (`grey` works too, but only as a colour name.)
 - devtools shows the dead line with a strike through it. that is the real fix, and it is [[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|chapter 4]].
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-7)**
+
 ---
 
 ## 8. when two rules say different things
@@ -261,6 +275,8 @@ button {
 - green wins because it is written later. same selector, **last one wins.**
 - when the selectors are *different*, a system called specificity decides. that needs classes first, so it waits for [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|chapter 11]].
 - for now: if u changed something and nothing happened, scroll down. u may have written it twice.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=02-8)**
 
 ---
 

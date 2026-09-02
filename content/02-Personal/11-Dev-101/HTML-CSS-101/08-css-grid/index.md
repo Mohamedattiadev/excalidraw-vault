@@ -51,6 +51,8 @@ aliases:
 - **u never said how many rows.** u say the columns and the rows happen.
 - the grey area is the container, so u can see where it ends.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-1)**
+
 ---
 
 ## 2. `column-gap` and `row-gap`
@@ -72,6 +74,8 @@ aliases:
 - gaps go **between** cells only. no margin on the children, no stray gap hanging off the right edge.
 - `gap: 20px 40px` is the shorthand, row then column. `gap: 20px` sets both.
 - in [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]] this was `margin-right` on every cell, plus removing it from the last one in each row.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-2)**
 
 ---
 
@@ -103,6 +107,8 @@ grid-template-columns: 1fr 2fr;
 - **the gaps come out first.** the columns share what is left after the gaps, which is why `1fr 1fr` lines up and `50% 50%` does not.
 - `fr` columns resize with the window for free, so half of [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|chapter 11]] is done before u get there.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-3)**
+
 ---
 
 ## 4. mixing `px` and `fr`
@@ -125,6 +131,8 @@ grid-template-columns: 1fr 2fr;
 - that is a sidebar, an avatar next to text, an icon next to a label. ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) uses `50px 1fr` to put the channel picture in a fixed column and let the title take the rest.
 - **`fr` is the only unit that means "the rest".** `100%` does not, and mixing `100px` with `100%` overflows.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-4)**
+
 ---
 
 ## 5. `justify-content`
@@ -146,6 +154,8 @@ justify-content: space-between;
 - other values worth knowing: `start`, `end`, `space-around`, `space-evenly`.
 - **it does nothing at all if ur columns are `fr`**, because then there is no spare room to move around. that is the most common reason this property "does not work".
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-5)**
+
 ---
 
 ## 6. `align-items`
@@ -163,6 +173,8 @@ align-items: center;
 - the default is `stretch`, and it is usually what u want: it makes a row of cards end at the same line even when one has more text.
 - `center`, `start` and `end` are the others.
 - **`justify` is across, `align` is down.** i still say that in my head every time.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-6)**
 
 ---
 
@@ -185,6 +197,8 @@ align-items: center;
 - so both halves of [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]]'s nested layouts can be grid: one column for vertical, several for horizontal.
 - and this is what a media query changes. 3 columns on a laptop, 1 on a phone, one line of css.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-7)**
+
 ---
 
 ## 8. how it wraps
@@ -200,6 +214,8 @@ grid-template-columns: 1fr 1fr 1fr;
 - 5 items into 3 columns is 3 then 2. the short last row does not stretch to fill itself, which is what u want.
 - add a 6th and it lands in the gap. u change nothing.
 - **this is why a video grid is a grid and not a flexbox.** the number of items is whatever came out of the database, and the layout does not care.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=08-8)**
 
 ---
 

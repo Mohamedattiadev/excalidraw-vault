@@ -43,6 +43,8 @@ aliases:
 - on a real page that is wrong. subscribe is red, join is grey, share is a plain link. all 3 are `<button>` and all 3 should look different.
 - u cannot fix it with what u have. `button` means every button. there is no way to say "that one".
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-1)**
+
 ---
 
 ## 2. the `class` attribute
@@ -79,6 +81,8 @@ aliases:
 - the name can be anything without spaces. it means nothing to the browser, it is a label for u.
 - both rules hit the same button: `button` gave it the height, `.subscribe-button` gave it the colours. an element collects every selector that matches it.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-2)**
+
 ---
 
 ## 3. the same class on more than one element
@@ -103,6 +107,8 @@ aliases:
 
 - write the rule once, stick the class on everything that should look like that.
 - a class means "these are the same kind of thing", so name it that way. `.youtube-button` is a good name. `.grey-36` is a bad one, because the day it stops being grey the name lies.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-3)**
 
 ---
 
@@ -133,6 +139,8 @@ aliases:
 - this is the pattern u use forever: **one class for the shared part, a second for the difference.** it is why u stop copying the same 6 lines into every rule.
 - both classes set `background-color` and red wins, because `.subscribe-button` is written later. **the order of the names in the html attribute changes nothing**, only the order of the rules does.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-4)**
+
 ---
 
 ## 5. `:hover`, styling a state
@@ -156,6 +164,8 @@ aliases:
 - **order matters:** `.subscribe-button:hover` must come after `.subscribe-button`, or the plain rule overwrites it and nothing happens.
 - there is no hover on a touchscreen. never hide anything important behind one.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-5)**
+
 ---
 
 ## 6. `:active`, while the mouse is down
@@ -171,6 +181,8 @@ aliases:
 - no screenshot either. it needs a real mouse.
 - it lasts about a tenth of a second and it is what makes a button feel like it responded. leave it out and the page feels dead in a way people notice and cannot name.
 - `:active` goes **after** `:hover`, because while u are clicking u are also hovering, so the later one has to win.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-6)**
 
 ---
 
@@ -201,6 +213,8 @@ aliases:
 - **the white text fades too.** that is the difference from `rgba`, which only makes one colour see-through. use `rgba` for a background, `opacity` for a whole element.
 - an element at `opacity: 0` is invisible but still there. it keeps its space and u can still click it, which is confusing the first time.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-7)**
+
 ---
 
 ## 8. `transition`
@@ -227,6 +241,8 @@ transition: background-color 0.15s, color 0.15s;
 - **it goes on the normal rule, not the `:hover` rule.** the element has to know how to animate before the state changes, and again on the way back out.
 - `0.15s` is a good default. `1s` sounds nice when u type it and feels broken when u use it.
 - `transition: all 0.15s` works and is lazy. name the properties, or u animate something u did not mean to.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-8)**
 
 ---
 
@@ -266,6 +282,8 @@ box-shadow: 3px 4px 5px black;
 - `0` blur gives the flat offset block in the middle. that is a deliberate look, not a mistake.
 - the third, no sideways offset and a big blur, is the "floating slightly above the page" shadow. it is the one u will use most.
 - negative values push the shadow left and up.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=04-9)**
 
 ---
 

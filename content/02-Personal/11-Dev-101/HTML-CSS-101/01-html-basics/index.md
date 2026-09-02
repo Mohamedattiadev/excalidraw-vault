@@ -60,6 +60,8 @@ open that file in ur browser (double click it, or drag it into a browser window)
 - the button already looks like a button and u did not ask for that. every element comes with default styles. chapter 2 is mostly about replacing them.
 - the paragraph took its own line and the button did not. that is another default, called `display`, and it gets [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]].
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=01-2)**
+
 ---
 
 ## 3. what an element is made of
@@ -98,6 +100,8 @@ open that file in ur browser (double click it, or drag it into a browser window)
 - it will not always guess what u meant. forget to close an `<a>` and the rest of the page turns into one giant link.
 - so close every tag. the browser staying quiet is not the same as the code being right.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=01-4)**
+
 ---
 
 ## 5. spaces and newlines get squashed
@@ -122,6 +126,8 @@ open that file in ur browser (double click it, or drag it into a browser window)
 - so u can indent however u like. the indenting is for u, the browser throws it away.
 - and u cannot push things around with the spacebar. space on the page is css, in [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]].
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=01-5)**
+
 ---
 
 ## 6. putting elements inside elements
@@ -137,6 +143,8 @@ open that file in ur browser (double click it, or drag it into a browser window)
 - the `<a>` sits inside the `<p>`, so only that word is a link.
 - the one rule: **close the inner element before the outer one.** `<p><a>...</a></p>` is right, `<p><a>...</p></a>` is crossed over and wrong. section 4 covers how loudly the browser complains about that (it does not).
 - deeper nesting gets indented 2 spaces a level, so u can see what is inside what.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=01-6)**
 
 ---
 
@@ -178,6 +186,8 @@ here is the shape of it:
 - attributes live in the opening tag only, never the closing one, and more than one is separated by a space.
 - the value goes in straight quotes `"`, the ones ur keyboard makes. paste from a word processor and u get curly ones, which the browser does not understand.
 - different elements take different attributes. `href` means nothing on a `<p>`. look them up as u need them.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=01-7)**
 
 ---
 

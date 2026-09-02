@@ -205,12 +205,12 @@ Every chapter has the same 3 parts, always in this order:
 
 ## The video
 
-**[[02-Personal/11-Dev-101/HTML-CSS-101/watch\|Watch it here]]**, 12 minutes, no narration. If u want the
+**[[02-Personal/11-Dev-101/HTML-CSS-101/watch\|Watch it here]]**, 25 minutes, no narration. If u want the
 player with the cheat sheet sitting beside it instead, that page is
 [on the dev-101 site](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/video/watch.html).
 
-Watch it after the chapters, or alongside them. It is a summary and not a
-replacement: every page in it is rendered by a real browser while the video
+Watch it after the chapters, or alongside them. It is not a replacement for
+reading them: every page in it is rendered by a real browser while the video
 plays, so when a layout moves, that is the browser doing the layout and not an
 animation of one. The last chapter builds the YouTube page from nothing, a piece
 at a time.

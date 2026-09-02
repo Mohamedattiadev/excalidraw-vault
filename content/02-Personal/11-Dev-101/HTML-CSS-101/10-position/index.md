@@ -42,6 +42,8 @@ aliases:
 - `top`, `right`, `bottom` and `left` **do nothing** on a static element, which is why ur first attempt at moving something will not move.
 - so `position` is really the switch that turns those 4 properties on.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-1)**
+
 ---
 
 ## 2. `position: fixed`
@@ -66,6 +68,8 @@ aliases:
 - that is a sticky header, a cookie banner, a chat bubble in the corner.
 - compare the first screenshot with section 1's: the bar is now **on top of** the words instead of above them. a fixed element is out of the flow, so nothing knows it exists and nothing makes room for it. u make that room urself, usually with padding on whatever is underneath.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-2)**
+
 ---
 
 ## 3. `top`, `right`, `bottom` and `left`
@@ -82,6 +86,8 @@ right: 100px;    /* 100px in from the right */
 - usually u set 2, one vertical and one horizontal. `top: 10px; right: 10px` is the top right corner.
 - negative values push it off the edge, which is how u half hide something on purpose.
 - setting none is fine. a fixed element with no offsets stays where it was, just out of the flow.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-3)**
 
 ---
 
@@ -111,6 +117,8 @@ right: 100px;    /* 100px in from the right */
 - **so there are 2 ways to size a positioned element:** give it a `width`/`height`, or pin 2 opposite sides. the second resizes with the window, the first does not.
 - that strip is the youtube sidebar. ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) has `top: 50px; bottom: 0px; left: 0px; width: 70px` on `.side-container`: fixed width, full remaining height, starting under the 50px header.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-4)**
+
 ---
 
 ## 5. `position: absolute`
@@ -136,6 +144,8 @@ right: 100px;    /* 100px in from the right */
 - both are out of the flow, both use the same 4 offsets.
 - absolute on its own is not very useful. section 7 is what makes it the most used of the 3.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-5)**
+
 ---
 
 ## 6. `position: relative`
@@ -156,6 +166,8 @@ right: 100px;    /* 100px in from the right */
 - the yellow box moved 10 down and 40 right, **and the boxes around it did not move.** the gap it left is still there.
 - that is the difference from margin: margin pushes everything else, relative moves only this element and leaves its hole behind.
 - nudging like this is the small half of what `relative` is for. the next section is the big half.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-6)**
 
 ---
 
@@ -197,6 +209,8 @@ right: 100px;    /* 100px in from the right */
 - this is a duration badge, a close button on a dialog, a notification dot on an icon, a SALE flash on a product photo. once u see it, u see it everywhere.
 - ur [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) does it: `.video-thumbnail-row` is relative and `.video-time` is absolute in its corner.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-7)**
+
 ---
 
 ## 8. `z-index`
@@ -215,6 +229,8 @@ right: 100px;    /* 100px in from the right */
 - **`z-index` does nothing on a `position: static` element.** it needs a position first, and it fails silently like everything else.
 - with equal `z-index`, **the one written later in the html wins**. so sometimes the fix is moving the element down the file and not touching the css.
 - do not start at 1 and climb. u end up with `z-index: 99999` and no memory of what it was fighting. ur `Youtube.html` uses exactly one, and that is a healthy amount.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=10-8)**
 
 ---
 

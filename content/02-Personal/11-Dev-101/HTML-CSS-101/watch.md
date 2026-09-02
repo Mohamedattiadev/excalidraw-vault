@@ -5,8 +5,9 @@ aliases:
   - "11-Dev-101/HTML-CSS-101/watch/index"
 ---
 
-12 minutes, and no narration. It is a summary of the course, not a replacement for it: it
-shows u what happens, and the [[02-Personal/11-Dev-101/HTML-CSS-101/index\|chapters]] are where the why is.
+25 minutes, and no narration. It is the full cut, every chapter in order. It is still
+not a replacement for reading them: it shows u what happens, and the [[02-Personal/11-Dev-101/HTML-CSS-101/index\|chapters]] are
+where the why is.
 
 Every page in it is rendered by a real browser while the video plays, so when a
 layout moves, that is the browser doing the layout and not an animation of one.

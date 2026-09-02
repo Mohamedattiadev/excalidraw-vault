@@ -51,6 +51,8 @@ body {
 
 - put the font on `<body>` and every element on the page inherits it. that is one line instead of thirty, and [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|chapter 11]] explains why it works.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-1)**
+
 ---
 
 ## 2. `font-size` and `font-weight`
@@ -69,6 +71,8 @@ body {
 - `font-size: 16px` is the browser default. that is where `rem` in [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|chapter 3]] gets its number.
 - `font-weight` takes `bold`, or 100 to 900 in hundreds. `400` is normal, `700` is `bold`, `500` is the half step for a slightly heavier title.
 - **look at the 300 line. it is identical to the normal one**, and 900 is identical to bold. **a weight only exists if the font file has it.** Arial ships regular and bold, so every number rounds to one of those. that is what `wght@400;500` in the chapter 5 google fonts block is choosing.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-2)**
 
 ---
 
@@ -89,6 +93,8 @@ p { width: 400px; }
 - `text-decoration: none` kills the underline on a link. every navigation menu on the internet has that line somewhere.
 - **`text-align` moves the text inside the element, not the element.** those paragraphs are 400px wide and every one still starts at the left edge of the page. only the words moved. centring the element itself is [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]].
 - values: `left`, `right`, `center`, `justify`. `justify` stretches the spaces so both edges line up, and on a narrow column it looks terrible.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-3)**
 
 ---
 
@@ -115,6 +121,8 @@ p {
 - aim for about 1.5 times the font size, so 16px text wants 24 to 28px. the default is about 1.2, too tight for anything longer than a sentence.
 - written with no unit, `line-height: 1.5`, it scales with whatever font size the element ends up with. usually the better version.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-4)**
+
 ---
 
 ## 5. text elements, styling part of a line
@@ -134,6 +142,8 @@ p {
 - these are **text elements**, or **inline elements**. they sit inside a line of text instead of taking a line of their own, so the sentence flows around them.
 - `<strong>` is bold, `<u>` is underlined, `<a>` is a link, built in.
 - `<strong>` also tells a screen reader "this is important", which is why it exists as well as css bold.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-5)**
 
 ---
 
@@ -161,6 +171,8 @@ p {
 - the pattern: `<span class="...">` around the bit u want, then a rule for the class.
 - `<span>` is to a line of text what `<div>` is to a block of the page. `<div>` opens [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]].
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-6)**
+
 ---
 
 ## 7. `<input>`, a text box
@@ -176,6 +188,8 @@ p {
 - `<input>` has no closing tag, same family as `<img>` and `<link>`.
 - `type` decides which control u get: `text`, `checkbox`, `password`, `email`, `number`, `date`, `color`, `file`.
 - **`placeholder` is not a label.** it is a grey hint that disappears the moment someone types, so it is gone exactly when they need it. nothing important goes in there.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-7)**
 
 ---
 
@@ -209,6 +223,8 @@ p {
 - `::placeholder` has **2 colons**, so it is a pseudo-**element**: a piece of the element with no tag of its own. `:hover` had one colon and is a pseudo-**class**, a state. the extra colon is how u tell them apart.
 - in the screenshot the box is 20px and the placeholder is 14px italic. 2 rules, 2 different things, on purpose.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-8)**
+
 ---
 
 ## 9. checkboxes and labels
@@ -226,6 +242,8 @@ p {
 - they look almost the same and behave differently. on the first, only the square is clickable. on the second, clicking the **words** ticks the box.
 - `<label for="...">` matches the input's `id` and the two become one control. it is the one place ids earn their keep, and it makes a form far less annoying on a phone.
 - ur operating system draws the checkbox itself. u can move it and size it, and mostly not recolour it. that is normal.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=06-9)**
 
 ---
 

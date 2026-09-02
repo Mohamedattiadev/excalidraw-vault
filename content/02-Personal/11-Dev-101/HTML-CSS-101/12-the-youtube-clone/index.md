@@ -159,6 +159,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - **`grid-template-columns: 50px 1fr`** on the info row: the avatar gets exactly 50px, the text takes everything else. [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|chapter 8]] section 4.
 - `border-radius: 25px` on a 50px image is half its width, so a circle.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-3)**
+
 ---
 
 ## 4. step 2, the badge on the thumbnail
@@ -202,6 +204,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - **`.video-thumbnail-row` exists for exactly one reason**: to be the thing the badge measures from. it has one line of css and it is not decoration.
 - `bottom: 16px`, not `4px`, because the thumbnail has `margin-bottom: 12px` and the badge measures from the bottom of the **container**, margin included. 12 + 4.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-4)**
+
 ---
 
 ## 5. step 3, eight of them
@@ -223,6 +227,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - **u told it 3 columns once**, and it dealt out 8 cards into 3 rows. add a 9th and u change nothing.
 - that is why the video area is a grid and not a flexbox: the number of cards is whatever the page happens to have. [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|chapter 8]] section 8.
 - if typing 8 cards by hand feels stupid, u are right. that is what javascript is for, and it is the next course.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-5)**
 
 ---
 
@@ -286,6 +292,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - **`flex: 1` with `width: 0` on the input.** grow into the space, and drop the built in width that would otherwise stop it shrinking. [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|chapter 9]] section 6.
 - the header is `position: fixed`, so it is out of the flow and nothing makes room for it. **`padding-top: 80px` on the grid is that room**, made by hand. [[02-Personal/11-Dev-101/HTML-CSS-101/10-position/index\|chapter 10]] note 2.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-6)**
+
 ---
 
 ## 7. step 5, the sidebar
@@ -334,6 +342,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - `white-space: nowrap` keeps "Subscriptions" on one line in a 70px box. it overflows deliberately, and at 10px nobody notices.
 - `padding-left: 100px` on the grid is the room for this, the same trick as the header.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-7)**
+
 ---
 
 ## 8. step 6, responsive
@@ -363,6 +373,8 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - they go **after** the plain `.video-grid` rule or they lose. [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|chapter 11]] section 2.
 - **the header needs nothing at all.** `space-between` and `flex: 1` were responsive from the moment u wrote them.
 - test with the devtools device toolbar, `Ctrl+Shift+M`, not by dragging ur window.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-8)**
 
 ---
 

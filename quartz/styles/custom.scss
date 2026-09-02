@@ -501,3 +501,138 @@ pre:not([data-language]) > code {
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Playground links, and the window they open.
+
+   Every numbered part of every HTML & CSS 101 chapter ends in a link to the
+   playground, opened on that part's own code. They were the plainest thing on
+   the page before -- one more coloured word among coloured words -- so they are
+   dressed as something to press.
+
+   Clicking one opens it over the page rather than in a tab, because the point
+   of it is to try the thing u are halfway through reading about. The tab is
+   still there, in the corner of the window and on a modified click.
+--------------------------------------------------------------------------- */
+
+a.playground-link,
+a.playground-link:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 35%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--secondary) 8%, transparent);
+  color: var(--secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+a.playground-link:hover {
+  background: color-mix(in srgb, var(--secondary) 16%, transparent);
+  border-color: var(--secondary);
+  text-decoration: none;
+}
+
+/* The bold around the generated link is markdown's, and it would double up on
+   the weight this already sets. */
+strong > a.playground-link {
+  font-weight: 600;
+}
+
+/* ---------- the window ---------- */
+
+.pg-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pg-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--dark) 55%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.pg-modal-box {
+  position: relative;
+  /* 70% of the page, as asked for. Below the tablet breakpoint 70% of a phone
+     is not a usable editor, so it opens close to full instead. */
+  width: 70vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--dark) 35%, transparent);
+}
+
+.pg-modal-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--lightgray);
+  background: color-mix(in srgb, var(--secondary) 7%, var(--light));
+  font-size: 0.8rem;
+  flex: none;
+}
+
+.pg-modal-title {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.pg-modal-tab,
+.pg-modal-tab:visited {
+  margin-left: auto;
+  color: var(--darkgray);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.pg-modal-tab:hover {
+  color: var(--secondary);
+}
+
+.pg-modal-close {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 999px;
+  background: var(--light);
+  color: var(--darkgray);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.pg-modal-close:hover {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.pg-modal-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: var(--light);
+}
+
+@media (max-width: 800px) {
+  .pg-modal-box {
+    width: 94vw;
+    height: 88vh;
+  }
+}

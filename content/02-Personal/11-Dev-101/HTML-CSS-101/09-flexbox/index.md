@@ -48,6 +48,8 @@ aliases:
 - each item is only as wide as it needs, and **there is no whitespace gap**. the [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|chapter 7]] inline-block problem is gone, same as grid.
 - the grey container still stretches full width even though the items do not.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-1)**
+
 ---
 
 ## 2. `justify-content`, along the row
@@ -70,6 +72,8 @@ justify-content: space-between;
 - the set: `flex-start` (default), `flex-end`, `center`, `space-between`, `space-around`, `space-evenly`.
 - it only does something if there **is** leftover space. give an item `flex: 1` and there is none, and this looks broken.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-2)**
+
 ---
 
 ## 3. `align-items`, across the row
@@ -87,6 +91,8 @@ align-items: center;
 - `stretch` is the default. `center`, `flex-start`, `flex-end` and `baseline` are the others.
 - **`display: flex` plus `align-items: center`** vertically centres something next to something else. an icon beside a label, a picture beside a name. learn it as a pair, because before flexbox this was genuinely hard.
 - **the reference pdf lists `align-items: space-between`. that value does not exist.** i rendered a page with it and one without and compared: zero differing pixels. it is a dead line, [[02-Personal/11-Dev-101/HTML-CSS-101/02-css-basics/index\|chapter 2]] style. the one that spreads things out is `justify-content`.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-3)**
 
 ---
 
@@ -107,6 +113,8 @@ align-items: center;
 - it stays right when the window resizes or the other two change, because it is defined as "the rest" and not as a number.
 - that is the search bar in every app u use: 2 fixed groups, one stretchy thing between them.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-4)**
+
 ---
 
 ## 5. sharing with `flex: 1` and `flex: 2`
@@ -125,6 +133,8 @@ align-items: center;
 - the 100px is taken out first. what is left splits into 3, and `.c` gets 2 of them.
 - `flex: 1` on every child gives equal columns, the flexbox version of `1fr 1fr 1fr`.
 - want a starting width **and** stretch? put `flex: 1` and a `width` on the same element. the width is the starting point, `flex` shares the leftovers.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-5)**
 
 ---
 
@@ -156,6 +166,8 @@ align-items: center;
 - so anything that must keep its size, an icon, an avatar, a logo, gets `flex-shrink: 0`. ur own [Youtube.html](https://github.com/Mohamedattiadev/dev-101/blob/main/HTML-CSS-101/youtube-clone/Youtube.html) has it on `.voice-button` and `.header-right`.
 - the opposite problem is an item that **refuses** to shrink, usually a long word or an `<input>` with a built in width. the fix is `width: 0` next to `flex: 1`: start from nothing and grow into whatever is left. it looks wrong and it is correct.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-6)**
+
 ---
 
 ## 7. `flex-direction: column`
@@ -172,6 +184,8 @@ align-items: center;
 
 - same container, one word, and the row is a column.
 - so flexbox does both halves of the nested layouts technique, same as grid.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-7)**
 
 ---
 
@@ -197,6 +211,8 @@ align-items: center;
 - in a **column**: they swap.
 - so the same 2 words do opposite things depending on one other line, and u will get it backwards. do not memorise it, just try the other one. it takes 2 seconds in devtools.
 - **`justify-content` in a column does nothing unless the container has a `height`.** a row is full width by default so there is always spare space. a column is only as tall as its contents, so there is none. the example above has `height: 220px`.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-8)**
 
 ---
 
@@ -244,6 +260,8 @@ align-items: center;
 - `flex-shrink: 0` on the side groups makes the search bar the only thing that gives way when the window narrows. one line, deliberate.
 - `flex: 1` says grow, `max-width: 300px` says but not past here.
 - this is ur `Youtube.html` header, almost exactly.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=09-9)**
 
 ---
 

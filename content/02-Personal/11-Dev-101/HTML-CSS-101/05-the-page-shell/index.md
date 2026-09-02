@@ -43,6 +43,8 @@ aliases:
 - **`<body>` is everything the user can see:** text, buttons, images.
 - look at the screenshot. the title is nowhere on the page. that is the head doing its job.
 
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-1)**
+
 ---
 
 ## 2. what goes in the head
@@ -58,6 +60,8 @@ aliases:
 - **no screenshot**, because the tab is browser furniture, not part of the page. open the file and look at the top of ur window.
 - with no `<title>` the tab shows the filename, which looks unfinished.
 - `<style>` belongs in the head too. earlier chapters put it at the top of the file and got away with it because the browser is forgiving.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-2)**
 
 ---
 
@@ -85,6 +89,8 @@ href="../styles.css"              go UP one folder, then find styles.css
 - **`../` means go up a level.** not in the reference pdf, and u need it the moment ur html is in one folder and ur images are in another.
 - **on linux, paths are case sensitive.** `Thumbnail-1.webp` and `thumbnail-1.webp` are different files. on mac and windows they usually are not, which is why a site that worked on someone's laptop breaks when it reaches a real server. keep everything lowercase.
 - no spaces in filenames.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-3)**
 
 ---
 
@@ -130,6 +136,8 @@ href="../styles.css"              go UP one folder, then find styles.css
 - `rel="stylesheet"` is not optional. without it the file is fetched and ignored.
 - why bother: one stylesheet serves 50 pages, so a colour change happens in one place, and the browser downloads it once and reuses it.
 - from here on the code blocks say which file each part goes in.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-4)**
 
 ---
 
@@ -232,6 +240,8 @@ href="../styles.css"              go UP one folder, then find styles.css
 - **middle, `cover`:** the image is scaled up until it fills the box and the overflow is cut off. nothing is distorted, some of the picture is gone. this is the one u want nearly every time.
 - **right, `contain`:** the image is shrunk until the whole thing fits, leaving empty space above and below. nothing is distorted, nothing is lost, but u get gaps.
 - `object-position: top` / `left` / `right` / `bottom` moves which part survives the crop, which matters when `cover` keeps cutting off someone's head.
+
+**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-8)**
 
 ---
 
