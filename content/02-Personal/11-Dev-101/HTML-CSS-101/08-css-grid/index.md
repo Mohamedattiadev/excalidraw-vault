@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~60 min
 **You will learn:** how to say "put these in columns" in one line, what `fr` is, and how a grid wraps rows without u counting anything.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=08-columns)
-[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/08-css-grid/)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=08-columns)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/08-css-grid/)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/07-display-and-the-box-model/index\|← Chapter 7]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|next: Chapter 9 →]]
 

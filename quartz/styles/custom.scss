@@ -282,9 +282,13 @@ a:hover { color: var(--exc-primary-fg); text-decoration: underline; }
     max-width: 100% !important;
     -webkit-overflow-scrolling: touch !important;
   }
+  /* :not(.playground-embed-frame) because `height: auto` on an iframe is 150px,
+     the html default, and the playground needs a height it was given. This rule
+     is here for embedded video and pdf, which carry their own aspect ratio and
+     do want to shrink; the playground is a pane of software and does not. */
   body:not([data-frame="excalidraw"]) img,
   body:not([data-frame="excalidraw"]) pre,
-  body:not([data-frame="excalidraw"]) iframe {
+  body:not([data-frame="excalidraw"]) iframe:not(.playground-embed-frame) {
     max-width: 100% !important;
     height: auto !important;
   }
@@ -397,4 +401,103 @@ pre:not([data-language]) > code {
     "IBM Plex Mono", ui-monospace, "DejaVu Sans Mono", "Liberation Mono", Menlo,
     Consolas, "Cascadia Mono", monospace;
   font-variant-ligatures: none;
+}
+
+/* ---------------------------------------------------------------------------
+   The HTML & CSS 101 playground, on the chapter page.
+
+   Injected by plugins/playground-embed at build time, never by the markdown --
+   see the long note at the top of that file for why. What is styled here is
+   the card around it. The playground inside brings its own colours and they
+   are these ones, out of the same quartz.config.yaml as everything else, so
+   the seam between the page and the frame should not be visible except for the
+   card's own border.
+
+   The card leans right at desktop width. The right sidebar column is 320px of
+   nothing on a content page, and an editor is one of the few things on this
+   site that is genuinely better wide; 200px of that is taken and the rest left
+   alone so the floating section rail does not land on the frame's edge.
+--------------------------------------------------------------------------- */
+
+.playground-embed {
+  margin: 1.6rem 0 2rem;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 10px;
+  background: var(--light);
+  overflow: hidden;
+  /* Its own stacking context, so the frame cannot draw over the sidebar. */
+  isolation: isolate;
+}
+
+/* 1201 and not 1200: quartz's tablet breakpoint is `max-width: 1200px` and its
+   desktop one is `min-width: 1200px`, so at exactly 1200 the tablet grid wins
+   and the right-hand column this leans into is not there at all. Leaning
+   anyway pushes 250px of iframe off the side of the page. */
+@media (min-width: 1201px) {
+  .playground-embed {
+    width: calc(100% + 200px);
+  }
+}
+
+.playground-embed-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--lightgray);
+  background: color-mix(in srgb, var(--secondary) 7%, var(--light));
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.playground-embed-label {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--secondary);
+}
+
+.playground-embed-topic {
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  color: var(--gray);
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Written past `a:visited`, which is set globally further up this file and
+   would otherwise repaint this link purple the second time someone reads the
+   chapter. */
+.playground-embed-bar a.playground-embed-open,
+.playground-embed-bar a.playground-embed-open:visited {
+  margin-left: auto;
+  color: var(--darkgray);
+  white-space: nowrap;
+}
+
+.playground-embed-bar a.playground-embed-open:hover {
+  color: var(--secondary);
+}
+
+.playground-embed-frame {
+  display: block;
+  width: 100%;
+  /* Tall enough that the editor is somewhere to work rather than a preview of
+     one, and capped so a chapter page does not become a single screen of
+     iframe on a tall monitor. */
+  height: clamp(460px, 68vh, 700px);
+  border: 0;
+  background: var(--light);
+}
+
+@media (max-width: 800px) {
+  .playground-embed-frame {
+    height: clamp(420px, 78vh, 620px);
+  }
+  .playground-embed-topic {
+    display: none;
+  }
 }

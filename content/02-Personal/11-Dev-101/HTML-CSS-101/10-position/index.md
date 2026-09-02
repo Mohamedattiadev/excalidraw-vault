@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~75 min
 **You will learn:** how to make something stick to the screen while the page scrolls, how to put a badge in the corner of a card, and the one line everybody forgets that makes the second one work.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=10-position)
-[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/10-position/)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=10-position)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/10-position/)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|← Chapter 9]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|next: Chapter 11 →]]
 

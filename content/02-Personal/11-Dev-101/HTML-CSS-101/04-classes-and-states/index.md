@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~60 min
 **You will learn:** the `class` attribute, which is the most used thing in all of css, plus how to style hover and click, and how to open devtools and stop guessing.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-states)
-[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=04-states)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/03-colors-and-sizes/index\|← Chapter 3]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/05-the-page-shell/index\|next: Chapter 5 →]]
 

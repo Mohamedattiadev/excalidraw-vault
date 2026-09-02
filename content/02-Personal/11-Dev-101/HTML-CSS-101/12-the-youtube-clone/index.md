@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~120 min
 **You will learn:** nothing new. this is the chapter where u find out that the 11 before it were enough.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=12-card)
-[![See it running](https://img.shields.io/badge/see_the_finished_page-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=12-card)
+[![See it running](https://img.shields.io/badge/see_the_finished_page-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/11-responsive-design/index\|← Chapter 11]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]]
 

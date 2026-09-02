@@ -91,6 +91,16 @@ plugins:
     options:
       renderEngine: katex
     order: 80
+  # Local, in plugins/. Puts the dev-101 playground on each HTML & CSS 101
+  # chapter page as a same-origin iframe, reading the ?c= id off the badge the
+  # page already carries. Last in the list on purpose: it adds markup after
+  # description has read the page, so its caption never lands in a <meta>.
+  - source: ./plugins/playground-embed
+    enabled: true
+    options:
+      host: https://mohamedattiadev.github.io
+      slugPattern: "^02-personal/11-dev-101/html-css-101/\\d\\d-[^/]+/index$"
+    order: 85
   - source: github:quartz-community/fonts
     enabled: true
   - source: github:quartz-community/remove-draft

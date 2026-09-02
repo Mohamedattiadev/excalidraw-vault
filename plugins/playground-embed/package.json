@@ -1,0 +1,24 @@
+{
+  "name": "playground-embed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Puts the dev-101 HTML & CSS playground on the vault's chapter pages instead of a tab away",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "quartz": {
+    "name": "playground-embed",
+    "displayName": "Playground Embed",
+    "category": "transformer",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 85,
+    "defaultEnabled": true,
+    "defaultOptions": {
+      "host": "https://mohamedattiadev.github.io",
+      "slugPattern": "^02-personal/11-dev-101/html-css-101/\\d\\d-[^/]+/index$"
+    }
+  }
+}

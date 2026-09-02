@@ -34,6 +34,12 @@ can pan it, zoom it, and draw on top of it while u revise.
 - Purple Obsidian-Excalidraw theme in light and dark, a progress overlay while
   the canvas mounts, Open Graph and Twitter Card meta on every page, and a
   visitor counter on the homepage.
+- **The HTML & CSS 101 chapters carry a live playground**, on the page rather
+  than a tab away. It is the one in
+  [dev-101](https://github.com/Mohamedattiadev/dev-101), served from the same
+  origin in an iframe, opened on that chapter's topic and following this site's
+  light/dark toggle. There is still only one playground; its own pages keep
+  working, because the GitHub READMEs cannot iframe anything.
 
 The Excalidraw bundle is self hosted, built here with esbuild, with esm.sh and
 skypack only as fallbacks. That is on purpose: a study page should not stop
@@ -68,6 +74,11 @@ scripts/
   optimize-images.mjs             sharp, downscale to WebP
   excalidraw-extras.client.js     theme, zoombox, minimap, PDF, reset
   sw.js                           the Service Worker
+
+plugins/
+  playground-embed/       puts the dev-101 HTML & CSS playground on each chapter
+                          page as a same-origin iframe. A local Quartz plugin,
+                          listed in quartz.config.yaml by path.
 
 .quartz/plugins/{explorer,obsidian-plugin-excalidraw}/dist/
   the two patched plugin builds are committed. CI reinstalls the rest.

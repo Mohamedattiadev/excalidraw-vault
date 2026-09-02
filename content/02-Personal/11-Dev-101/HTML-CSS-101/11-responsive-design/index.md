@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~80 min
 **You will learn:** how to give a page different css at different screen widths, the selectors u have not met yet, and the rules that decide which of two conflicting styles actually wins.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=11-media)
-[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/11-responsive-design/)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=11-media)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/11-responsive-design/)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/10-position/index\|← Chapter 10]] | [[02-Personal/11-Dev-101/HTML-CSS-101/index\|back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/12-the-youtube-clone/index\|next: Chapter 12 →]]
 

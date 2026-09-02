@@ -51,9 +51,9 @@ this course does that as well as describing it. Everything below runs in a tab,
 on the [dev-101](https://github.com/Mohamedattiadev/dev-101) pages site. Nothing
 to install, nothing to sign into, no build step.
 
-[![Open the playground](https://img.shields.io/badge/▶_open_the_playground-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/)
-[![Every assignment running](https://img.shields.io/badge/every_assignment,_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/)
-[![The YouTube clone](https://img.shields.io/badge/the_youtube_clone-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
+[![Open the playground](https://img.shields.io/badge/▶_open_the_playground-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/)
+[![Every assignment running](https://img.shields.io/badge/every_assignment,_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/)
+[![The YouTube clone](https://img.shields.io/badge/the_youtube_clone-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/youtube-clone/Youtube.html)
 
 ### The playground
 

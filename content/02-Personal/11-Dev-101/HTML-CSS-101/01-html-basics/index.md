@@ -8,8 +8,8 @@ aliases:
 **Time to study:** ~40 min
 **You will learn:** what a web page actually is, how to write ur first elements, and the 3 rules of html syntax that stop u writing broken pages later.
 
-[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-8FBEEA?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-tags)
-[![See it running](https://img.shields.io/badge/see_the_assignment_running-2A3342?style=for-the-badge&labelColor=0C0F16)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/)
+[![Open the playground](https://img.shields.io/badge/▶_play_with_this_chapter-7B5CD6?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?c=01-tags)
+[![See it running](https://img.shields.io/badge/see_the_assignment_running-4A3D6B?style=for-the-badge&labelColor=2A1F47)](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/01-html-basics/)
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/index\|← back to HTML & CSS 101]] | [[02-Personal/11-Dev-101/HTML-CSS-101/02-css-basics/index\|next: Chapter 2 →]]
 
