@@ -10,6 +10,8 @@ and u will feel like u learned it when u didn't.
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/06-text-and-inputs/index\|back to the chapter]] &middot; [see it running](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/06-text-and-inputs/)
 
+**[▶ open the solution in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?src=%2Fdev-101%2FHTML-CSS-101%2Flive%2F06-text-and-inputs%2Fdemo.html)**
+
 ---
 
 `styles.css`:

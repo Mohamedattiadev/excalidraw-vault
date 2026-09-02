@@ -292,8 +292,6 @@ a card is 2 rows stacked: the thumbnail, then a row of avatar and text.
 - **`flex: 1` with `width: 0` on the input.** grow into the space, and drop the built in width that would otherwise stop it shrinking. [[02-Personal/11-Dev-101/HTML-CSS-101/09-flexbox/index\|chapter 9]] section 6.
 - the header is `position: fixed`, so it is out of the flow and nothing makes room for it. **`padding-top: 80px` on the grid is that room**, made by hand. [[02-Personal/11-Dev-101/HTML-CSS-101/10-position/index\|chapter 10]] note 2.
 
-**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=12-6)**
-
 ---
 
 ## 7. step 5, the sidebar

@@ -10,6 +10,8 @@ and u will feel like u learned it when u didn't.
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/04-classes-and-states/index\|back to the chapter]] &middot; [see it running](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/04-classes-and-states/)
 
+**[▶ open the solution in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?src=%2Fdev-101%2FHTML-CSS-101%2Flive%2F04-classes-and-states%2Fdemo.html)**
+
 ---
 
 ```html

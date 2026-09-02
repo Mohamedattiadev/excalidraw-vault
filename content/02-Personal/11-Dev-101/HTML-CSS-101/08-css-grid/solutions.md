@@ -10,6 +10,8 @@ and u will feel like u learned it when u didn't.
 
 [[02-Personal/11-Dev-101/HTML-CSS-101/08-css-grid/index\|back to the chapter]] &middot; [see it running](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/live/08-css-grid/)
 
+**[▶ open the solution in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?src=%2Fdev-101%2FHTML-CSS-101%2Flive%2F08-css-grid%2Fdemo.html)**
+
 ---
 
 ```css

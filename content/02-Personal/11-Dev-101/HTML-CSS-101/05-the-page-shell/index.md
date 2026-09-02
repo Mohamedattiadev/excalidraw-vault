@@ -61,8 +61,6 @@ aliases:
 - with no `<title>` the tab shows the filename, which looks unfinished.
 - `<style>` belongs in the head too. earlier chapters put it at the top of the file and got away with it because the browser is forgiving.
 
-**[▶ open this in the playground](https://mohamedattiadev.github.io/dev-101/HTML-CSS-101/interactive/?s=05-2)**
-
 ---
 
 ## 3. filepaths
