@@ -114,7 +114,16 @@ const CLIENT = `
     // target=_blank is the card's own "open it in its own tab", and the reader
     // asking for a tab should get a tab.
     if (!a || a.target === "_blank" || !isPlayground(a)) return
+
+    /* stopPropagation, not just preventDefault. Quartz's router listens on
+       window and this listens on document, so this one runs first -- but the
+       router does not check defaultPrevented, so preventing the default alone
+       leaves it free to soft-navigate to the playground anyway. It did: the
+       modal opened and was then thrown away by a navigation half a second
+       later. The links also carry data-router-ignore, which is the router's
+       own way of being told to leave a link alone; this is the second lock. */
     e.preventDefault()
+    e.stopPropagation()
     open(new URL(a.href, location.href))
   })
 
@@ -185,18 +194,27 @@ function findPlaygroundSlot(tree, host) {
   return walk(tree, [])
 }
 
-/* Every text link to the playground, tagged so the stylesheet can make it look
- * like something u press.
+/* Two marks on the links that leave this site for the course's own pages.
  *
- * These were the plainest thing on the page -- one more coloured word in a
- * paragraph of coloured words -- and the parts of a chapter now end in one, so
- * they have to read as an action. Links wrapping an image are the badges at the
- * top and are left alone; they already look like buttons because they are
- * pictures of buttons.
+ * data-router-ignore, on every one of them. The two sites share an origin --
+ * that is the whole point, it is what lets the playground read this page's
+ * theme -- and quartz's router decides what is one of its own pages by origin
+ * alone. So it treats /dev-101/ as an internal route, fetches it and swaps it
+ * into this document, and the playground arrives with its stylesheet resolved
+ * against the vault's path. data-router-ignore is the router's own opt out and
+ * says: this is a real page, do a real navigation.
  *
- * Only ever adds a class. The href is untouched, so the link still works
- * exactly as written if the script never runs. */
+ * playground-link, on the text ones, so the stylesheet can make them look like
+ * something u press. They were the plainest thing on the page before -- one
+ * more coloured word in a paragraph of coloured words -- and the parts of a
+ * chapter now end in one, so they have to read as an action. Links wrapping an
+ * image are the badges and are left alone; they already look like buttons
+ * because they are pictures of buttons.
+ *
+ * Only ever adds attributes. Every href is untouched, so all of these still
+ * work exactly as written if no script runs at all. */
 function markPlaygroundLinks(tree, host) {
+  const site = host + "/dev-101/"
   const prefix = host + PLAYGROUND_PATH
   const hasImage = (node) =>
     node.type === "element" && node.tagName === "img" ? true : (node.children ?? []).some(hasImage)
@@ -204,11 +222,15 @@ function markPlaygroundLinks(tree, host) {
   const walk = (node) => {
     if (node.type === "element" && node.tagName === "a") {
       const href = node.properties?.href
-      if (typeof href === "string" && href.startsWith(prefix) && !hasImage(node)) {
-        const existing = node.properties.className
-        const classes = Array.isArray(existing) ? existing : existing ? [existing] : []
-        if (!classes.includes("playground-link")) classes.push("playground-link")
-        node.properties.className = classes
+      if (typeof href === "string" && href.startsWith(site)) {
+        node.properties.dataRouterIgnore = ""
+
+        if (href.startsWith(prefix) && !hasImage(node)) {
+          const existing = node.properties.className
+          const classes = Array.isArray(existing) ? existing : existing ? [existing] : []
+          if (!classes.includes("playground-link")) classes.push("playground-link")
+          node.properties.className = classes
+        }
       }
     }
     for (const child of node.children ?? []) walk(child)
