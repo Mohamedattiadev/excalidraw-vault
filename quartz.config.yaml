@@ -140,15 +140,26 @@ plugins:
       folderDefaultState: collapsed
       # The explorer sorts by display name, which put Personal above Universite.
       # This pins the two top groups in the order they are meant to read and
-      # leaves everything else on the default comparison. It is shipped to the
-      # browser as a string and rebuilt there with `new Function`, which is why
-      # it can live in YAML at all.
+      # leaves everything else on the default comparison. The Dev 101 courses
+      # get a second pin: alphabetical would read Git, HTML & CSS, Terminal, but
+      # they were written in the order Terminal, Git, HTML & CSS, and that is
+      # the order they should be read in. It is shipped to the browser as a
+      # string and rebuilt there with `new Function`, which is why it can live
+      # in YAML at all.
       sortFn: |
         (a, b) => {
           const GROUPS = ["Universite", "Personal"];
           const ga = GROUPS.indexOf(a.displayName || "");
           const gb = GROUPS.indexOf(b.displayName || "");
           if (ga !== -1 && gb !== -1) return ga - gb;
+          const DEV_ORDER = ["terminal-101", "git-101", "html-css-101"];
+          const devRank = (n) =>
+            n.isFolder && n.slugSegments && n.slugSegments[n.slugSegments.length - 2] === "11-dev-101"
+              ? DEV_ORDER.indexOf(n.slugSegments[n.slugSegments.length - 1])
+              : -1;
+          const da = devRank(a);
+          const db = devRank(b);
+          if (da !== -1 && db !== -1) return da - db;
           if ((!a.isFolder && !b.isFolder) || (a.isFolder && b.isFolder)) {
             return (a.displayName || "").localeCompare(b.displayName || "", undefined, {
               numeric: true,
